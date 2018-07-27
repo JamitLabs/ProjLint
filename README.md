@@ -58,7 +58,7 @@ All default options can be overridden by specifying a different value within the
 ```yaml
 default_options:
   excluded_paths:
-    - "\.git/.*"
+    - "\\.git/.*"
   lint_fail_level: warning
 ```
 
