@@ -64,7 +64,7 @@ default_options:
 
 #### Rules with Options
 
-A list of all currently available rules and their options can be found in the [Rules.md](#) file. The structure of how rules can be configures looks like the following:
+A list of all currently available rules and their options can be found in the [Rules.md](https://github.com/JamitLabs/ProjLint/blob/stable/Rules.md) file. The structure of how rules can be configures looks like the following:
 
 ```yaml
 rules:
