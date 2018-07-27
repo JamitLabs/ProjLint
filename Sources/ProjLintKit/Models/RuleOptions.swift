@@ -2,18 +2,10 @@ import Foundation
 import HandySwift
 
 class RuleOptions {
-    /// An array of Regexes to whitelist the directories & files to check.
-    let includedPaths: [Regex]
-
-    /// An array of Regexes to blacklist the directories & files to check.
-    let excludedPaths: [Regex]
-
     /// Specifies when the lint command should fail.
     let lintFailLevel: ViolationLevel?
 
     init(_ optionsDict: [String: Any]) {
-        includedPaths = RuleOptions.regexArray(forOption: "included_paths", in: optionsDict)
-        excludedPaths = RuleOptions.regexArray(forOption: "excluded_paths", in: optionsDict)
         lintFailLevel = RuleOptions.violationLevel(forOption: "lint_fail_level", in: optionsDict)
     }
 

@@ -49,16 +49,12 @@ The following default options are available:
 
 Option | Type | Description
 --- | --- | ---
-`included_paths` | `[Regex]` | An array of Regexes to whitelist the directories & files to check.
-`excluded_paths` | `[Regex]` | An array of Regexes to blacklist the directories & files to check.
 `lint_fail_level` | `String` | One of `warning`, `error` or `nil` (aka never) – specifies when the `lint` command should fail.
 
 All default options can be overridden by specifying a different value within the rule options. Here's an example:
 
 ```yaml
 default_options:
-  excluded_paths:
-    - "\\.git/.*"
   lint_fail_level: warning 
 ```
 
@@ -68,13 +64,12 @@ A list of all currently available rules and their options can be found in the [R
 
 ```yaml
 rules:
-  - rule_name: # rule with options
-      string_option_name: Hello World
-      bool_option_name: true
-      array_option_name:
-        - A
-        - B
-        - C
+  - file_existence: # rule with options
+      paths: # note the additional indentation
+        - .swiftlint.yml
+        - README.md
+        - CONTRIBUTING.md
+        - CHANGELOG.md
   - another_rule # rule without options
 ```
 
@@ -85,7 +80,7 @@ Contributions are welcome. Please just **open an Issue** on GitHub to suggest a 
 When sending a pull request please make sure to:
 - **write tests for your changes** in order to make sure they don't break in the future
 - follow the same syntax and semantic in your **commit messages** (see rationale [here](http://chris.beams.io/posts/git-commit/))
-- add an entry into the`Next` section of the `Changelog.md` file summarizing your change
+- add an entry into the `Unreleased` section of the `Changelog.md` file summarizing your change
 
 Note that there is a framework target within the project to make testing easier. You can generate an Xcode project by running `swift package generate-xcodeproj`.
 

@@ -24,11 +24,7 @@ public class LintCommand: Command {
         var warningViolationsCount = 0
 
         configuration.rules.forEach { rule in
-            let violations = rule.violations(
-                in: currentDirectoryUrl,
-                includedPaths: configuration.defaultOptions.includedPaths,
-                excludedPaths: configuration.defaultOptions.excludedPaths
-            )
+            let violations = rule.violations(in: currentDirectoryUrl)
 
             for violation in violations {
                 violation.logViolation()

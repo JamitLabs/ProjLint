@@ -5,11 +5,8 @@ enum RuleFactory {
         let optionsDict = optionsDict ?? [:]
 
         switch identifier {
-        case ExampleRule.identifier:
-            return ExampleRule(optionsDict)
-
-        case AnotherRule.identifier:
-            return AnotherRule(optionsDict)
+        case FileExistenceRule.identifier:
+            return FileExistenceRule(optionsDict)
 
         default:
             print("Rule with identifier \(identifier) unknown.", level: .error)
