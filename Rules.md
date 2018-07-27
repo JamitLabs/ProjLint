@@ -5,10 +5,10 @@ This file contains a description and a list of options for every rule that ProjL
 
 The following is a table of all available rules. Just click an option to get to it's available options.
 
-Name | Identifier | Description
+Name | Identifier | Correctable | Description
 --- | --- | ---
-[Example Rule](#example-rule) | `example_rule` | This is an example rule.
-[Example Rule](#example-rule) | `example_rule` | This is an example rule.
+[Example Rule](#example-rule) | `example_rule` | yes | This is an example rule.
+[Example Rule](#example-rule) | `example_rule` | no | This is an example rule.
 
 
 ## Rule Options

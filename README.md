@@ -59,7 +59,7 @@ All default options can be overridden by specifying a different value within the
 default_options:
   excluded_paths:
     - "\\.git/.*"
-  lint_fail_level: warning
+  lint_fail_level: warning 
 ```
 
 #### Rules with Options

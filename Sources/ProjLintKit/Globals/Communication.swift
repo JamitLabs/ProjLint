@@ -36,10 +36,10 @@ func print(_ message: String, level: PrintLevel) {
         print("ℹ️ ", message.lightBlue)
 
     case .warning:
-        print("⚠️ ", message.yellow)
+        print("⚠️ Warning: ", message.yellow)
 
     case .error:
-        print("❌ ", message.red)
+        print("❌ Error: ", message.red)
     }
 }
 
