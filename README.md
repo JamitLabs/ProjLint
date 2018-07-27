@@ -47,9 +47,11 @@ To configure the checks ProjLint does for you, you need to have a YAML configura
 
 The following default options are available:
 
-- `included_paths: [Regex]`: An array of Regexes to whitelist the directories & files to check.
-- `excluded_paths: [Regex]`: An array of Regexes to blacklist the directories & files to check.
-- `lint_fail_level: String`: One of `warning`, `error` or `never` – specifies when the `lint` command should fail. Defaults to `error`.
+Option | Type | Description
+--- | --- | ---
+`included_paths` | `[Regex]` | An array of Regexes to whitelist the directories & files to check.
+`excluded_paths` | `[Regex]` | An array of Regexes to blacklist the directories & files to check.
+`lint_fail_level` | `String` | One of `warning`, `error` or `never` – specifies when the `lint` command should fail. Defaults to `error`.
 
 All default options can be overridden by specifying a different value within the rule options. Here's an example:
 
