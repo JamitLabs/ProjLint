@@ -14,6 +14,6 @@ class FileViolation: Violation {
 
     override func logViolation() {
         let location = line != nil ? "\(path):\(line!)" : path
-        print("\(rule.name) Violation at \(location) – \(message)", level: level.printLevel)
+        print("\(type(of: rule).name) Violation at \(location) – \(message)", level: level.printLevel)
     }
 }

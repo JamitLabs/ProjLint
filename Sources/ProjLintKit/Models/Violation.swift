@@ -13,6 +13,6 @@ class Violation {
     }
 
     func logViolation() {
-        print("\(rule.name) Violation – \(message)", level: level.printLevel)
+        print("\(type(of: rule).name) Violation – \(message)", level: level.printLevel)
     }
 }

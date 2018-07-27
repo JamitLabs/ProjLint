@@ -51,7 +51,7 @@ Option | Type | Description
 --- | --- | ---
 `included_paths` | `[Regex]` | An array of Regexes to whitelist the directories & files to check.
 `excluded_paths` | `[Regex]` | An array of Regexes to blacklist the directories & files to check.
-`lint_fail_level` | `String` | One of `warning`, `error` or `never` – specifies when the `lint` command should fail. Defaults to `error`.
+`lint_fail_level` | `String` | One of `warning`, `error` or `nil` (aka never) – specifies when the `lint` command should fail.
 
 All default options can be overridden by specifying a different value within the rule options. Here's an example:
 

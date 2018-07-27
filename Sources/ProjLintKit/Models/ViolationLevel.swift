@@ -1,6 +1,6 @@
 import Foundation
 
-enum ViolationLevel {
+enum ViolationLevel: String {
     case warning
     case error
 
