@@ -24,6 +24,7 @@ Option | Type | Required? | Description
 
 <details>
 <summary>Example</summary>
+
 ```yaml
 rules:
   - file_content_regex:
@@ -38,6 +39,7 @@ rules:
           - Alamofire
           - Moya
 ```
+
 </details>
 
 ### File Existence
@@ -49,6 +51,7 @@ Option | Type | Required? | Description
 
 <details>
 <summary>Example</summary>
+
 ```yaml
 rules:
   - file_existence:
@@ -62,4 +65,5 @@ rules:
         - Podfile
         - Podfile.lock
 ```
+
 </details>
