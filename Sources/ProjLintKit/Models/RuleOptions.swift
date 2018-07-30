@@ -30,7 +30,7 @@ class RuleOptions {
         guard optionExists(optionName, in: optionsDict, required: required, rule: rule) else { return nil }
 
         guard let string = optionsDict[optionName] as? String else {
-            print("Could not read option `\(optionName)` from config file.", level: .error)
+            print("Could not read option `\(optionName)` for rule \(rule.identifier) from config file.", level: .error)
             exit(EX_USAGE)
         }
 
@@ -50,7 +50,7 @@ class RuleOptions {
         guard optionExists(optionName, in: optionsDict, required: required, rule: rule) else { return nil }
 
         guard let stringArray = optionsDict[optionName] as? [String] else {
-            print("Could not read option `\(optionName)` from config file.", level: .error)
+            print("Could not read option `\(optionName)` for rule \(rule.identifier) from config file.", level: .error)
             exit(EX_USAGE)
         }
 
@@ -70,13 +70,13 @@ class RuleOptions {
         guard optionExists(optionName, in: optionsDict, required: required, rule: rule) else { return nil }
 
         guard let stringArray = optionsDict[optionName] as? [String] else {
-            print("Could not read option `\(optionName)` from config file.", level: .error)
+            print("Could not read option `\(optionName)` for rule \(rule.identifier) from config file.", level: .error)
             exit(EX_USAGE)
         }
 
         return stringArray.map { pathString in
             guard let pathRegex = try? Regex(pathString) else {
-                print("The `\(optionName)` entry `\(pathString)` is not a valid Regex.", level: .error)
+                print("The `\(optionName)` entry `\(pathString)` for rule \(rule.identifier) is not a valid Regex.", level: .error)
                 exit(EX_USAGE)
             }
 
@@ -102,12 +102,12 @@ class RuleOptions {
         guard optionExists(optionName, in: optionsDict, required: required, rule: rule) else { return nil }
 
         guard let violationLevelString = optionsDict[optionName] as? String else {
-            print("Could not read option `\(optionName)` from config file.", level: .error)
+            print("Could not read option `\(optionName)` for rule \(rule.identifier) from config file.", level: .error)
             exit(EX_USAGE)
         }
 
         guard let violationLevel = ViolationLevel(rawValue: violationLevelString) else {
-            print("The `\(optionName)` entry `\(violationLevelString)` has an invalid value.", level: .error)
+            print("The `\(optionName)` entry `\(violationLevelString)` for rule \(rule.identifier) has an invalid value.", level: .error)
             exit(EX_USAGE)
         }
 
