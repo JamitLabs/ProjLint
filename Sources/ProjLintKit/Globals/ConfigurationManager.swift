@@ -30,8 +30,13 @@ enum ConfigurationManager {
             exit(EX_USAGE)
         }
 
+        let defaultOptionsDict: [String: Any] = {
+            guard let defaultOptionsDict = configDict["default_options"] as? [String: Any] else { return [:] }
+            return defaultOptionsDict
+        }()
+
         return Configuration(
-            defaultOptions: RuleOptions(configDict, rule: DefaultRule.self),
+            defaultOptions: RuleOptions(defaultOptionsDict, rule: DefaultRule.self),
             rules: ruleArray(forOption: "rules", in: configDict)
         )
     }
