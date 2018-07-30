@@ -16,7 +16,7 @@ Name | Identifier | Correctable? | Description
 ### File Content Regex
 
 Option | Type | Required? | Description
---- | --- | ---
+--- | --- | --- | ---
 `matching_all` | `[String: [Regex]]` | no | Paths with regexes to check – fails if at least one regex doesn't match.
 `matching_any` | `[String: [Regex]]` | no | Paths with regexes to check – fails if all regexes don't match.
 `not_matching_all` | `[String: [Regex]]` | no | Paths with regexes – fails if all regexes match.
@@ -43,7 +43,7 @@ rules:
 ### File Existence
 
 Option | Type | Required? | Description
---- | --- | ---
+--- | --- | --- | ---
 `existing_paths` | `[String]` | no | Files that must exist.
 `non_existing_paths` | `[String]` | no | Files that must not exist.
 
