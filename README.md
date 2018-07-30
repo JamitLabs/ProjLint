@@ -47,15 +47,16 @@ To configure the checks ProjLint does for you, you need to have a YAML configura
 
 The following default options are available:
 
-Option | Type | Description
---- | --- | ---
-`lint_fail_level` | `String` | One of `warning`, `error` or `nil` (aka never) – specifies when the `lint` command should fail.
+Option | Type | Required? | Description
+--- | --- | --- | ---
+`lint_fail_level` | `String` | no | One of `warning` or `error` – specifies when the `lint` command should fail.
+`forced_violation_level` | `String` | no | One of `warning` or `error` – enforces the specified level on all violations.
 
 All default options can be overridden by specifying a different value within the rule options. Here's an example:
 
 ```yaml
 default_options:
-  lint_fail_level: warning 
+  lint_fail_level: error 
 ```
 
 #### Rules with Options
@@ -65,6 +66,7 @@ A list of all currently available rules and their options can be found in the [R
 ```yaml
 rules:
   - file_existence: # rule with options
+      forced_violation_level: warning
       paths: # note the additional indentation
         - .swiftlint.yml
         - README.md

@@ -5,17 +5,16 @@ This file contains a description and a list of options for every rule that ProjL
 
 The following is a table of all available rules. Just click an option to get to it's available options.
 
-Name | Identifier | Correctable | Description
---- | --- | ---
-[Example Rule](#example-rule) | `example_rule` | yes | This is an example rule.
-[Example Rule](#example-rule) | `example_rule` | no | This is an example rule.
+Name | Identifier | Correctable? | Description
+--- | --- | --- | ---
+[File Existence](#file-existence) | `file_existence` | no | Specify files which must or must not exist.
 
 
 ## Rule Options
 
-### Example Rule
+### File Existence
 
-Option | Type | Description
+Option | Type | Required? | Description
 --- | --- | ---
-`example_option` | `[Regex]` | This is an option description.
-`bool_option` | `Bool` | This is an option description.
+`existing_paths` | `[String]` | no | Files that must exist.
+`non_existing_paths` | `[String]` | no | Files that must not exist.
