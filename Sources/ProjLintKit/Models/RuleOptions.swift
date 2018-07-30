@@ -37,6 +37,31 @@ class RuleOptions {
         return string
     }
 
+    // Regex
+    static func optionalRegex(forOption optionName: String, in optionsDict: [String: Any], rule: Rule.Type) -> Regex? {
+        return regex(forOption: optionName, in: optionsDict, required: false, rule: rule)
+    }
+
+    static func requiredRegex(forOption optionName: String, in optionsDict: [String: Any], rule: Rule.Type) -> Regex {
+        return regex(forOption: optionName, in: optionsDict, required: true, rule: rule)!
+    }
+
+    private static func regex(forOption optionName: String, in optionsDict: [String: Any], required: Bool, rule: Rule.Type) -> Regex? {
+        guard optionExists(optionName, in: optionsDict, required: required, rule: rule) else { return nil }
+
+        guard let string = optionsDict[optionName] as? String else {
+            print("Could not read option `\(optionName)` for rule \(rule.identifier) from config file.", level: .error)
+            exit(EX_USAGE)
+        }
+
+        guard let regex = try? Regex(string) else {
+            print("The `\(optionName)` entry `\(string)` for rule \(rule.identifier) is not a valid Regex.", level: .error)
+            exit(EX_USAGE)
+        }
+
+        return regex
+    }
+
     // String Array
     static func optionalStringArray(forOption optionName: String, in optionsDict: [String: Any], rule: Rule.Type) -> [String]? {
         return stringArray(forOption: optionName, in: optionsDict, required: false, rule: rule)
@@ -84,6 +109,33 @@ class RuleOptions {
         }
     }
 
+    // Path Regex
+    static func optionalPathRegex(forOption optionName: String, in optionsDict: [String: Any], rule: Rule.Type) -> [String: Regex]? {
+        return pathRegex(forOption: optionName, in: optionsDict, required: false, rule: rule)
+    }
+
+    static func requiredPathRegex(forOption optionName: String, in optionsDict: [String: Any], rule: Rule.Type) -> [String: Regex] {
+        return pathRegex(forOption: optionName, in: optionsDict, required: true, rule: rule)!
+    }
+
+    private static func pathRegex(forOption optionName: String, in optionsDict: [String: Any], required: Bool, rule: Rule.Type) -> [String: Regex]? {
+        guard optionExists(optionName, in: optionsDict, required: required, rule: rule) else { return nil }
+
+        guard let stringToStringDict = optionsDict[optionName] as? [String: String] else {
+            print("Could not read option `\(optionName)` for rule \(rule.identifier) from config file.", level: .error)
+            exit(EX_USAGE)
+        }
+
+        return stringToStringDict.mapValues { regexString in
+            guard let regex = try? Regex(regexString) else {
+                print("The `\(optionName)` entry `\(regexString)` for rule \(rule.identifier) is not a valid Regex.", level: .error)
+                exit(EX_USAGE)
+            }
+
+            return regex
+        }
+    }
+
     // Path Regexes
     static func optionalPathRegexes(forOption optionName: String, in optionsDict: [String: Any], rule: Rule.Type) -> [String: [Regex]]? {
         return pathRegexes(forOption: optionName, in: optionsDict, required: false, rule: rule)
@@ -108,7 +160,6 @@ class RuleOptions {
 
         return pathRegexes
     }
-
 
     // Violation Level
     static func optionalViolationLevel(forOption optionName: String, in optionsDict: [String: Any], rule: Rule.Type) -> ViolationLevel? {

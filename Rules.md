@@ -17,8 +17,10 @@ Name | Identifier | Correctable? | Description
 
 Option | Type | Required? | Description
 --- | --- | --- | ---
+`matching` | `[String: Regex]` | no | Paths with regex to check – fails if given regex doesn't match.
 `matching_all` | `[String: [Regex]]` | no | Paths with regexes to check – fails if at least one regex doesn't match.
 `matching_any` | `[String: [Regex]]` | no | Paths with regexes to check – fails if all regexes don't match.
+`not_matching` | `[String: Regex]` | no | Paths with regex to check – fails if given regex matches.
 `not_matching_all` | `[String: [Regex]]` | no | Paths with regexes – fails if all regexes match.
 `not_matching_any` | `[String: [Regex]]` | no | Paths with regexes – fails if at least one regex matches.
 
