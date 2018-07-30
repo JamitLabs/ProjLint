@@ -84,6 +84,32 @@ class RuleOptions {
         }
     }
 
+    // Path Regexes
+    static func optionalPathRegexes(forOption optionName: String, in optionsDict: [String: Any], rule: Rule.Type) -> [String: [Regex]]? {
+        return pathRegexes(forOption: optionName, in: optionsDict, required: false, rule: rule)
+    }
+
+    static func requiredPathRegexes(forOption optionName: String, in optionsDict: [String: Any], rule: Rule.Type) -> [String: [Regex]] {
+        return pathRegexes(forOption: optionName, in: optionsDict, required: true, rule: rule)!
+    }
+
+    private static func pathRegexes(forOption optionName: String, in optionsDict: [String: Any], required: Bool, rule: Rule.Type) -> [String: [Regex]]? {
+        guard optionExists(optionName, in: optionsDict, required: required, rule: rule) else { return nil }
+
+        guard let stringToAnyDict = optionsDict[optionName] as? [String: Any] else {
+            print("Could not read option `\(optionName)` for rule \(rule.identifier) from config file.", level: .error)
+            exit(EX_USAGE)
+        }
+
+        var pathRegexes = [String: [Regex]]()
+        stringToAnyDict.keys.forEach { path in
+            pathRegexes[path] = requiredRegexArray(forOption: path, in: stringToAnyDict, rule: rule)
+        }
+
+        return pathRegexes
+    }
+
+
     // Violation Level
     static func optionalViolationLevel(forOption optionName: String, in optionsDict: [String: Any], rule: Rule.Type) -> ViolationLevel? {
         return violationLevel(forOption: optionName, in: optionsDict, required: false, rule: rule)

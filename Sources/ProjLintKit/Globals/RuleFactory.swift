@@ -8,6 +8,9 @@ enum RuleFactory {
         case FileExistenceRule.identifier:
             return FileExistenceRule(optionsDict)
 
+        case FileContentRegexRule.identifier:
+            return FileContentRegexRule(optionsDict)
+
         default:
             print("Rule with identifier \(identifier) unknown.", level: .error)
             exit(EX_USAGE)

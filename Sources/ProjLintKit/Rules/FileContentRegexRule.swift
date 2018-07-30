@@ -1,0 +1,90 @@
+import Foundation
+import HandySwift
+
+struct FileContentRegexRule: Rule {
+    static let name = "File Content Regex"
+    static let identifier = "file_content_regex"
+
+    private let defaultViolationLevel = ViolationLevel.warning
+    private let options: FileContentRegexOptions
+
+    init(_ optionsDict: [String: Any]) {
+        options = FileContentRegexOptions(optionsDict, rule: type(of: self))
+    }
+
+    func violations(in directory: URL) -> [Violation] {
+        var violations = [Violation]()
+
+        if let matchingAllPathRegexes = options.matchingAllPathRegexes {
+            for (path, regexes) in matchingAllPathRegexes {
+                let file = File(at: path)
+
+                for regex in regexes {
+                    if !regex.matches(file.contents) {
+                        violations.append(
+                            FileViolation(
+                                rule: self,
+                                message: "Content didn't match regex '\(regex)' where it should.",
+                                level: options.violationLevel(defaultTo: defaultViolationLevel),
+                                path: path
+                            )
+                        )
+                    }
+                }
+            }
+        }
+
+        if let matchingAnyPathRegexes = options.matchingAnyPathRegexes {
+            for (path, regexes) in matchingAnyPathRegexes {
+                let file = File(at: path)
+                if regexes.first(where: { $0.matches(file.contents) }) == nil {
+                    violations.append(
+                        FileViolation(
+                            rule: self,
+                            message: "Content didn't match any of the regexes: '\(regexes)'.",
+                            level: options.violationLevel(defaultTo: defaultViolationLevel),
+                            path: path
+                        )
+                    )
+                }
+            }
+        }
+
+        if let notMatchingAllPathRegexes = options.notMatchingAllPathRegexes {
+            for (path, regexes) in notMatchingAllPathRegexes {
+                let file = File(at: path)
+                if regexes.first(where: { !$0.matches(file.contents) }) == nil {
+                    violations.append(
+                        FileViolation(
+                            rule: self,
+                            message: "Content matched all of the regexes: '\(regexes)'.",
+                            level: options.violationLevel(defaultTo: defaultViolationLevel),
+                            path: path
+                        )
+                    )
+                }
+            }
+        }
+
+        if let notMatchingAnyPathRegexes = options.notMatchingAnyPathRegexes {
+            for (path, regexes) in notMatchingAnyPathRegexes {
+                let file = File(at: path)
+
+                for regex in regexes {
+                    if regex.matches(file.contents) {
+                        violations.append(
+                            FileViolation(
+                                rule: self,
+                                message: "Content matched regex '\(regex)' where it shouldn't.",
+                                level: options.violationLevel(defaultTo: defaultViolationLevel),
+                                path: path
+                            )
+                        )
+                    }
+                }
+            }
+        }
+
+        return violations
+    }
+}
