@@ -2,6 +2,19 @@ import Foundation
 import HandySwift
 import Yams
 
+private struct DefaultRule: Rule {
+    static let name = "Default"
+    static let identifier = "default"
+
+    init(_ optionsDict: [String: Any]) {
+        fatalError()
+    }
+
+    func violations(in directory: URL) -> [Violation] {
+        fatalError()
+    }
+}
+
 enum ConfigurationManager {
     static func loadConfiguration() -> Configuration {
         let configFilePath = (FileManager.default.currentDirectoryPath as NSString).appendingPathComponent(".projlint.yml")
@@ -18,7 +31,7 @@ enum ConfigurationManager {
         }
 
         return Configuration(
-            defaultOptions: RuleOptions(configDict),
+            defaultOptions: RuleOptions(configDict, rule: DefaultRule.self),
             rules: ruleArray(forOption: "rules", in: configDict)
         )
     }
@@ -47,6 +60,4 @@ enum ConfigurationManager {
 
         return rules
     }
-
-    
 }

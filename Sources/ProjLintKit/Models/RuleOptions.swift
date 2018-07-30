@@ -4,13 +4,70 @@ import HandySwift
 class RuleOptions {
     /// Specifies when the lint command should fail.
     let lintFailLevel: ViolationLevel?
+    let forcedViolationLevel: ViolationLevel?
 
-    init(_ optionsDict: [String: Any]) {
-        lintFailLevel = RuleOptions.violationLevel(forOption: "lint_fail_level", in: optionsDict)
+    init(_ optionsDict: [String: Any], rule: Rule.Type) {
+        lintFailLevel = RuleOptions.optionalViolationLevel(forOption: "lint_fail_level", in: optionsDict, rule: rule)
+        forcedViolationLevel = RuleOptions.optionalViolationLevel(forOption: "forced_violation_level", in: optionsDict, rule: rule)
     }
 
-    private static func regexArray(forOption optionName: String, in optionsDict: [String: Any]) -> [Regex] {
-        guard optionsDict.keys.contains(optionName) else { return [] }
+    /// Returns the corrected violation level considering the option `forced_violation_level` in case it is set.
+    func violationLevel(defaultTo defaultLevel: ViolationLevel) -> ViolationLevel {
+        guard let forcedViolationLevel = forcedViolationLevel else { return defaultLevel }
+        return forcedViolationLevel
+    }
+
+    // String
+    static func optionalString(forOption optionName: String, in optionsDict: [String: Any], rule: Rule.Type) -> String? {
+        return string(forOption: optionName, in: optionsDict, required: false, rule: rule)
+    }
+
+    static func requiredString(forOption optionName: String, in optionsDict: [String: Any], rule: Rule.Type) -> String {
+        return string(forOption: optionName, in: optionsDict, required: true, rule: rule)!
+    }
+
+    private static func string(forOption optionName: String, in optionsDict: [String: Any], required: Bool, rule: Rule.Type) -> String? {
+        guard optionExists(optionName, in: optionsDict, required: required, rule: rule) else { return nil }
+
+        guard let string = optionsDict[optionName] as? String else {
+            print("Could not read option `\(optionName)` from config file.", level: .error)
+            exit(EX_USAGE)
+        }
+
+        return string
+    }
+
+    // String Array
+    static func optionalStringArray(forOption optionName: String, in optionsDict: [String: Any], rule: Rule.Type) -> [String]? {
+        return stringArray(forOption: optionName, in: optionsDict, required: false, rule: rule)
+    }
+
+    static func requiredStringArray(forOption optionName: String, in optionsDict: [String: Any], rule: Rule.Type) -> [String] {
+        return stringArray(forOption: optionName, in: optionsDict, required: true, rule: rule)!
+    }
+
+    private static func stringArray(forOption optionName: String, in optionsDict: [String: Any], required: Bool, rule: Rule.Type) -> [String]? {
+        guard optionExists(optionName, in: optionsDict, required: required, rule: rule) else { return nil }
+
+        guard let stringArray = optionsDict[optionName] as? [String] else {
+            print("Could not read option `\(optionName)` from config file.", level: .error)
+            exit(EX_USAGE)
+        }
+
+        return stringArray
+    }
+
+    // Regex Array
+    static func optionalRegexArray(forOption optionName: String, in optionsDict: [String: Any], rule: Rule.Type) -> [Regex]? {
+        return regexArray(forOption: optionName, in: optionsDict, required: false, rule: rule)
+    }
+
+    static func requiredRegexArray(forOption optionName: String, in optionsDict: [String: Any], rule: Rule.Type) -> [Regex] {
+        return regexArray(forOption: optionName, in: optionsDict, required: true, rule: rule)!
+    }
+
+    private static func regexArray(forOption optionName: String, in optionsDict: [String: Any], required: Bool, rule: Rule.Type) -> [Regex]? {
+        guard optionExists(optionName, in: optionsDict, required: required, rule: rule) else { return nil }
 
         guard let stringArray = optionsDict[optionName] as? [String] else {
             print("Could not read option `\(optionName)` from config file.", level: .error)
@@ -27,8 +84,22 @@ class RuleOptions {
         }
     }
 
-    private static func violationLevel(forOption optionName: String, in optionsDict: [String: Any]) -> ViolationLevel? {
-        guard optionsDict.keys.contains(optionName) else { return nil }
+    // Violation Level
+    static func optionalViolationLevel(forOption optionName: String, in optionsDict: [String: Any], rule: Rule.Type) -> ViolationLevel? {
+        return violationLevel(forOption: optionName, in: optionsDict, required: false, rule: rule)
+    }
+
+    static func requiredViolationLevel(forOption optionName: String, in optionsDict: [String: Any], rule: Rule.Type) -> ViolationLevel {
+        return violationLevel(forOption: optionName, in: optionsDict, required: true, rule: rule)!
+    }
+
+    private static func violationLevel(
+        forOption optionName: String,
+        in optionsDict: [String: Any],
+        required: Bool,
+        rule: Rule.Type
+    ) -> ViolationLevel? {
+        guard optionExists(optionName, in: optionsDict, required: required, rule: rule) else { return nil }
 
         guard let violationLevelString = optionsDict[optionName] as? String else {
             print("Could not read option `\(optionName)` from config file.", level: .error)
@@ -41,5 +112,19 @@ class RuleOptions {
         }
 
         return violationLevel
+    }
+
+    // MARK: - Helpers
+    private static func optionExists(_ optionName: String, in optionsDict: [String: Any], required: Bool, rule: Rule.Type) -> Bool {
+        guard optionsDict.keys.contains(optionName) else {
+            guard !required else {
+                print("Could not find required option `\(optionName)` for rule \(rule.identifier) in config file.", level: .error)
+                exit(EX_USAGE)
+            }
+
+            return false
+        }
+
+        return true
     }
 }

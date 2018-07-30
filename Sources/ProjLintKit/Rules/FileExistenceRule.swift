@@ -1,45 +1,46 @@
 import Foundation
-import HandySwift
-
-class FileExistenceOptions: RuleOptions {
-    let filePaths: [String]
-
-    override init(_ optionsDict: [String: Any]) {
-        guard let filePaths = optionsDict["paths"] as? [String] else {
-            print("Rule \(FileExistenceRule.identifier) must have option `paths` specified.", level: .error)
-            exit(EX_USAGE)
-        }
-
-        self.filePaths = filePaths
-
-        super.init(optionsDict)
-    }
-}
 
 struct FileExistenceRule: Rule {
     static let name = "File Existence"
     static let identifier = "file_existence"
 
-    let defaultViolationLevel = ViolationLevel.warning
-    let options: FileExistenceOptions
+    private let defaultViolationLevel = ViolationLevel.warning
+    private let options: FileExistenceOptions
 
     init(_ optionsDict: [String: Any]) {
-        options = FileExistenceOptions(optionsDict)
+        options = FileExistenceOptions(optionsDict, rule: type(of: self))
     }
 
     func violations(in directory: URL) -> [Violation] {
         var violations = [Violation]()
 
-        for filePath in options.filePaths {
-            if !FileManager.default.fileExists(atPath: filePath) {
-                violations.append(
-                    FileViolation(
-                        rule: self,
-                        message: "File does not exist.",
-                        level: defaultViolationLevel,
-                        path: filePath
+        if let existingPaths = options.existingPaths {
+            for path in existingPaths {
+                if !FileManager.default.fileExists(atPath: path) {
+                    violations.append(
+                        FileViolation(
+                            rule: self,
+                            message: "Expected file to exist but didn't.",
+                            level: options.violationLevel(defaultTo: defaultViolationLevel),
+                            path: path
+                        )
                     )
-                )
+                }
+            }
+        }
+
+        if let nonExistingPaths = options.nonExistingPaths {
+            for path in nonExistingPaths {
+                if FileManager.default.fileExists(atPath: path) {
+                    violations.append(
+                        FileViolation(
+                            rule: self,
+                            message: "Expected file not to exist but existed.",
+                            level: options.violationLevel(defaultTo: defaultViolationLevel),
+                            path: path
+                        )
+                    )
+                }
             }
         }
 
