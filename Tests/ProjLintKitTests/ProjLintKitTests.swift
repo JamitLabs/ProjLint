@@ -2,8 +2,8 @@
 import XCTest
 
 final class ProjLintKitTests: XCTestCase {
-    static var allTests: [(String, ProjLintKitTests -> () -> Void] = [
-        ("testExample", testExample),
+    static var allTests: [(String, (ProjLintKitTests) -> () -> Void)] = [
+        ("testExample", testExample)
     ]
 
     func testExample() {
