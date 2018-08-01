@@ -40,9 +40,9 @@ The TranslationManager provides the following sub commands:
 
 To configure the checks ProjLint does for you, you need to have a YAML configuration file named `.projlint.yml` in the current directory. In there, you have the following sections:
 
-- `Default Options`: Documented below, these options are applied to all rules unless they override them specifically.
-- `Rules with Options`: The list of rules to check & correct when the appropriate tasks are run with ability to customize them.
-- `Shared Variables`: Define String variables to be replaced in rule options using structure `<:var_name:>`.
+- [`Default Options`](#default-options): Documented below, these options are applied to all rules unless they override them specifically.
+- [`Rules with Options`](#rules-with-options): The list of rules to check & correct when the appropriate tasks are run with ability to customize them.
+- [`Shared Variables`](#shared-variables): Define String variables to be replaced in rule options using structure `<:var_name:>`.
 
 #### Default Options
 
@@ -79,7 +79,7 @@ rules:
 
 #### Shared Variables
 
-A dictionary where you can define variables which can be used in strings anywhere amongst rule options. Say a variable named `project_name` was specified with the value `MyAmazingProject`, then all appearances of `<!project_name!>` in rule option strings will be replaced by `MyAmazingProject`. Here's what a config file using shared variables might look like:
+A dictionary where you can define variables which can be used in strings anywhere amongst rule options. Say a variable named `project_name` was specified with the value `MyAmazingProject`, then all appearances of `<:project_name:>` in rule option strings will be replaced by `MyAmazingProject`. Here's what a config file using shared variables might look like:
 
 ```yaml
 shared_variables:
@@ -88,8 +88,8 @@ shared_variables:
 rules:
   - file_existence:
       paths:
-        - <!project_name!>.xcodeproj
-        - <!project_name!>/Sources/AppDelegate.swift
+        - <:project_name:>.xcodeproj
+        - <:project_name:>/Sources/AppDelegate.swift
 ```
 
 ## Contributing

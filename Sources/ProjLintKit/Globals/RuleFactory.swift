@@ -44,7 +44,7 @@ enum RuleFactory {
         var newString = string
 
         for (placeholder, replacement) in sharedVariables {
-            newString = newString.replacingOccurrences(of: "<!\(placeholder)!>", with: replacement)
+            newString = newString.replacingOccurrences(of: "<:\(placeholder):>", with: replacement)
         }
 
         return newString
