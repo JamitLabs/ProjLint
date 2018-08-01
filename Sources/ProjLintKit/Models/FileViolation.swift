@@ -14,6 +14,6 @@ class FileViolation: Violation {
 
     override func logViolation() {
         let location = line != nil ? "\(path):\(line!)" : path
-        print("\(type(of: rule).name) Violation at path '\(location)' –– \(message)", level: level.printLevel)
+        print("\(type(of: rule).name) Violation at path '\(location)' –– \(message)", level: level.printLevel) // swiftlint:disable:this leveled_print
     }
 }

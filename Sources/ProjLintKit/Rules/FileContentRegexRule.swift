@@ -2,17 +2,17 @@ import Foundation
 import HandySwift
 
 struct FileContentRegexRule: Rule {
-    static let name = "File Content Regex"
-    static let identifier = "file_content_regex"
+    static let name: String = "File Content Regex"
+    static let identifier: String = "file_content_regex"
 
-    private let defaultViolationLevel = ViolationLevel.warning
+    private let defaultViolationLevel: ViolationLevel = .warning
     private let options: FileContentRegexOptions
 
     init(_ optionsDict: [String: Any]) {
         options = FileContentRegexOptions(optionsDict, rule: type(of: self))
     }
 
-    func violations(in directory: URL) -> [Violation] {
+    func violations(in directory: URL) -> [Violation] { // swiftlint:disable:this cyclomatic_complexity function_body_length
         var violations = [Violation]()
 
         if let matchingRegex = options.matchingRegex {

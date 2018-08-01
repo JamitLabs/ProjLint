@@ -2,6 +2,8 @@ import CLISpinner
 import Foundation
 import Rainbow
 
+// swiftlint:disable leveled_print
+
 enum PrintLevel {
     case verbose
     case info
@@ -45,7 +47,12 @@ func print(_ message: String, level: PrintLevel) {
 
 private let dispatchGroup = DispatchGroup()
 
-func performWithSpinner(_ message: String, level: PrintLevel = .info, pattern: CLISpinner.Pattern = .dots, _ body: @escaping (@escaping (() -> Void) -> Void) -> Void) {
+func performWithSpinner(
+    _ message: String,
+    level: PrintLevel = .info,
+    pattern: CLISpinner.Pattern = .dots,
+    _ body: @escaping (@escaping (() -> Void) -> Void) -> Void
+) {
     let spinner = Spinner(pattern: pattern, text: message, color: level.color)
     spinner.start()
     spinner.unhideCursor()
@@ -56,5 +63,6 @@ func performWithSpinner(_ message: String, level: PrintLevel = .info, pattern: C
         completion()
         dispatchGroup.leave()
     }
+
     dispatchGroup.wait()
 }

@@ -1,5 +1,5 @@
-import SwiftCLI
 import ProjLintKit
+import SwiftCLI
 
 // MARK: - CLI
 let cli = CLI(name: "projlint", version: "0.1.0", description: "Project Linter to lint & autocorrect your non-code best practices.")

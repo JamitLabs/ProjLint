@@ -1,10 +1,10 @@
 import Foundation
 
 struct FileExistenceRule: Rule {
-    static let name = "File Existence"
-    static let identifier = "file_existence"
+    static let name: String = "File Existence"
+    static let identifier: String = "file_existence"
 
-    private let defaultViolationLevel = ViolationLevel.warning
+    private let defaultViolationLevel: ViolationLevel = .warning
     private let options: FileExistenceOptions
 
     init(_ optionsDict: [String: Any]) {

@@ -1,6 +1,8 @@
 import Foundation
 import HandySwift
 
+// swiftlint:disable type_contents_order
+
 class RuleOptions {
     /// Specifies when the lint command should fail.
     let lintFailLevel: ViolationLevel?

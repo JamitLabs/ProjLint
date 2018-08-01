@@ -3,15 +3,15 @@ import HandySwift
 import Yams
 
 private struct DefaultRule: Rule {
-    static let name = "Default"
-    static let identifier = "default"
+    static let name: String = "Default"
+    static let identifier: String = "default"
 
     init(_ optionsDict: [String: Any]) {
-        fatalError()
+        fatalError("This is not intended for direct usage – override in subclass instead.")
     }
 
     func violations(in directory: URL) -> [Violation] {
-        fatalError()
+        fatalError("This is not intended for direct usage – override in subclass instead.")
     }
 }
 

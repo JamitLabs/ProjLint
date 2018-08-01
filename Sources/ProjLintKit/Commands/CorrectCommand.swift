@@ -3,8 +3,8 @@ import SwiftCLI
 
 public class CorrectCommand: Command {
     // MARK: - Command
-    public let name = "correct"
-    public let shortDescription = "Corrects all correctable violations in the current directory"
+    public let name: String = "correct"
+    public let shortDescription: String = "Corrects all correctable violations in the current directory"
 
     // MARK: - Initializers
     public init() {}
