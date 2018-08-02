@@ -23,7 +23,7 @@ struct Faker {
     }
 
     private var regexString: String {
-        return ".*\\\(seed).swift"
+        return ".*\(seed)\\.swift"
     }
 
     private var filePath: String {
@@ -72,7 +72,7 @@ struct Faker {
 
     private func dict(keyType: FakerType, valueType: FakerType, count: Int) -> [String: Any] {
         let keys = (0 ..< count).map { Faker(seed: $0, superseed: seed).data(ofType: keyType) as! String }
-        let values = (0 ..< count).map { Faker(seed: $0, superseed: seed).data(ofType: keyType) }
+        let values = (0 ..< count).map { Faker(seed: $0, superseed: seed).data(ofType: valueType) }
         return Dictionary(keys: keys, values: values)!
     }
 }
