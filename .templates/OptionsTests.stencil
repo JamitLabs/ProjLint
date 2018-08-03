@@ -1,0 +1,15 @@
+import HandySwift
+@testable import ProjLintKit
+import XCTest
+
+final class {{ typePrefix }}OptionsTests: XCTestCase {
+    func testInitWithOptionName() { // TODO: set option name
+        let valueType = FakerType.text // TODO: set value type for option
+        let optionsDict = ["": Faker.first.data(ofType: valueType)] // TODO: set option name
+
+        let options = {{ typePrefix }}Options(optionsDict, rule: {{ typePrefix }}Rule.self)
+
+//        XCTAssert(options.<#optionName#> != nil)
+//        XCTAssertEqual(options.<#optionName#>!.count, 5) // TODO: update assertion
+    }
+}

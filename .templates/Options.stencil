@@ -1,0 +1,12 @@
+import Foundation
+import HandySwift
+
+class {{ typePrefix }}Options: RuleOptions {
+    // TODO: add options here
+
+    override init(_ optionsDict: [String: Any], rule: Rule.Type) {
+        // TODO: initialize options here
+
+        super.init(optionsDict, rule: rule)
+    }
+}
