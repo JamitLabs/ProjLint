@@ -1,4 +1,27 @@
 <p align="center">
+    <a href="https://app.bitrise.io/app/0b051a51c12124b7">
+        <img src="https://app.bitrise.io/app/0b051a51c12124b7/status.svg?token=riIJ81rKJYiKLNufYx7BZQ&branch=stable"
+             alt="Build Status">
+    </a>
+    <a href="https://codebeat.co/projects/github-com-jamitlabs-projlint">
+        <img src="https://codebeat.co/badges/<TODO>"
+             alt="Codebeat Badge">
+    </a>
+    <a href="https://github.com/JamitLabs/ProjLint/releases">
+        <img src="https://img.shields.io/badge/Version-0.1.0-blue.svg"
+             alt="Version: 0.1.0">
+    </a>
+    <img src="https://img.shields.io/badge/Swift-4.1-FFAC45.svg"
+         alt="Swift: 4.1">
+    <img src="https://img.shields.io/badge/Platforms-macOS%20%7C%20Linux-FF69B4.svg"
+        alt="Platforms: macOS | Linux">
+    <a href="https://github.com/JamitLabs/ProjLint/blob/stable/LICENSE">
+        <img src="https://img.shields.io/badge/License-MIT-lightgrey.svg"
+              alt="License: MIT">
+    </a>
+</p>
+
+<p align="center">
     <a href="#installation">Installation</a>
   • <a href="#usage">Usage</a>
   • <a href="#contributing">Contributing</a>
