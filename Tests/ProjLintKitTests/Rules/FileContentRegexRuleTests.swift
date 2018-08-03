@@ -2,8 +2,46 @@
 import XCTest
 
 final class FileContentRegexRuleTests: XCTestCase {
+    let fruitEnumResource = Resource(
+        path: "FruitEnum.swift",
+        contents: """
+            enum Fruit {
+                case apple
+                case banana
+                case orange
+            }
+            """
+    )
+
+    let vegetableEnumResource = Resource(
+        path: "VegetableEnum.swift",
+        contents: """
+            enum Vegetable {
+                case carrot
+                case potato
+                case wasabi
+            }
+            """
+    )
+
     func testMatchingRegex() {
-        // TODO: not yet implemented
+        resourcesLoaded([fruitEnumResource]) {
+            let optionsDict = ["matching": [fruitEnumResource.path: "enum\\s+Fruit\\s+\\{"]]
+            let rule = FileContentRegexRule(optionsDict)
+
+            let violations = rule.violations(in: Resource.baseUrl)
+            XCTAssert(violations.isEmpty)
+        }
+
+        resourcesLoaded([vegetableEnumResource]) {
+            let optionsDict = ["matching": [vegetableEnumResource.path: "enum\\s+Fruit\\s+\\{"]]
+            let rule = FileContentRegexRule(optionsDict)
+
+            let violations = rule.violations(in: Resource.baseUrl)
+            XCTAssert(violations.count == 1)
+            XCTAssert(violations.first?.level == ViolationLevel.warning)
+            XCTAssert(violations.first is FileViolation)
+        }
     }
 
     func testMatchingAllPathRegexes() {
