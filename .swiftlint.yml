@@ -74,7 +74,6 @@ included:
 
 excluded:
 - Tests/LinuxMain.swift
-- Sources/ProjLint/.testResources
 
 # Rule Configurations
 conditional_returns_on_newline:

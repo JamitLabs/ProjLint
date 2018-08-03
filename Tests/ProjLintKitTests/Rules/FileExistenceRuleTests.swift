@@ -2,15 +2,41 @@
 import XCTest
 
 final class FileExistenceRuleTests: XCTestCase {
+    let infoPlistResource = Resource(path: "Sources/SuportingFiles/Info.plist", contents: "<plist></plist>")
+
     func testExistingPaths() {
-        // TODO: not yet implemented
+        resourcesLoaded([infoPlistResource]) {
+            let optionsDict = ["existing_paths": [infoPlistResource.path]]
+            let rule = FileExistenceRule(optionsDict)
+
+            let violations = rule.violations(in: Resource.baseUrl)
+            XCTAssert(violations.isEmpty)
+        }
+
+        resourcesLoaded([]) {
+            let optionsDict = ["existing_paths": [infoPlistResource.path]]
+            let rule = FileExistenceRule(optionsDict)
+
+            let violations = rule.violations(in: Resource.baseUrl)
+            XCTAssertEqual(violations.count, 1)
+        }
     }
 
     func testNonExistingPaths() {
-        // TODO: not yet implemented
-    }
+        resourcesLoaded([infoPlistResource]) {
+            let optionsDict = ["non_existing_paths": [infoPlistResource.path]]
+            let rule = FileExistenceRule(optionsDict)
 
-    func testAllOptions() {
-        // TODO: not yet implemented
+            let violations = rule.violations(in: Resource.baseUrl)
+            XCTAssertEqual(violations.count, 1)
+        }
+
+        resourcesLoaded([]) {
+            let optionsDict = ["non_existing_paths": [infoPlistResource.path]]
+            let rule = FileExistenceRule(optionsDict)
+
+            let violations = rule.violations(in: Resource.baseUrl)
+            XCTAssert(violations.isEmpty)
+        }
     }
 }
