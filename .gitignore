@@ -73,3 +73,6 @@ fastlane/test_output
 /.build
 /Packages
 /*.xcodeproj
+
+# Testing
+.testResources

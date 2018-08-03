@@ -15,7 +15,7 @@ struct FileContentRegexRule: Rule {
     func violations(in directory: URL) -> [Violation] { // swiftlint:disable:this cyclomatic_complexity function_body_length
         var violations = [Violation]()
 
-        if let matchingRegex = options.matchingRegex {
+        if let matchingRegex = options.matchingPathRegex {
             for (path, regex) in matchingRegex {
                 let file = File(at: path)
 
@@ -67,8 +67,8 @@ struct FileContentRegexRule: Rule {
             }
         }
 
-        if let matchingRegex = options.matchingRegex {
-            for (path, regex) in matchingRegex {
+        if let notMatchingRegex = options.notMatchingPathRegex {
+            for (path, regex) in notMatchingRegex {
                 let file = File(at: path)
 
                 if regex.matches(file.contents) {

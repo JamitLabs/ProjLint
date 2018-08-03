@@ -32,7 +32,7 @@ let package = Package(
         ),
         .testTarget(
             name: "ProjLintKitTests",
-            dependencies: ["ProjLintKit"]
+            dependencies: ["ProjLintKit", "HandySwift"]
         )
     ]
 )

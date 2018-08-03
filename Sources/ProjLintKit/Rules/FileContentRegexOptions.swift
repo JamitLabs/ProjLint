@@ -2,26 +2,26 @@ import Foundation
 import HandySwift
 
 class FileContentRegexOptions: RuleOptions {
-    let matchingRegex: [String: Regex]?
+    let matchingPathRegex: [String: Regex]?
     let matchingAllPathRegexes: [String: [Regex]]?
     let matchingAnyPathRegexes: [String: [Regex]]?
-    let notMatchingRegex: [String: Regex]?
+    let notMatchingPathRegex: [String: Regex]?
     let notMatchingAllPathRegexes: [String: [Regex]]?
     let notMatchingAnyPathRegexes: [String: [Regex]]?
 
     override init(_ optionsDict: [String: Any], rule: Rule.Type) {
-        let matchingRegex = RuleOptions.optionalPathRegex(forOption: "matching", in: optionsDict, rule: FileContentRegexRule.self)
+        let matchingPathRegex = RuleOptions.optionalPathRegex(forOption: "matching", in: optionsDict, rule: FileContentRegexRule.self)
         let matchingAllPathRegexes = RuleOptions.optionalPathRegexes(forOption: "matching_all", in: optionsDict, rule: FileContentRegexRule.self)
         let matchingAnyPathRegexes = RuleOptions.optionalPathRegexes(forOption: "matching_any", in: optionsDict, rule: FileContentRegexRule.self)
-        let notMatchingRegex = RuleOptions.optionalPathRegex(forOption: "not_matching", in: optionsDict, rule: FileContentRegexRule.self)
+        let notMatchingPathRegex = RuleOptions.optionalPathRegex(forOption: "not_matching", in: optionsDict, rule: FileContentRegexRule.self)
         let notMatchingAllPathRegexes = RuleOptions.optionalPathRegexes(forOption: "not_matching_all", in: optionsDict, rule: FileContentRegexRule.self)
         let notMatchingAnyPathRegexes = RuleOptions.optionalPathRegexes(forOption: "not_matching_any", in: optionsDict, rule: FileContentRegexRule.self)
 
         guard
-            matchingRegex != nil ||
+            matchingPathRegex != nil ||
             matchingAllPathRegexes != nil ||
             matchingAnyPathRegexes != nil ||
-            notMatchingRegex != nil ||
+            notMatchingPathRegex != nil ||
             notMatchingAllPathRegexes != nil ||
             notMatchingAnyPathRegexes != nil
         else {
@@ -29,10 +29,10 @@ class FileContentRegexOptions: RuleOptions {
             exit(EX_USAGE)
         }
 
-        self.matchingRegex = matchingRegex
+        self.matchingPathRegex = matchingPathRegex
         self.matchingAllPathRegexes = matchingAllPathRegexes
         self.matchingAnyPathRegexes = matchingAnyPathRegexes
-        self.notMatchingRegex = notMatchingRegex
+        self.notMatchingPathRegex = notMatchingPathRegex
         self.notMatchingAllPathRegexes = notMatchingAllPathRegexes
         self.notMatchingAnyPathRegexes = notMatchingAnyPathRegexes
 

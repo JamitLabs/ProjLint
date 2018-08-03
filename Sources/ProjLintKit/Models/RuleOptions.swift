@@ -32,7 +32,11 @@ class RuleOptions {
         guard optionExists(optionName, in: optionsDict, required: required, rule: rule) else { return nil }
 
         guard let string = optionsDict[optionName] as? String else {
-            print("Could not read option `\(optionName)` for rule \(rule.identifier) from config file.", level: .error)
+            let message = """
+                Could not read option `\(optionName)` for rule \(rule.identifier) from config file.
+                Expected value to be of type `String`. Value: \(String(describing: optionsDict[optionName]))
+                """
+            print(message, level: .error)
             exit(EX_USAGE)
         }
 
@@ -52,7 +56,11 @@ class RuleOptions {
         guard optionExists(optionName, in: optionsDict, required: required, rule: rule) else { return nil }
 
         guard let string = optionsDict[optionName] as? String else {
-            print("Could not read option `\(optionName)` for rule \(rule.identifier) from config file.", level: .error)
+            let message = """
+                Could not read option `\(optionName)` for rule \(rule.identifier) from config file.
+                Expected value to be of type `String`. Value: \(String(describing: optionsDict[optionName]))
+                """
+            print(message, level: .error)
             exit(EX_USAGE)
         }
 
@@ -77,7 +85,11 @@ class RuleOptions {
         guard optionExists(optionName, in: optionsDict, required: required, rule: rule) else { return nil }
 
         guard let stringArray = optionsDict[optionName] as? [String] else {
-            print("Could not read option `\(optionName)` for rule \(rule.identifier) from config file.", level: .error)
+            let message = """
+                Could not read option `\(optionName)` for rule \(rule.identifier) from config file.
+                Expected value to be of type `[String]`. Value: \(String(describing: optionsDict[optionName]))
+                """
+            print(message, level: .error)
             exit(EX_USAGE)
         }
 
@@ -97,7 +109,11 @@ class RuleOptions {
         guard optionExists(optionName, in: optionsDict, required: required, rule: rule) else { return nil }
 
         guard let stringArray = optionsDict[optionName] as? [String] else {
-            print("Could not read option `\(optionName)` for rule \(rule.identifier) from config file.", level: .error)
+            let message = """
+                Could not read option `\(optionName)` for rule \(rule.identifier) from config file.
+                Expected value to be of type `[String]`. Value: \(String(describing: optionsDict[optionName]))
+                """
+            print(message, level: .error)
             exit(EX_USAGE)
         }
 
@@ -124,7 +140,11 @@ class RuleOptions {
         guard optionExists(optionName, in: optionsDict, required: required, rule: rule) else { return nil }
 
         guard let stringToStringDict = optionsDict[optionName] as? [String: String] else {
-            print("Could not read option `\(optionName)` for rule \(rule.identifier) from config file.", level: .error)
+            let message = """
+                Could not read option `\(optionName)` for rule \(rule.identifier) from config file.
+                Expected value to be of type `[String: String]`. Value: \(String(describing: optionsDict[optionName]))
+                """
+            print(message, level: .error)
             exit(EX_USAGE)
         }
 
@@ -151,7 +171,11 @@ class RuleOptions {
         guard optionExists(optionName, in: optionsDict, required: required, rule: rule) else { return nil }
 
         guard let stringToAnyDict = optionsDict[optionName] as? [String: Any] else {
-            print("Could not read option `\(optionName)` for rule \(rule.identifier) from config file.", level: .error)
+            let message = """
+                Could not read option `\(optionName)` for rule \(rule.identifier) from config file.
+                Expected value to be of type `[String: Any]`. Value: \(String(describing: optionsDict[optionName]))
+                """
+            print(message, level: .error)
             exit(EX_USAGE)
         }
 
@@ -181,7 +205,11 @@ class RuleOptions {
         guard optionExists(optionName, in: optionsDict, required: required, rule: rule) else { return nil }
 
         guard let violationLevelString = optionsDict[optionName] as? String else {
-            print("Could not read option `\(optionName)` for rule \(rule.identifier) from config file.", level: .error)
+            let message = """
+                Could not read option `\(optionName)` for rule \(rule.identifier) from config file.
+                Expected value to be of type `String`. Value: \(String(describing: optionsDict[optionName]))
+                """
+            print(message, level: .error)
             exit(EX_USAGE)
         }
 
