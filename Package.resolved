@@ -6,8 +6,8 @@
         "repositoryURL": "https://github.com/kiliankoe/CLISpinner.git",
         "state": {
           "branch": null,
-          "revision": "3b38fe43a8152dcdd236b53d5fce566a81d5a9f4",
-          "version": "0.3.5"
+          "revision": "93ca0c508e2bfcfc65ef068f667b3f20c327158c",
+          "version": "0.3.6"
         }
       },
       {
@@ -24,8 +24,8 @@
         "repositoryURL": "https://github.com/Flinesoft/HandySwift.git",
         "state": {
           "branch": null,
-          "revision": "45b906a7fdf483d1db6f6c1a1974cdd5f02165f3",
-          "version": "2.6.0"
+          "revision": "e044e7bf3959b27da567313a640e412ab9fe1d4a",
+          "version": "2.6.1"
         }
       },
       {
@@ -69,8 +69,8 @@
         "repositoryURL": "https://github.com/jakeheis/SwiftCLI",
         "state": {
           "branch": null,
-          "revision": "72627c4d456119bef48d9291af8a8bdc4402ca0d",
-          "version": "5.1.2"
+          "revision": "694a1ab7c3db539b095aaeed7bc4bf774a12bdce",
+          "version": "5.1.3"
         }
       },
       {
