@@ -31,8 +31,7 @@ final class FileContentTemplateRuleTests: XCTestCase {
         path: "SwiftLint.stencil",
         contents: """
             # Basic Configuration
-            opt_in_rules:
-            - attributes{% for rule in additionalRules %}\n- {{ rule }}{% endfor %}
+            opt_in_rules:{% for rule in additionalRules %}\n- {{ rule }}{% endfor %}
 
             disabled_rules:
             - type_name
@@ -57,7 +56,7 @@ final class FileContentTemplateRuleTests: XCTestCase {
                     swiftlintConfigExample.path: [
                         "template": swiftlintConfigTemplate.path,
                         "parameters": [
-                            "additionalRules": ["empty_count", "sorted_imports"],
+                            "additionalRules": ["attributes", "empty_count", "sorted_imports"],
                             "lineLength": "160"
                         ]
                     ]
@@ -75,7 +74,7 @@ final class FileContentTemplateRuleTests: XCTestCase {
                     swiftlintConfigExample.path: [
                         "template": swiftlintConfigTemplate.path,
                         "parameters": [
-                            "additionalRules": ["empty_count"],
+                            "additionalRules": ["attributes", "sorted_imports", "yoda_condition"],
                             "lineLength": "80"
                         ]
                     ]
@@ -84,11 +83,11 @@ final class FileContentTemplateRuleTests: XCTestCase {
             let rule = FileContentTemplateRule(optionsDict)
 
             let violations = rule.violations(in: Resource.baseUrl)
-            XCTAssertEqual(violations.count, 2)
+            XCTAssertEqual(violations.count, 3)
 
             let fileViolations = violations.compactMap { $0 as? FileViolation }
-            XCTAssertEqual(fileViolations.count, 2)
-            XCTAssertEqual(fileViolations.compactMap { $0.line }, [5, 19])
+            XCTAssertEqual(fileViolations.count, 3)
+            XCTAssertEqual(fileViolations.compactMap { $0.line }, [4, 5, 19])
         }
     }
 }
