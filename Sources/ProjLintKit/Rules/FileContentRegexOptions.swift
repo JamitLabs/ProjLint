@@ -25,7 +25,7 @@ class FileContentRegexOptions: RuleOptions {
             notMatchingAllPathRegexes != nil ||
             notMatchingAnyPathRegexes != nil
         else {
-            print("Rule \(FileContentRegexRule.identifier) must have at least one option specified.", level: .error)
+            print("Rule \(rule.identifier) must have at least one option specified.", level: .error)
             exit(EX_USAGE)
         }
 
