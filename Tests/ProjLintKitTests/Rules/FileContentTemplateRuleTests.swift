@@ -2,23 +2,93 @@
 import XCTest
 
 final class FileContentTemplateRuleTests: XCTestCase {
-    // TODO: initialize resources here
+    let swiftlintConfigExample = Resource(
+        path: ".swiftlint.yml",
+        contents: """
+            # Basic Configuration
+            opt_in_rules:
+            - attributes
+            - empty_count
+            - sorted_imports
 
-    func testOptionName() { // TODO: update option name
-        resourcesLoaded([]) { // TODO: add positive example resource to array
-            let optionsDict = ["": ""] // TODO: set positive options of type [String: Any]
+            disabled_rules:
+            - type_name
+
+            included:
+            - Sources
+            - Tests
+
+            # Rule Configurations
+            identifier_name:
+              excluded:
+                - id
+
+            line_length: 160
+            """
+    )
+
+    let swiftlintConfigTemplate = Resource(
+        path: "SwiftLint.stencil",
+        contents: """
+            # Basic Configuration
+            opt_in_rules:
+            - attributes{% for rule in additionalRules %}\n- {{ rule }}{% endfor %}
+
+            disabled_rules:
+            - type_name
+
+            included:
+            - Sources
+            - Tests
+
+            # Rule Configurations
+            identifier_name:
+              excluded:
+                - id
+
+            line_length: {{ lineLength }}
+            """
+    )
+
+    func testMatchingPathTemplate() {
+        resourcesLoaded([swiftlintConfigExample, swiftlintConfigTemplate]) {
+            let optionsDict = [
+                "matching": [
+                    swiftlintConfigExample.path: [
+                        "template": swiftlintConfigTemplate.path,
+                        "parameters": [
+                            "additionalRules": ["empty_count", "sorted_imports"],
+                            "lineLength": "160"
+                        ]
+                    ]
+                ]
+            ]
             let rule = FileContentTemplateRule(optionsDict)
 
             let violations = rule.violations(in: Resource.baseUrl)
             XCTAssertEqual(violations.count, 0)
         }
 
-        resourcesLoaded([]) { // TODO: add negative example resource to array
-            let optionsDict = ["matching": ""] // TODO: set negative options of type [String: Any]
+        resourcesLoaded([swiftlintConfigExample, swiftlintConfigTemplate]) {
+            let optionsDict = [
+                "matching": [
+                    swiftlintConfigExample.path: [
+                        "template": swiftlintConfigTemplate.path,
+                        "parameters": [
+                            "additionalRules": ["empty_count"],
+                            "lineLength": "80"
+                        ]
+                    ]
+                ]
+            ]
             let rule = FileContentTemplateRule(optionsDict)
 
             let violations = rule.violations(in: Resource.baseUrl)
-            XCTAssertEqual(violations.count, 1) // TODO: set violations count for example
+            XCTAssertEqual(violations.count, 2)
+
+            let fileViolations = violations.compactMap { $0 as? FileViolation }
+            XCTAssertEqual(fileViolations.count, 2)
+            XCTAssertEqual(fileViolations.compactMap { $0.line }, [5, 19])
         }
     }
 }
