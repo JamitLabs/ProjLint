@@ -187,6 +187,37 @@ class RuleOptions {
         return pathRegexes
     }
 
+    // Path URL
+    static func optionalPathURL(forOption optionName: String, in optionsDict: [String: Any], rule: Rule.Type) -> [String: URL]? {
+        return pathURL(forOption: optionName, in: optionsDict, required: false, rule: rule)
+    }
+
+    static func requiredPathURL(forOption optionName: String, in optionsDict: [String: Any], rule: Rule.Type) -> [String: URL] {
+        return pathURL(forOption: optionName, in: optionsDict, required: true, rule: rule)!
+    }
+
+    private static func pathURL(forOption optionName: String, in optionsDict: [String: Any], required: Bool, rule: Rule.Type) -> [String: URL]? {
+        guard optionExists(optionName, in: optionsDict, required: required, rule: rule) else { return nil }
+
+        guard let stringToStringDict = optionsDict[optionName] as? [String: String] else {
+            let message = """
+            Could not read option `\(optionName)` for rule \(rule.identifier) from config file.
+            Expected value to be of type `[String: String]`. Value: \(String(describing: optionsDict[optionName]))
+            """
+            print(message, level: .error)
+            exit(EX_USAGE)
+        }
+
+        return stringToStringDict.mapValues { path in
+            guard let url = URL(string: path) else {
+                print("The `\(optionName)` entry `\(path)` for rule \(rule.identifier) is not a valid URl.", level: .error)
+                exit(EX_USAGE)
+            }
+
+            return url
+        }
+    }
+
     // Violation Level
     static func optionalViolationLevel(forOption optionName: String, in optionsDict: [String: Any], rule: Rule.Type) -> ViolationLevel? {
         return violationLevel(forOption: optionName, in: optionsDict, required: false, rule: rule)
@@ -222,7 +253,7 @@ class RuleOptions {
     }
 
     // MARK: - Helpers
-    private static func optionExists(_ optionName: String, in optionsDict: [String: Any], required: Bool, rule: Rule.Type) -> Bool {
+    static func optionExists(_ optionName: String, in optionsDict: [String: Any], required: Bool, rule: Rule.Type) -> Bool {
         guard optionsDict.keys.contains(optionName) else {
             guard !required else {
                 print("Could not find required option `\(optionName)` for rule \(rule.identifier) in config file.", level: .error)

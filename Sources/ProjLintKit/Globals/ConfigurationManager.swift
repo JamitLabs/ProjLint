@@ -17,8 +17,8 @@ private struct DefaultRule: Rule {
 
 enum ConfigurationManager {
     static func loadConfiguration() -> Configuration {
-        let configFilePath = (FileManager.default.currentDirectoryPath as NSString).appendingPathComponent(".projlint.yml")
-        let configFileUrl = URL(fileURLWithPath: configFilePath)
+        let currentDirUrl = URL(fileURLWithPath: FileManager.default.currentDirectoryPath)
+        let configFileUrl = currentDirUrl.appendingPathComponent(".projlint.yml")
 
         guard let configContentString = try? String(contentsOf: configFileUrl, encoding: .utf8) else {
             print("Could not load contents of config file. Please make sure the file `.projlint.yml` exists.", level: .error)

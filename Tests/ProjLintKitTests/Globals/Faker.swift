@@ -3,6 +3,7 @@ import HandySwift
 
 indirect enum FakerType {
     case text
+    case variable
     case regexString
     case filePath
     case dirPath
@@ -20,6 +21,10 @@ struct Faker {
     // MARK: - Fake Data Generators
     private var text: String {
         return "example text \(seed)"
+    }
+
+    private var variable: String {
+        return "exampleVar\(seed)"
     }
 
     private var regexString: String {
@@ -48,6 +53,9 @@ struct Faker {
         switch type {
         case .text:
             return text
+
+        case .variable:
+            return variable
 
         case .regexString:
             return regexString

@@ -9,7 +9,7 @@ class FileExistenceOptions: RuleOptions {
         let nonExistingPaths = RuleOptions.optionalStringArray(forOption: "non_existing_paths", in: optionsDict, rule: FileExistenceRule.self)
 
         guard existingPaths != nil || nonExistingPaths != nil else {
-            print("Rule \(FileExistenceRule.identifier) must have at least one option specified.", level: .error)
+            print("Rule \(rule.identifier) must have at least one option specified.", level: .error)
             exit(EX_USAGE)
         }
 
