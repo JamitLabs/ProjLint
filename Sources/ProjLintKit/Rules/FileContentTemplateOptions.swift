@@ -7,26 +7,18 @@ class FileContentTemplateOptions: RuleOptions {
         let parameters: [String: Any]
     }
 
-    let matchingPathTemplate: [String: TemplateWithParameters]?
-    let notMatchingPathTemplate: [String: TemplateWithParameters]?
+    let matchingPathTemplate: [String: TemplateWithParameters]
 
     override init(_ optionsDict: [String: Any], rule: Rule.Type) {
-        let matchingPathTemplate = FileContentTemplateOptions.pathTemplate(forOption: "matching", in: optionsDict)
-        let notMatchingPathTemplate = FileContentTemplateOptions.pathTemplate(forOption: "not_matching", in: optionsDict)
-
-        guard matchingPathTemplate != nil || notMatchingPathTemplate != nil else {
-            print("Rule \(rule.identifier) must have at least one option specified.", level: .error)
-            exit(EX_USAGE)
-        }
-
-        self.matchingPathTemplate = matchingPathTemplate
-        self.notMatchingPathTemplate = notMatchingPathTemplate
+        self.matchingPathTemplate = FileContentTemplateOptions.pathTemplate(forOption: "matching", in: optionsDict)
 
         super.init(optionsDict, rule: rule)
     }
 
-    private static func pathTemplate(forOption optionName: String, in optionsDict: [String: Any]) -> [String: TemplateWithParameters]? {
-        guard let matchingDict = optionsDict[optionName] as? [String: Any] else { return nil }
+    private static func pathTemplate(forOption optionName: String, in optionsDict: [String: Any]) -> [String: TemplateWithParameters] {
+        guard RuleOptions.optionExists(optionName, in: optionsDict, required: true, rule: FileContentTemplateRule.self) else { return [:] }
+        guard let matchingDict = optionsDict[optionName] as? [String: Any] else { return [:] }
+
         return matchingDict.mapValues { value in
             print(value)
             guard

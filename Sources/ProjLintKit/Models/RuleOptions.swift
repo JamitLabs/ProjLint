@@ -253,7 +253,7 @@ class RuleOptions {
     }
 
     // MARK: - Helpers
-    private static func optionExists(_ optionName: String, in optionsDict: [String: Any], required: Bool, rule: Rule.Type) -> Bool {
+    static func optionExists(_ optionName: String, in optionsDict: [String: Any], required: Bool, rule: Rule.Type) -> Bool {
         guard optionsDict.keys.contains(optionName) else {
             guard !required else {
                 print("Could not find required option `\(optionName)` for rule \(rule.identifier) in config file.", level: .error)

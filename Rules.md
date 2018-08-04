@@ -8,6 +8,7 @@ The following is a table of all available rules. Just click an option to get to 
 Name | Identifier | Correctable? | Description
 --- | --- | --- | ---
 [File Content Regex](#file-content-regex) | `file_content_regex` | no | Specify files which must or must not include regex(es).
+[File Content Template](#file-content-template) | `file_content_template` | no | Specify files which must or must not match a file template.
 [File Existence](#file-existence) | `file_existence` | no | Specify files which must or must not exist.
 
 
@@ -42,6 +43,54 @@ rules:
           - Moya
 ```
 
+</details>
+
+### File Content Template
+
+Option | Type | Required? | Description
+--- | --- | --- | ---
+`matching` | `[String: ["template": String, "parameters": [String: Any]]` | no | Paths with template & parameters to check – fails if given template with parameters applied doesn't match the file contents.
+
+<details>
+<summary>Example</summary>
+
+```yaml
+rules:
+  - file_content_template:
+      matching:
+        .swiftlint.yml:
+          template: "https://github.com/User/Templates/blob/stable/SwiftLint.stencil"
+          parameters:
+            additionalRules:
+              - attributes
+              - empty_count
+              - sorted_imports
+            lineLength: 160
+```
+
+Where the file `SwiftLint.stencil` could be a [Stencil](https://github.com/stencilproject/Stencil) template looking like this:
+
+```stencil
+# Basic Configuration
+opt_in_rules:
+{% for rule in additionalRules %}
+- {{ rule }}
+{% endfor %}
+
+disabled_rules:
+- type_name
+
+included:
+- Sources
+- Tests
+
+# Rule Configurations
+identifier_name:
+  excluded:
+    - id
+
+line_length: {{ lineLength }}
+```
 </details>
 
 ### File Existence

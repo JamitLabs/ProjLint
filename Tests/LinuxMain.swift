@@ -28,6 +28,18 @@ extension FileContentRegexRuleTests {
     ]
 }
 
+extension FileContentTemplateOptionsTests {
+    static var allTests: [(String, (FileContentTemplateOptionsTests) -> () throws -> Void)] = [
+        ("testInitWithMatchingPathTemplate", testInitWithMatchingPathTemplate)
+    ]
+}
+
+extension FileContentTemplateRuleTests {
+    static var allTests: [(String, (FileContentTemplateRuleTests) -> () throws -> Void)] = [
+        ("testMatchingPathTemplate", testMatchingPathTemplate)
+    ]
+}
+
 extension FileExistenceOptionsTests {
     static var allTests: [(String, (FileExistenceOptionsTests) -> () throws -> Void)] = [
         ("testInitWithExistingPaths", testInitWithExistingPaths),
@@ -45,6 +57,8 @@ extension FileExistenceRuleTests {
 XCTMain([
     testCase(FileContentRegexOptionsTests.allTests),
     testCase(FileContentRegexRuleTests.allTests),
+    testCase(FileContentTemplateOptionsTests.allTests),
+    testCase(FileContentTemplateRuleTests.allTests),
     testCase(FileExistenceOptionsTests.allTests),
     testCase(FileExistenceRuleTests.allTests)
 ])
