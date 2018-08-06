@@ -49,7 +49,7 @@ rules:
 
 Option | Type | Required? | Description
 --- | --- | --- | ---
-`matching` | `[String: ["template": String, "parameters": [String: Any]]` | no | Paths with template & parameters to check – fails if given template with parameters applied doesn't match the file contents.
+`matching` | `[String: ["template_path/template_url": String, "parameters": [String: Any]]` | no | Paths with template & parameters to check – fails if given template with parameters applied doesn't match the file contents.
 
 <details>
 <summary>Example</summary>
@@ -59,7 +59,7 @@ rules:
   - file_content_template:
       matching:
         .swiftlint.yml:
-          template: "https://github.com/User/Templates/blob/stable/SwiftLint.stencil"
+          template_url: "https://github.com/User/Templates/blob/stable/SwiftLint.stencil"
           parameters:
             additionalRules:
               - attributes
@@ -91,6 +91,9 @@ identifier_name:
 
 line_length: {{ lineLength }}
 ```
+
+Note that a `template_path` should be specified for local paths and a `template_url` should be specified if your file needs to be downloaded from the web.
+
 </details>
 
 ### File Existence

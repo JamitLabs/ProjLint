@@ -7,6 +7,7 @@ indirect enum FakerType {
     case regexString
     case filePath
     case dirPath
+    case fileURL
     case array(elementType: FakerType, count: Int)
     case dict(keyType: FakerType, valueType: FakerType, count: Int)
 }
@@ -33,6 +34,10 @@ struct Faker {
 
     private var filePath: String {
         return "path/to/some/file\(seed).swift"
+    }
+
+    private var fileURL: String {
+        return "https://github.com/User/Project/blob/stable/File\(seed).swift"
     }
 
     private var dirPath: String {
@@ -65,6 +70,9 @@ struct Faker {
 
         case .dirPath:
             return dirPath
+
+        case .fileURL:
+            return fileURL
 
         case let .array(elementType, count):
             return array(elementType: elementType, count: count)

@@ -21,17 +21,27 @@ class FileContentTemplateOptions: RuleOptions {
 
         return matchingDict.mapValues { value in
             print(value)
-            guard
-                let templateDict = value as? [String: Any],
-                let templatePath = templateDict["template"] as? String,
-                let templateUrl = URL(string: templatePath),
-                let parameters = templateDict["parameters"] as? [String: Any]
-            else {
+            guard let templateDict = value as? [String: Any], let parameters = templateDict["parameters"] as? [String: Any] else {
                 print("Could not read template and parameters in config file.", level: .error)
                 exit(EX_USAGE)
             }
 
-            return TemplateWithParameters(url: templateUrl, parameters: parameters)
+            if let templatePath = templateDict["template_path"] as? String {
+                let templateUrl = URL(fileURLWithPath: templatePath)
+                return TemplateWithParameters(url: templateUrl, parameters: parameters)
+            }
+
+            if let templateUrlString = templateDict["template_url"] as? String {
+                guard let templateUrl = URL(string: templateUrlString) else {
+                    print("Could make a URL from String '\(templateUrlString)'.", level: .error)
+                    exit(EX_USAGE)
+                }
+
+                return TemplateWithParameters(url: templateUrl, parameters: parameters)
+            }
+
+            print("No template was specified – use `template_path` or `template_url` options to specify one.", level: .error)
+            exit(EX_USAGE)
         }
     }
 }
