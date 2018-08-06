@@ -5,11 +5,14 @@ enum RuleFactory {
         let optionsDict = sharedVariablesAppliedDict(optionsDict ?? [:], sharedVariables: sharedVariables ?? [:])
 
         switch identifier {
-        case FileExistenceRule.identifier:
-            return FileExistenceRule(optionsDict)
-
         case FileContentRegexRule.identifier:
             return FileContentRegexRule(optionsDict)
+
+        case FileContentTemplateRule.identifier:
+            return FileContentTemplateRule(optionsDict)
+
+        case FileExistenceRule.identifier:
+            return FileExistenceRule(optionsDict)
 
         default:
             print("Rule with identifier \(identifier) unknown.", level: .error)
