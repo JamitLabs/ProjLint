@@ -29,7 +29,9 @@ struct FileContentTemplateRule: Rule {
             }
 
             if file.contents != expectedFileContents {
-                printDiffSummary(fileName: url.lastPathComponent, found: file.contents, expected: expectedFileContents)
+                if #available(OSX 10.12, *) {
+                    printDiffSummary(fileName: url.lastPathComponent, found: file.contents, expected: expectedFileContents)
+                }
 
                 violations.append(
                     FileViolation(
@@ -45,8 +47,9 @@ struct FileContentTemplateRule: Rule {
         return violations
     }
 
+    @available(OSX 10.12, *)
     func printDiffSummary(fileName: String, found: String, expected: String) {
-        let tmpDirUrl = FileManager.default.homeDirectoryForCurrentUser.appendingPathComponent(".projlint/tmp")
+        let tmpDirUrl = FileManager.default.temporaryDirectory.appendingPathComponent(".projlint")
         let foundTmpFilePath = tmpDirUrl.appendingPathComponent("\(fileName).found").path
         let expectedTmpFilePath = tmpDirUrl.appendingPathComponent("\(fileName).expected").path
 
