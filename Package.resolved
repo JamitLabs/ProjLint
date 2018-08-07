@@ -2,6 +2,15 @@
   "object": {
     "pins": [
       {
+        "package": "AEXML",
+        "repositoryURL": "https://github.com/tadija/AEXML.git",
+        "state": {
+          "branch": null,
+          "revision": "6eea665515d079c338690147082a8084a36484b0",
+          "version": "4.3.0"
+        }
+      },
+      {
         "package": "CLISpinner",
         "repositoryURL": "https://github.com/kiliankoe/CLISpinner.git",
         "state": {
@@ -65,12 +74,30 @@
         }
       },
       {
+        "package": "SwiftPM",
+        "repositoryURL": "https://github.com/apple/swift-package-manager",
+        "state": {
+          "branch": null,
+          "revision": "6983434787dec4e543e9d398a0a9acf63ccd4da1",
+          "version": "0.2.1"
+        }
+      },
+      {
         "package": "SwiftCLI",
         "repositoryURL": "https://github.com/jakeheis/SwiftCLI",
         "state": {
           "branch": null,
           "revision": "694a1ab7c3db539b095aaeed7bc4bf774a12bdce",
           "version": "5.1.3"
+        }
+      },
+      {
+        "package": "xcodeproj",
+        "repositoryURL": "https://github.com/tuist/xcodeproj.git",
+        "state": {
+          "branch": null,
+          "revision": "5451a896ee83f440d7c0997f64e313cada8d71f3",
+          "version": "5.0.0-rc1"
         }
       },
       {

@@ -15,6 +15,7 @@ let package = Package(
         .package(url: "https://github.com/onevcat/Rainbow.git", .upToNextMajor(from: "3.1.4")),
         .package(url: "https://github.com/stencilproject/Stencil.git", .upToNextMajor(from: "0.11.0")),
         .package(url: "https://github.com/jakeheis/SwiftCLI", .upToNextMajor(from: "5.1.2")),
+        .package(url: "https://github.com/tuist/xcodeproj.git", .upToNextMajor(from: "5.0.0-rc1")),
         .package(url: "https://github.com/jpsim/Yams.git", .upToNextMajor(from: "1.0.0"))
     ],
     targets: [
@@ -31,6 +32,7 @@ let package = Package(
                 "Rainbow",
                 "Stencil",
                 "SwiftCLI",
+                "xcodeproj",
                 "Yams"
             ]
         ),
