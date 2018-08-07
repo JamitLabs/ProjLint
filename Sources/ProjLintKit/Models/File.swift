@@ -14,7 +14,7 @@ class File {
     }
 
     private func loadContents() -> String {
-        guard let contents = try? String(contentsOf: url) else {
+        guard let contents = try? String(contentsOf: url, encoding: .utf8) else {
             print("Could not load contents of file '\(url)'.", level: .error)
             exit(EXIT_FAILURE)
         }

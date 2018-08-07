@@ -20,7 +20,6 @@ class FileContentTemplateOptions: RuleOptions {
         guard let matchingDict = optionsDict[optionName] as? [String: Any] else { return [:] }
 
         return matchingDict.mapValues { value in
-            print(value)
             guard let templateDict = value as? [String: Any], let parameters = templateDict["parameters"] as? [String: Any] else {
                 print("Could not read template and parameters in config file.", level: .error)
                 exit(EX_USAGE)

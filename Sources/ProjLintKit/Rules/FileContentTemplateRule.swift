@@ -41,8 +41,13 @@ struct FileContentTemplateRule: Rule {
                     }
                 }()
 
-                let character = Unicode.Scalar(String(file.contents.char(at: index)))!
-                guard !CharacterSet.whitespacesAndNewlines.contains(character) else { return nil }
+                if let character = file.contents.char(at: index) {
+                    let characterScalar = Unicode.Scalar(String(character))!
+                    guard !CharacterSet.whitespacesAndNewlines.contains(characterScalar) else { return nil }
+                } else {
+                    print("Could not read character at index \(index) in template contents:\n\n\(file.contents)\n\n", level: .warning)
+                }
+
                 return file.contents.line(forIndex: index)
             }
 

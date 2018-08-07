@@ -49,7 +49,7 @@ final class FileContentTemplateRuleTests: XCTestCase {
             """
     )
 
-    func testMatchingPathTemplate() {
+    func testMatchingPathTemplateViaPath() {
         resourcesLoaded([swiftlintConfigExample, swiftlintConfigTemplate]) {
             let optionsDict = [
                 "matching": [
@@ -73,6 +73,48 @@ final class FileContentTemplateRuleTests: XCTestCase {
                 "matching": [
                     swiftlintConfigExample.path: [
                         "template_path": swiftlintConfigTemplate.path,
+                        "parameters": [
+                            "additionalRules": ["attributes", "sorted_imports", "yoda_condition"],
+                            "lineLength": "80"
+                        ]
+                    ]
+                ]
+            ]
+            let rule = FileContentTemplateRule(optionsDict)
+
+            let violations = rule.violations(in: Resource.baseUrl)
+            XCTAssertEqual(violations.count, 3)
+
+            let fileViolations = violations.compactMap { $0 as? FileViolation }
+            XCTAssertEqual(fileViolations.count, 3)
+            XCTAssertEqual(fileViolations.compactMap { $0.line }, [4, 5, 19])
+        }
+    }
+
+    func testMatchingPathTemplateViaURL() {
+        resourcesLoaded([swiftlintConfigExample]) {
+            let optionsDict = [
+                "matching": [
+                    swiftlintConfigExample.path: [
+                        "template_url": "https://raw.githubusercontent.com/JamitLabs/ProjLint/stable/Resources/SwiftLint.stencil?token=AGnt0DJsNntcNAUusu2XcEkyoEb5T9Plks5bcqqMwA%3D%3D",
+                        "parameters": [
+                            "additionalRules": ["attributes", "empty_count", "sorted_imports"],
+                            "lineLength": "160"
+                        ]
+                    ]
+                ]
+            ]
+            let rule = FileContentTemplateRule(optionsDict)
+
+            let violations = rule.violations(in: Resource.baseUrl)
+            XCTAssertEqual(violations.count, 0)
+        }
+
+        resourcesLoaded([swiftlintConfigExample, swiftlintConfigTemplate]) {
+            let optionsDict = [
+                "matching": [
+                    swiftlintConfigExample.path: [
+                        "template_url": "https://raw.githubusercontent.com/JamitLabs/ProjLint/stable/Resources/SwiftLint.stencil?token=AGnt0DJsNntcNAUusu2XcEkyoEb5T9Plks5bcqqMwA%3D%3D",
                         "parameters": [
                             "additionalRules": ["attributes", "sorted_imports", "yoda_condition"],
                             "lineLength": "80"
