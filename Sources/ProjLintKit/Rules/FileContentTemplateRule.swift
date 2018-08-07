@@ -35,7 +35,7 @@ struct FileContentTemplateRule: Rule {
                     FileViolation(
                         rule: self,
                         message: "Contents of file differ from expected contents.",
-                        level: .warning,
+                        level: defaultViolationLevel,
                         path: path
                     )
                 )
@@ -57,7 +57,8 @@ struct FileContentTemplateRule: Rule {
             try FileManager.default.createFile(atPath: foundTmpFilePath, withIntermediateDirectories: true, contents: foundTmpFileData, attributes: [:])
             try FileManager.default.createFile(atPath: expectedTmpFilePath, withIntermediateDirectories: true, contents: expectedTmpFileData, attributes: [:])
 
-            try run(bash: "git diff \(foundTmpFilePath) \(expectedTmpFilePath)")
+            let diffOutput = try capture(bash: "git diff \(foundTmpFilePath) \(expectedTmpFilePath)").stdout
+            print(diffOutput, level: defaultViolationLevel.printLevel)
 
             try FileManager.default.removeContentsOfDirectory(at: tmpDirUrl)
         } catch {
