@@ -57,7 +57,7 @@ struct FileContentTemplateRule: Rule {
             try FileManager.default.createFile(atPath: foundTmpFilePath, withIntermediateDirectories: true, contents: foundTmpFileData, attributes: [:])
             try FileManager.default.createFile(atPath: expectedTmpFilePath, withIntermediateDirectories: true, contents: expectedTmpFileData, attributes: [:])
 
-            let diffOutput = try capture(bash: "git diff \(foundTmpFilePath) \(expectedTmpFilePath)").stdout
+            let diffOutput = try capture(bash: "git diff \(foundTmpFilePath) \(expectedTmpFilePath) || true").stdout
             print(diffOutput, level: defaultViolationLevel.printLevel)
 
             try FileManager.default.removeContentsOfDirectory(at: tmpDirUrl)
