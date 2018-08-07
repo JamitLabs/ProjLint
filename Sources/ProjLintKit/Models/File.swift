@@ -1,7 +1,7 @@
 import Foundation
 
 class File {
-    let path: String
+    let url: URL
 
     private var cachedContents: String?
 
@@ -9,13 +9,13 @@ class File {
         return cachedContents ?? loadContents()
     }
 
-    init(at path: String) {
-        self.path = path
+    init(at url: URL) {
+        self.url = url
     }
 
     private func loadContents() -> String {
-        guard let contents = try? String(contentsOfFile: path, encoding: .utf8) else {
-            print("Could not load contents of file '\(path)'.", level: .error)
+        guard let contents = try? String(contentsOf: url) else {
+            print("Could not load contents of file '\(url)'.", level: .error)
             exit(EXIT_FAILURE)
         }
 

@@ -18,11 +18,12 @@ struct FileContentTemplateRule: Rule {
         var violations = [Violation]()
 
         for (path, templateWithParams) in options.matchingPathTemplate {
-            let file = File(at: path)
-            let templateFile = File(at: templateWithParams.url.path)
+            let url = URL(fileURLWithPath: path)
+            let file = File(at: url)
+            let templateFile = File(at: templateWithParams.url)
             let template = Template(templateString: templateFile.contents)
             guard let expectedFileContents = try? template.render(templateWithParams.parameters) else {
-                print("Could not render template at path '\(templateFile.path)'.", level: .error)
+                print("Could not render template at path '\(templateFile.url)'.", level: .error)
                 exit(EXIT_FAILURE)
             }
 
