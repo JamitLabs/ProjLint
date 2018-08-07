@@ -83,11 +83,8 @@ final class FileContentTemplateRuleTests: XCTestCase {
             let rule = FileContentTemplateRule(optionsDict)
 
             let violations = rule.violations(in: Resource.baseUrl)
-            XCTAssertEqual(violations.count, 3)
-
-            let fileViolations = violations.compactMap { $0 as? FileViolation }
-            XCTAssertEqual(fileViolations.count, 3)
-            XCTAssertEqual(fileViolations.compactMap { $0.line }, [4, 5, 19])
+            XCTAssertEqual(violations.count, 1)
+            XCTAssert(violations.first is FileViolation)
         }
     }
 
@@ -125,11 +122,8 @@ final class FileContentTemplateRuleTests: XCTestCase {
             let rule = FileContentTemplateRule(optionsDict)
 
             let violations = rule.violations(in: Resource.baseUrl)
-            XCTAssertEqual(violations.count, 3)
-
-            let fileViolations = violations.compactMap { $0 as? FileViolation }
-            XCTAssertEqual(fileViolations.count, 3)
-            XCTAssertEqual(fileViolations.compactMap { $0.line }, [4, 5, 19])
+            XCTAssertEqual(violations.count, 1)
+            XCTAssert(violations.first is FileViolation)
         }
     }
 }

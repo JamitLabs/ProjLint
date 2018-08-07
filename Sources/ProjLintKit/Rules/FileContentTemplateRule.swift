@@ -2,6 +2,7 @@ import Differ
 import Foundation
 import HandySwift
 import Stencil
+import SwiftCLI
 
 struct FileContentTemplateRule: Rule {
     static let name: String = "File Content Template"
@@ -27,43 +28,40 @@ struct FileContentTemplateRule: Rule {
                 exit(EXIT_FAILURE)
             }
 
-            let diff = file.contents.diff(expectedFileContents)
-            var patchOffset = 0
-            let differingLines: [Int] = diff.elements.compactMap { element in
-                let index: Int = {
-                    switch element {
-                    case let .insert(index):
-                        return index + patchOffset
+            if file.contents != expectedFileContents {
+                printDiffSummary(fileName: url.lastPathComponent, found: file.contents, expected: expectedFileContents)
 
-                    case let .delete(index):
-                        patchOffset -= 1
-                        return index
-                    }
-                }()
-
-                if let character = file.contents.char(at: index) {
-                    let characterScalar = Unicode.Scalar(String(character))!
-                    guard !CharacterSet.whitespacesAndNewlines.contains(characterScalar) else { return nil }
-                } else {
-                    print("Could not read character at index \(index) in template contents:\n\n\(file.contents)\n\n", level: .warning)
-                }
-
-                return file.contents.line(forIndex: index)
-            }
-
-            for differingLine in Set(differingLines).sorted() {
                 violations.append(
                     FileViolation(
                         rule: self,
-                        message: "Line differs from template.",
+                        message: "Contents of file differ from expected contents.",
                         level: .warning,
-                        path: path,
-                        line: differingLine
+                        path: path
                     )
                 )
             }
         }
 
         return violations
+    }
+
+    func printDiffSummary(fileName: String, found: String, expected: String) {
+        let tmpDirUrl = FileManager.default.homeDirectoryForCurrentUser.appendingPathComponent(".projlint/tmp")
+        let foundTmpFilePath = tmpDirUrl.appendingPathComponent("\(fileName).found").path
+        let expectedTmpFilePath = tmpDirUrl.appendingPathComponent("\(fileName).expected").path
+
+        let foundTmpFileData = found.data(using: .utf8)
+        let expectedTmpFileData = expected.data(using: .utf8)
+
+        do {
+            try FileManager.default.createFile(atPath: foundTmpFilePath, withIntermediateDirectories: true, contents: foundTmpFileData, attributes: [:])
+            try FileManager.default.createFile(atPath: expectedTmpFilePath, withIntermediateDirectories: true, contents: expectedTmpFileData, attributes: [:])
+
+            try run(bash: "git diff \(foundTmpFilePath) \(expectedTmpFilePath)")
+
+            try FileManager.default.removeContentsOfDirectory(at: tmpDirUrl)
+        } catch {
+            print("Ignored an error: \(error)", level: .verbose)
+        }
     }
 }

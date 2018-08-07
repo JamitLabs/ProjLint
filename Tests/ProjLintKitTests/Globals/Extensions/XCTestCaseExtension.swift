@@ -1,4 +1,5 @@
 import Foundation
+@testable import ProjLintKit
 import XCTest
 
 // swiftlint:disable force_try
