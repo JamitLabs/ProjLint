@@ -1,0 +1,16 @@
+# Basic Configuration
+opt_in_rules:{% for rule in additionalRules %}\n- {{ rule }}{% endfor %}
+
+disabled_rules:
+- type_name
+
+included:
+- Sources
+- Tests
+
+# Rule Configurations
+identifier_name:
+  excluded:
+    - id
+
+line_length: {{ lineLength }}
