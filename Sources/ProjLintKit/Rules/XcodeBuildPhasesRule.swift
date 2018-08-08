@@ -17,11 +17,6 @@ struct XcodeBuildPhasesRule: Rule {
         var violations = [Violation]()
 
         let absolutePathUrl = URL(fileURLWithPath: options.projectPath)
-        do {
-            try XcodeProj(pathString: absolutePathUrl.path)
-        } catch {
-            print("Error: \(error)")
-        }
         guard let xcodeProj = try? XcodeProj(pathString: absolutePathUrl.path) else {
             print("Could not read project file at path '\(absolutePathUrl.path)'.", level: .error)
             exit(EXIT_FAILURE)
