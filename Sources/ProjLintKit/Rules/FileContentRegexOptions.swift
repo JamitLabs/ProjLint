@@ -10,12 +10,12 @@ class FileContentRegexOptions: RuleOptions {
     let notMatchingAnyPathRegexes: [String: [Regex]]?
 
     override init(_ optionsDict: [String: Any], rule: Rule.Type) {
-        let matchingPathRegex = RuleOptions.optionalPathRegex(forOption: "matching", in: optionsDict, rule: FileContentRegexRule.self)
-        let matchingAllPathRegexes = RuleOptions.optionalPathRegexes(forOption: "matching_all", in: optionsDict, rule: FileContentRegexRule.self)
-        let matchingAnyPathRegexes = RuleOptions.optionalPathRegexes(forOption: "matching_any", in: optionsDict, rule: FileContentRegexRule.self)
-        let notMatchingPathRegex = RuleOptions.optionalPathRegex(forOption: "not_matching", in: optionsDict, rule: FileContentRegexRule.self)
-        let notMatchingAllPathRegexes = RuleOptions.optionalPathRegexes(forOption: "not_matching_all", in: optionsDict, rule: FileContentRegexRule.self)
-        let notMatchingAnyPathRegexes = RuleOptions.optionalPathRegexes(forOption: "not_matching_any", in: optionsDict, rule: FileContentRegexRule.self)
+        let matchingPathRegex = RuleOptions.optionalPathsToRegexes(forOption: "matching", in: optionsDict, rule: rule)
+        let matchingAllPathRegexes = RuleOptions.optionalPathsToRegexArrays(forOption: "matching_all", in: optionsDict, rule: rule)
+        let matchingAnyPathRegexes = RuleOptions.optionalPathsToRegexArrays(forOption: "matching_any", in: optionsDict, rule: rule)
+        let notMatchingPathRegex = RuleOptions.optionalPathsToRegexes(forOption: "not_matching", in: optionsDict, rule: rule)
+        let notMatchingAllPathRegexes = RuleOptions.optionalPathsToRegexArrays(forOption: "not_matching_all", in: optionsDict, rule: rule)
+        let notMatchingAnyPathRegexes = RuleOptions.optionalPathsToRegexArrays(forOption: "not_matching_any", in: optionsDict, rule: rule)
 
         guard
             matchingPathRegex != nil ||

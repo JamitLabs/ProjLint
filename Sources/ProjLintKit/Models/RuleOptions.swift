@@ -108,15 +108,7 @@ class RuleOptions {
     private static func regexArray(forOption optionName: String, in optionsDict: [String: Any], required: Bool, rule: Rule.Type) -> [Regex]? {
         guard optionExists(optionName, in: optionsDict, required: required, rule: rule) else { return nil }
 
-        guard let stringArray = optionsDict[optionName] as? [String] else {
-            let message = """
-                Could not read option `\(optionName)` for rule \(rule.identifier) from config file.
-                Expected value to be of type `[String]`. Value: \(String(describing: optionsDict[optionName]))
-                """
-            print(message, level: .error)
-            exit(EX_USAGE)
-        }
-
+        let stringArray = requiredStringArray(forOption: optionName, in: optionsDict, rule: rule)
         return stringArray.map { pathString in
             guard let pathRegex = try? Regex(pathString) else {
                 print("The `\(optionName)` entry `\(pathString)` for rule \(rule.identifier) is not a valid Regex.", level: .error)
@@ -127,27 +119,43 @@ class RuleOptions {
         }
     }
 
-    // Path Regex
-    static func optionalPathRegex(forOption optionName: String, in optionsDict: [String: Any], rule: Rule.Type) -> [String: Regex]? {
-        return pathRegex(forOption: optionName, in: optionsDict, required: false, rule: rule)
+    // Paths to Strings
+    static func optionalPathsToStrings(forOption optionName: String, in optionsDict: [String: Any], rule: Rule.Type) -> [String: String]? {
+        return pathsToStrings(forOption: optionName, in: optionsDict, required: false, rule: rule)
     }
 
-    static func requiredPathRegex(forOption optionName: String, in optionsDict: [String: Any], rule: Rule.Type) -> [String: Regex] {
-        return pathRegex(forOption: optionName, in: optionsDict, required: true, rule: rule)!
+    static func requiredPathsToStrings(forOption optionName: String, in optionsDict: [String: Any], rule: Rule.Type) -> [String: String] {
+        return pathsToStrings(forOption: optionName, in: optionsDict, required: true, rule: rule)!
     }
 
-    private static func pathRegex(forOption optionName: String, in optionsDict: [String: Any], required: Bool, rule: Rule.Type) -> [String: Regex]? {
+    private static func pathsToStrings(forOption optionName: String, in optionsDict: [String: Any], required: Bool, rule: Rule.Type) -> [String: String]? {
         guard optionExists(optionName, in: optionsDict, required: required, rule: rule) else { return nil }
 
         guard let stringToStringDict = optionsDict[optionName] as? [String: String] else {
             let message = """
-                Could not read option `\(optionName)` for rule \(rule.identifier) from config file.
-                Expected value to be of type `[String: String]`. Value: \(String(describing: optionsDict[optionName]))
-                """
+            Could not read option `\(optionName)` for rule \(rule.identifier) from config file.
+            Expected value to be of type `[String: String]`. Value: \(String(describing: optionsDict[optionName]))
+            """
             print(message, level: .error)
             exit(EX_USAGE)
         }
 
+        return stringToStringDict
+    }
+
+    // Paths to Regexes
+    static func optionalPathsToRegexes(forOption optionName: String, in optionsDict: [String: Any], rule: Rule.Type) -> [String: Regex]? {
+        return pathsToRegexes(forOption: optionName, in: optionsDict, required: false, rule: rule)
+    }
+
+    static func requiredPathsToRegexes(forOption optionName: String, in optionsDict: [String: Any], rule: Rule.Type) -> [String: Regex] {
+        return pathsToRegexes(forOption: optionName, in: optionsDict, required: true, rule: rule)!
+    }
+
+    private static func pathsToRegexes(forOption optionName: String, in optionsDict: [String: Any], required: Bool, rule: Rule.Type) -> [String: Regex]? {
+        guard optionExists(optionName, in: optionsDict, required: required, rule: rule) else { return nil }
+
+        let stringToStringDict = requiredPathsToStrings(forOption: optionName, in: optionsDict, rule: rule)
         return stringToStringDict.mapValues { regexString in
             guard let regex = try? Regex(regexString) else {
                 print("The `\(optionName)` entry `\(regexString)` for rule \(rule.identifier) is not a valid Regex.", level: .error)
@@ -158,16 +166,16 @@ class RuleOptions {
         }
     }
 
-    // Path Regexes
-    static func optionalPathRegexes(forOption optionName: String, in optionsDict: [String: Any], rule: Rule.Type) -> [String: [Regex]]? {
-        return pathRegexes(forOption: optionName, in: optionsDict, required: false, rule: rule)
+    // Paths to Regex Arrays
+    static func optionalPathsToRegexArrays(forOption optionName: String, in optionsDict: [String: Any], rule: Rule.Type) -> [String: [Regex]]? {
+        return pathsToRegexArrays(forOption: optionName, in: optionsDict, required: false, rule: rule)
     }
 
-    static func requiredPathRegexes(forOption optionName: String, in optionsDict: [String: Any], rule: Rule.Type) -> [String: [Regex]] {
-        return pathRegexes(forOption: optionName, in: optionsDict, required: true, rule: rule)!
+    static func requiredPathsToRegexArrays(forOption optionName: String, in optionsDict: [String: Any], rule: Rule.Type) -> [String: [Regex]] {
+        return pathsToRegexArrays(forOption: optionName, in: optionsDict, required: true, rule: rule)!
     }
 
-    private static func pathRegexes(forOption optionName: String, in optionsDict: [String: Any], required: Bool, rule: Rule.Type) -> [String: [Regex]]? {
+    private static func pathsToRegexArrays(forOption optionName: String, in optionsDict: [String: Any], required: Bool, rule: Rule.Type) -> [String: [Regex]]? {
         guard optionExists(optionName, in: optionsDict, required: required, rule: rule) else { return nil }
 
         guard let stringToAnyDict = optionsDict[optionName] as? [String: Any] else {
@@ -187,27 +195,19 @@ class RuleOptions {
         return pathRegexes
     }
 
-    // Path URL
-    static func optionalPathURL(forOption optionName: String, in optionsDict: [String: Any], rule: Rule.Type) -> [String: URL]? {
-        return pathURL(forOption: optionName, in: optionsDict, required: false, rule: rule)
+    // Paths to URLs
+    static func optionalPathsToURLs(forOption optionName: String, in optionsDict: [String: Any], rule: Rule.Type) -> [String: URL]? {
+        return pathsToURLs(forOption: optionName, in: optionsDict, required: false, rule: rule)
     }
 
-    static func requiredPathURL(forOption optionName: String, in optionsDict: [String: Any], rule: Rule.Type) -> [String: URL] {
-        return pathURL(forOption: optionName, in: optionsDict, required: true, rule: rule)!
+    static func requiredPathsToURLs(forOption optionName: String, in optionsDict: [String: Any], rule: Rule.Type) -> [String: URL] {
+        return pathsToURLs(forOption: optionName, in: optionsDict, required: true, rule: rule)!
     }
 
-    private static func pathURL(forOption optionName: String, in optionsDict: [String: Any], required: Bool, rule: Rule.Type) -> [String: URL]? {
+    private static func pathsToURLs(forOption optionName: String, in optionsDict: [String: Any], required: Bool, rule: Rule.Type) -> [String: URL]? {
         guard optionExists(optionName, in: optionsDict, required: required, rule: rule) else { return nil }
 
-        guard let stringToStringDict = optionsDict[optionName] as? [String: String] else {
-            let message = """
-            Could not read option `\(optionName)` for rule \(rule.identifier) from config file.
-            Expected value to be of type `[String: String]`. Value: \(String(describing: optionsDict[optionName]))
-            """
-            print(message, level: .error)
-            exit(EX_USAGE)
-        }
-
+        let stringToStringDict = requiredPathsToStrings(forOption: optionName, in: optionsDict, rule: rule)
         return stringToStringDict.mapValues { path in
             guard let url = URL(string: path) else {
                 print("The `\(optionName)` entry `\(path)` for rule \(rule.identifier) is not a valid URl.", level: .error)
