@@ -2,7 +2,6 @@ import Differ
 import Foundation
 import HandySwift
 import Stencil
-import SwiftCLI
 
 struct FileContentTemplateRule: Rule {
     static let name: String = "File Content Template"
@@ -30,7 +29,12 @@ struct FileContentTemplateRule: Rule {
 
             if file.contents != expectedFileContents {
                 if #available(OSX 10.12, *) {
-                    printDiffSummary(fileName: url.lastPathComponent, found: file.contents, expected: expectedFileContents)
+                    printDiffSummary(
+                        fileName: url.lastPathComponent,
+                        found: file.contents,
+                        expected: expectedFileContents,
+                        printLevel: defaultViolationLevel.printLevel
+                    )
                 }
 
                 violations.append(
@@ -45,27 +49,5 @@ struct FileContentTemplateRule: Rule {
         }
 
         return violations
-    }
-
-    @available(OSX 10.12, *)
-    func printDiffSummary(fileName: String, found: String, expected: String) {
-        let tmpDirUrl = FileManager.default.temporaryDirectory.appendingPathComponent(".projlint")
-        let foundTmpFilePath = tmpDirUrl.appendingPathComponent("\(fileName).found").path
-        let expectedTmpFilePath = tmpDirUrl.appendingPathComponent("\(fileName).expected").path
-
-        let foundTmpFileData = found.data(using: .utf8)
-        let expectedTmpFileData = expected.data(using: .utf8)
-
-        do {
-            try FileManager.default.createFile(atPath: foundTmpFilePath, withIntermediateDirectories: true, contents: foundTmpFileData, attributes: [:])
-            try FileManager.default.createFile(atPath: expectedTmpFilePath, withIntermediateDirectories: true, contents: expectedTmpFileData, attributes: [:])
-
-            let diffOutput = try capture(bash: "git diff \(foundTmpFilePath) \(expectedTmpFilePath) || true").stdout
-            print(diffOutput, level: defaultViolationLevel.printLevel)
-
-            try FileManager.default.removeContentsOfDirectory(at: tmpDirUrl)
-        } catch {
-            print("Ignored an error: \(error)", level: .verbose)
-        }
     }
 }

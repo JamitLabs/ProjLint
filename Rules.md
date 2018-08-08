@@ -10,6 +10,7 @@ Name | Identifier | Correctable? | Description
 [File Content Regex](#file-content-regex) | `file_content_regex` | no | Specify files which must or must not include regex(es).
 [File Content Template](#file-content-template) | `file_content_template` | no | Specify files which must or must not match a file template.
 [File Existence](#file-existence) | `file_existence` | no | Specify files which must or must not exist.
+[Xcode Build Phases](#xcode-build-phases) | `xcode_build_phases` | no | Specify build phases that need to exist and have same content.
 
 
 ## Rule Options
@@ -118,6 +119,33 @@ rules:
       non_existing_paths:
         - Podfile
         - Podfile.lock
+```
+
+</details>
+
+### Xcode Build Phases
+
+Option | Type | Required? | Description
+--- | --- | --- | ---
+`project_path` | `String` | yes | The (relative) path to the `.xcodeproj` file.
+`target_name` | `String` | yes | The name of the targets whose build phases to be checked.
+`run_scripts` | `[String: String]` | yes | The build scripts to be checked – the key is the name, the value the script contents.
+
+<details>
+<summary>Example</summary>
+
+```yaml
+rules:
+  - xcode_build_phases:
+      project_path: AmazingApp.xcodeproj
+      target_name: AmazingApp
+      run_scripts:
+        SwiftLint: |
+          if which swiftlint > /dev/null; then
+              swiftlint
+          else
+              echo "warning: SwiftLint not installed, download it from https://github.com/realm/SwiftLint"
+          fi
 ```
 
 </details>

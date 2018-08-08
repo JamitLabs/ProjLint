@@ -24,6 +24,7 @@ final class FileContentTemplateRuleTests: XCTestCase {
                 - id
 
             line_length: 160
+
             """
     )
 
@@ -46,6 +47,7 @@ final class FileContentTemplateRuleTests: XCTestCase {
                 - id
 
             line_length: {{ lineLength }}
+
             """
     )
 

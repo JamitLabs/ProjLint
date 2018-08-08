@@ -11,6 +11,12 @@ public func generateLinuxMain() {
     run(bash: "mv .sourcery/LinuxMain.generated.swift Tests/LinuxMain.swift")
 }
 
+/// Generates the RuleFactory.swift file by automatically searching the Rules path for rules.
+public func generateRuleFactory() {
+    run(bash: "sourcery --sources Sources/ProjLintKit/Rules --templates .sourcery/RuleFactory.stencil --output .sourcery --force-parse generated")
+    run(bash: "mv .sourcery/RuleFactory.generated.swift Sources/ProjLintKit/Globals/RuleFactory.swift")
+}
+
 /// Generates stubbed files for a new rule with options and tests for the rule and options and recreates the Xcode project.
 public func generateRule(identifier: String) throws {
     let loader = FileSystemLoader(paths: [".templates/"])
@@ -50,6 +56,8 @@ public func generateRule(identifier: String) throws {
             return
         }
     }
+
+    generateRuleFactory()
 
     run(bash: "swift package generate-xcodeproj")
 }

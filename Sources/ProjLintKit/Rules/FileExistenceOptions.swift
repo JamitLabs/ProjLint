@@ -5,8 +5,8 @@ class FileExistenceOptions: RuleOptions {
     let nonExistingPaths: [String]?
 
     override init(_ optionsDict: [String: Any], rule: Rule.Type) {
-        let existingPaths = RuleOptions.optionalStringArray(forOption: "existing_paths", in: optionsDict, rule: FileExistenceRule.self)
-        let nonExistingPaths = RuleOptions.optionalStringArray(forOption: "non_existing_paths", in: optionsDict, rule: FileExistenceRule.self)
+        let existingPaths = RuleOptions.optionalStringArray(forOption: "existing_paths", in: optionsDict, rule: rule)
+        let nonExistingPaths = RuleOptions.optionalStringArray(forOption: "non_existing_paths", in: optionsDict, rule: rule)
 
         guard existingPaths != nil || nonExistingPaths != nil else {
             print("Rule \(rule.identifier) must have at least one option specified.", level: .error)
