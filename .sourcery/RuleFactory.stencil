@@ -1,6 +1,3 @@
-// Generated using Sourcery 0.13.1 — https://github.com/krzysztofzablocki/Sourcery
-// DO NOT EDIT
-
 import Foundation
 
 enum RuleFactory {
@@ -8,15 +5,13 @@ enum RuleFactory {
         let optionsDict = sharedVariablesAppliedDict(optionsDict ?? [:], sharedVariables: sharedVariables ?? [:])
 
         switch identifier {
-        case FileContentRegexRule.identifier:
-            return FileContentRegexRule(optionsDict)
+        {% for type in types.all %}
+        {% if type.name|hasSuffix:"Rule" %}
+        case {{ type.name }}.identifier:
+            return {{ type.name }}(optionsDict)
 
-        case FileContentTemplateRule.identifier:
-            return FileContentTemplateRule(optionsDict)
-
-        case FileExistenceRule.identifier:
-            return FileExistenceRule(optionsDict)
-
+        {% endif %}
+        {% endfor %}
         default:
             print("Rule with identifier \(identifier) unknown.", level: .error)
             exit(EX_USAGE)
