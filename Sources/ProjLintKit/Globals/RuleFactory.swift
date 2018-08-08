@@ -20,6 +20,9 @@ enum RuleFactory {
         case XcodeBuildPhasesRule.identifier:
             return XcodeBuildPhasesRule(optionsDict)
 
+        case XcodeProjectNavigatorRule.identifier:
+            return XcodeProjectNavigatorRule(optionsDict)
+
         default:
             print("Rule with identifier \(identifier) unknown.", level: .error)
             exit(EX_USAGE)

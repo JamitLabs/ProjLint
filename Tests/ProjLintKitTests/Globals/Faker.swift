@@ -2,6 +2,7 @@ import Foundation
 import HandySwift
 
 indirect enum FakerType {
+    case bool
     case text
     case variable
     case regexString
@@ -20,6 +21,10 @@ struct Faker {
     private let seed: String
 
     // MARK: - Fake Data Generators
+    private var bool: Bool {
+        return Int(seed)! % 2 == 0
+    }
+
     private var text: String {
         return "example text \(seed)"
     }
@@ -56,6 +61,9 @@ struct Faker {
     // MARK: - Instance Methods
     func data(ofType type: FakerType) -> Any {
         switch type {
+        case .bool:
+            return bool
+
         case .text:
             return text
 

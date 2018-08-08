@@ -19,6 +19,30 @@ class RuleOptions {
         return forcedViolationLevel
     }
 
+    // Bool
+    static func optionalBool(forOption optionName: String, in optionsDict: [String: Any], rule: Rule.Type) -> Bool? {
+        return bool(forOption: optionName, in: optionsDict, required: false, rule: rule)
+    }
+
+    static func requiredBool(forOption optionName: String, in optionsDict: [String: Any], rule: Rule.Type) -> Bool {
+        return bool(forOption: optionName, in: optionsDict, required: true, rule: rule)!
+    }
+
+    private static func bool(forOption optionName: String, in optionsDict: [String: Any], required: Bool, rule: Rule.Type) -> Bool? {
+        guard optionExists(optionName, in: optionsDict, required: required, rule: rule) else { return nil }
+
+        guard let bool = optionsDict[optionName] as? Bool else {
+            let message = """
+                Could not read option `\(optionName)` for rule \(rule.identifier) from config file.
+                Expected value to be of type `Bool`. Value: \(String(describing: optionsDict[optionName]))
+                """
+            print(message, level: .error)
+            exit(EX_USAGE)
+        }
+
+        return bool
+    }
+
     // String
     static func optionalString(forOption optionName: String, in optionsDict: [String: Any], rule: Rule.Type) -> String? {
         return string(forOption: optionName, in: optionsDict, required: false, rule: rule)
