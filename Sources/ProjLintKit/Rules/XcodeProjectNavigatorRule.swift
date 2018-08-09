@@ -51,7 +51,13 @@ struct XcodeProjectNavigatorRule: Rule {
 
         for pathComponent in parentPathComponents {
             let groupChildren = self.groupChildren(of: currentGroup, pbxproj: pbxproj)
-            currentGroup = groupChildren.first { $0.path == pathComponent || $0.name == pathComponent }!
+            guard let newGroup = groupChildren.first(where: { $0.path == pathComponent || $0.name == pathComponent }) else {
+                let path = parentPathComponents.joined(separator: "/")
+                print("Could not find group at path '\(path)' for sort validation in project '\(options.projectPath)'.", level: .error)
+                exit(EXIT_FAILURE)
+            }
+
+            currentGroup = newGroup
         }
 
         let children = self.children(of: currentGroup, pbxproj: pbxproj)

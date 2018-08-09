@@ -186,29 +186,23 @@ final class XcodeProjectNavigatorRuleTests: XCTestCase {
             """
     )
 
-    func testOptionName() {
+    func testWithAllOptions() {
         resourcesLoaded([xcprojResource]) {
             let optionsDict: [String: Any] = [
                 "project_path": URL(fileURLWithPath: xcprojResource.path).deletingLastPathComponent().path,
-                "sorted": true,
+                "sorted": [],
                 "inner_group_order": [
-                    "code_files",
-                    "interfaces",
+                    ["others", "plists", "entitlements"],
+                    ["code_files", "interfaces"],
                     "assets",
-                    ["strings", "others"],
-                    "folders"
+                    ["strings", "folders"]
                 ],
                 "structure": [
                     "Package.swift",
                     ["App": [
                         "AppDelegate.swift",
-                        "Sources",
-                        ["SupportingFiles": [
-                            "Info.plist"
-                        ]]
                     ]],
                     ["Tests": [
-                        "Sources",
                         ["SupportingFiles": [
                             "Info.plist"
                         ]]
@@ -224,7 +218,10 @@ final class XcodeProjectNavigatorRuleTests: XCTestCase {
         resourcesLoaded([xcprojResource]) {
             let optionsDict: [String: Any] = [
                 "project_path": URL(fileURLWithPath: xcprojResource.path).deletingLastPathComponent().path,
-                "sorted": true,
+                "sorted": [
+                    "App",
+                    "Tests"
+                ],
                 "inner_group_order": [
                     ["interfaces", "code_files"],
                     "assets",
@@ -235,20 +232,14 @@ final class XcodeProjectNavigatorRuleTests: XCTestCase {
                     "Package.swift",
                     ["App": [
                         "AppDelegate.swift",
-                        "Sources",
-                        "Resources",
-                        ["SupportingFiles": [
-                            "Info.plist"
-                        ]]
+                        "Resources"
                     ]],
                     ["Tests": [
-                        "Sources",
                         ["SupportingFiles": [
                             "Info.plist"
                         ]]
                     ]],
                     ["UITests": [
-                        "Sources",
                         ["SupportingFiles": [
                             "Info.plist"
                         ]]
@@ -258,7 +249,7 @@ final class XcodeProjectNavigatorRuleTests: XCTestCase {
             let rule = XcodeProjectNavigatorRule(optionsDict)
 
             let violations = rule.violations(in: Resource.baseUrl)
-            XCTAssertEqual(violations.count, 3)
+            XCTAssertEqual(violations.count, 5)
         }
     }
 }

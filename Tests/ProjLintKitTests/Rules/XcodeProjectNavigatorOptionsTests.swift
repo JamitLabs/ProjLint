@@ -6,7 +6,7 @@ final class XcodeProjectNavigatorOptionsTests: XCTestCase {
     func testInitWithAllOptions() {
         let optionsDict: [String: Any] = [
             "project_path": Faker.first.data(ofType: .filePath),
-            "sorted": Faker.first.data(ofType: .bool),
+            "sorted": Faker.first.data(ofType: .array(elementType: .filePath, count: 5)),
             "inner_group_order": [
                 "assets",
                 ["strings", "others"],
@@ -33,6 +33,7 @@ final class XcodeProjectNavigatorOptionsTests: XCTestCase {
         let options = XcodeProjectNavigatorOptions(optionsDict, rule: XcodeProjectNavigatorRule.self)
 
         XCTAssertEqual(options.innerGroupOrder.count, 4)
+        XCTAssertEqual(options.sorted?.count, 5)
         XCTAssertEqual(options.structure.count, 4)
     }
 }
