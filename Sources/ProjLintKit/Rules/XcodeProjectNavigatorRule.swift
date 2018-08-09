@@ -30,8 +30,61 @@ struct XcodeProjectNavigatorRule: Rule {
             exit(EXIT_FAILURE)
         }
 
-        // find group content order & sorting violations
+        // find inner group order violations
         violations += self.orderViolations(forChildrenIn: rootGroup, pbxproj: xcodeProj.pbxproj, parentPathComponents: [])
+
+        // find sorted violations
+        if let sortedPaths = options.sorted {
+            for sortedPath in sortedPaths {
+                let parentPathComponents = sortedPath.components(separatedBy: "/").filter { !$0.isBlank }
+                violations += self.sortedViolations(pbxproj: xcodeProj.pbxproj, parentPathComponents: parentPathComponents)
+            }
+        }
+
+
+        return violations
+    }
+
+    private func sortedViolations(pbxproj: PBXProj, parentPathComponents: [String]) -> [Violation] {
+        var violations = [Violation]()
+        var currentGroup: PBXGroup = try! pbxproj.rootGroup()!
+
+        for pathComponent in parentPathComponents {
+            let groupChildren = self.groupChildren(of: currentGroup, pbxproj: pbxproj)
+            currentGroup = groupChildren.first { $0.path == pathComponent || $0.name == pathComponent }!
+        }
+
+        let children = self.children(of: currentGroup, pbxproj: pbxproj)
+
+        for expectedGroupTypes in options.innerGroupOrder {
+            let childrenOfGroupTypes = children.filter { expectedGroupTypes.contains(groupType(for: $0)) }
+            let childrenNames = childrenOfGroupTypes.map { name(for: $0) }
+            let sortedChildrenNames = childrenNames.sorted()
+
+            if sortedChildrenNames != childrenNames {
+                let expected = expectedGroupTypes.map { $0.rawValue }.joined(separator: ",")
+                let parentPath = parentPathComponents.joined(separator: "/")
+
+                let message = """
+                    Entries of type(s) '\(expected)' in group '\(parentPath)' are not sorted by name.
+                    Found: \(childrenNames)
+                    Expected:\(sortedChildrenNames)
+                    """
+                violations.append(
+                    FileViolation(
+                        rule: self,
+                        message: message,
+                        level: defaultViolationLevel,
+                        path: options.projectPath
+                    )
+                )
+            }
+        }
+
+        let groupChildren = self.groupChildren(of: currentGroup, pbxproj: pbxproj)
+        for group in groupChildren {
+            violations += self.sortedViolations(pbxproj: pbxproj, parentPathComponents: parentPathComponents + [name(for: group)])
+        }
 
         return violations
     }

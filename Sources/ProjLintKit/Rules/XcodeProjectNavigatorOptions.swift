@@ -19,13 +19,13 @@ class XcodeProjectNavigatorOptions: RuleOptions {
     }
 
     let projectPath: String
-    let sorted: Bool
+    let sorted: [String]?
     let innerGroupOrder: [[GroupType]]
     let structure: [TreeNode]
 
     override init(_ optionsDict: [String: Any], rule: Rule.Type) {
         projectPath = RuleOptions.requiredString(forOption: "project_path", in: optionsDict, rule: rule)
-        sorted = RuleOptions.requiredBool(forOption: "sorted", in: optionsDict, rule: rule)
+        sorted = RuleOptions.optionalStringArray(forOption: "sorted", in: optionsDict, rule: rule)
         innerGroupOrder = XcodeProjectNavigatorOptions.orderedGroupTypes(forOption: "inner_group_order", in: optionsDict, rule: rule)
         structure = XcodeProjectNavigatorOptions.orderedStructure(forOption: "structure", in: optionsDict, rule: rule)
 
