@@ -237,6 +237,8 @@ struct XcodeProjectNavigatorRule: Rule {
             }
         }
 
+        // TODO: also make sure the given order within the structure is correct
+
         return violations
     }
 
