@@ -11,6 +11,7 @@ Name | Identifier | Correctable? | Description
 [File Content Template](#file-content-template) | `file_content_template` | no | Specify files which must or must not match a file template.
 [File Existence](#file-existence) | `file_existence` | no | Specify files which must or must not exist.
 [Xcode Build Phases](#xcode-build-phases) | `xcode_build_phases` | no | Specify build phases that need to exist and have same content.
+[Xcode Project Navigator](#xcode-project-navigator) | `xcode_build_phases` | no | Specify how the project navigator should be structured.
 
 
 ## Rule Options
@@ -146,6 +147,66 @@ rules:
           else
               echo "warning: SwiftLint not installed, download it from https://github.com/realm/SwiftLint"
           fi
+```
+
+</details>
+
+### Xcode Project Navigator
+
+Option | Type | Required? | Description
+--- | --- | --- | ---
+`project_path` | `String` | yes | The (relative) path to the `.xcodeproj` file.
+`sorted` | `[String]` | no | The group paths to check recursively for sorted entries (aware of inner_group_order).
+`inner_group_order` | `[String OR [String]]` | yes | The order of types within groups. Available types: `interfaces`, `code_files`, `assets`, `strings`, `folders`, `plists`, `entitlements`, `others`.
+`structure` | `[String: Any]` | yes | The structure of files and folders to check for their existence.
+
+<details>
+<summary>Example</summary>
+
+```yaml
+rules:
+  - xcode_project_navigator:
+      project_path: AmazingApp.xcodeproj
+      sorted:
+        - App/Sources
+        - App/Generated
+        - Tests/Sources
+        - UITests/Sources/
+      inner_group_order:
+        - assets
+        - entitlements
+        - plists
+        - strings
+        - others
+        - [code_files, interfaces]
+        - folders
+      structure:
+        - App:
+            - Sources:
+                - AppDelegate.swift
+                - Globals:
+                    - Extensions
+            - Resources:
+                - Colors.xcassets
+                - Images.xcassets
+                - Localizable.strings
+                - Fonts
+            - SupportingFiles:
+                - LaunchScreen.storyboard
+                - Info.plist
+        - Tests:
+            - Sources
+            - Resources
+            - SupportingFiles:
+                - Info.plist
+        - UITests:
+            - Sources
+            - Resources
+            - SupportingFiles:
+                - Info.plist
+        - Extensions
+        - Frameworks
+        - Products
 ```
 
 </details>
