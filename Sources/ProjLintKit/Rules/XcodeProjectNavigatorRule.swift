@@ -83,8 +83,12 @@ struct XcodeProjectNavigatorRule: Rule {
         var currentGroup: PBXGroup = try! pbxproj.rootGroup()!
 
         for pathComponent in pathComponents.dropLast() {
-            guard let groupChildren = children(of: currentGroup, pbxproj: pbxproj) as? [PBXGroup] else { return false }
-            currentGroup = groupChildren.first { $0.path == pathComponent || $0.name == pathComponent }!
+            print("pathComponetnts is \(pathComponents) - current is \(pathComponent)")
+            let groupChildren = children(of: currentGroup, pbxproj: pbxproj)
+            currentGroup = groupChildren.first { candidate in
+                guard let group = candidate as? PBXGroup else { return false }
+                return group.path == pathComponent || group.name == pathComponent
+            } as! PBXGroup
         }
 
         return children(of: currentGroup, pbxproj: pbxproj).contains { found in
