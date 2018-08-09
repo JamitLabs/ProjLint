@@ -22,16 +22,118 @@ struct XcodeProjectNavigatorRule: Rule {
             exit(EXIT_FAILURE)
         }
 
+        // find structure violations
         violations += self.violations(for: options.structure, in: xcodeProj.pbxproj, parentPathComponents: [])
-        // TODO: make sure order is like defined in structure
 
-        if options.sorted {
-            // TODO: make sure all files are sorted by name & type order
-        } else {
-            // TODO: make sure type order within groups is correct
+        guard let rootGroup = try? xcodeProj.pbxproj.rootGroup()! else {
+            print("Could not read root group for file at path '\(absolutePathUrl.path)'.", level: .error)
+            exit(EXIT_FAILURE)
+        }
+
+        // find group content order & sorting violations
+        violations += self.orderViolations(forChildrenIn: rootGroup, pbxproj: xcodeProj.pbxproj, parentPathComponents: [])
+
+        return violations
+    }
+
+    private func orderViolations(forChildrenIn group: PBXGroup, pbxproj: PBXProj, parentPathComponents: [String]) -> [Violation] {
+        var violations = [Violation]()
+        let children = self.children(of: group, pbxproj: pbxproj)
+
+        var lastMatchingIndex = -1
+        for expectedGroupTypes in options.innerGroupOrder {
+            var potentialViolatingIndexes = [Int]()
+
+            let startIndex = lastMatchingIndex + 1
+            for index in (startIndex ..< children.count) {
+                let groupType = self.groupType(for: children[index])
+                if expectedGroupTypes.contains(groupType) {
+                    lastMatchingIndex = index
+                } else {
+                    potentialViolatingIndexes.append(index)
+                }
+            }
+
+            let violatingIndexes = potentialViolatingIndexes.filter { $0 < lastMatchingIndex }
+            for violatingIndex in violatingIndexes {
+                let groupType = self.groupType(for: children[violatingIndex]).rawValue
+                let expected = expectedGroupTypes.map { $0.rawValue }.joined(separator: ",")
+                let name = self.name(for: children[violatingIndex])
+                let path = (parentPathComponents + [name]).joined(separator: "/")
+
+                violations.append(
+                    FileViolation(
+                        rule: self,
+                        message: "The '\(groupType)' entry '\(path)' should not be placed amongst the group type(s) '\(expected)'.",
+                        level: defaultViolationLevel,
+                        path: options.projectPath
+                    )
+                )
+            }
+        }
+
+        let groupChildren = self.groupChildren(of: group, pbxproj: pbxproj)
+        for group in groupChildren {
+            violations += self.orderViolations(forChildrenIn: group, pbxproj: pbxproj, parentPathComponents: parentPathComponents + [name(for: group)])
         }
 
         return violations
+    }
+
+    private func name(for element: Any) -> String {
+        switch element {
+        case let group as PBXGroup:
+            return group.path ?? group.name!
+
+        case let fileElement as PBXFileElement:
+            return fileElement.path ?? fileElement.name!
+
+        default:
+            print("Found unexpected type in project group children.", level: .error)
+            exit(EXIT_FAILURE)
+        }
+    }
+
+    private func groupType(for element: Any) -> XcodeProjectNavigatorOptions.GroupType {
+        if element is PBXGroup && !(element is PBXVariantGroup) {
+            return .folder
+        }
+
+        let name = self.name(for: element)
+
+        if name == "beak.swift" {
+            return .other
+        }
+
+        if name.hasSuffix(".swift") || name.hasSuffix(".h") || name.hasSuffix(".m") || name.hasSuffix(".mm") {
+            return .codeFile
+        }
+
+        if name.hasSuffix(".storyboard") || name.hasSuffix(".xib") {
+            return .interface
+        }
+
+        if name.hasSuffix(".xcassets") {
+            return .assets
+        }
+
+        if name.hasSuffix(".strings") || name.hasSuffix(".stringsdict") {
+            return .strings
+        }
+
+        if name.hasSuffix(".entitlements") {
+            return .entitlement
+        }
+
+        if name.hasSuffix(".plist") {
+            return .plist
+        }
+
+        return .other
+    }
+
+    private func groupChildren(of group: PBXGroup, pbxproj: PBXProj) -> [PBXGroup] {
+        return children(of: group, pbxproj: pbxproj).filter { !($0 is PBXVariantGroup) }.compactMap { $0 as? PBXGroup }
     }
 
     private func children(of group: PBXGroup, pbxproj: PBXProj) -> [Any] {
@@ -83,19 +185,12 @@ struct XcodeProjectNavigatorRule: Rule {
         var currentGroup: PBXGroup = try! pbxproj.rootGroup()!
 
         for pathComponent in pathComponents.dropLast() {
-            print("pathComponetnts is \(pathComponents) - current is \(pathComponent)")
-            let groupChildren = children(of: currentGroup, pbxproj: pbxproj)
-            currentGroup = groupChildren.first { candidate in
-                guard let group = candidate as? PBXGroup else { return false }
-                return group.path == pathComponent || group.name == pathComponent
-            } as! PBXGroup
+            let groupChildren = self.groupChildren(of: currentGroup, pbxproj: pbxproj)
+            currentGroup = groupChildren.first { $0.path == pathComponent || $0.name == pathComponent }!
         }
 
         return children(of: currentGroup, pbxproj: pbxproj).contains { found in
             switch found {
-            case let variantGroup as PBXVariantGroup:
-                return variantGroup.path ?? variantGroup.name == pathComponents.last!
-
             case let group as PBXGroup:
                 return group.path ?? group.name == pathComponents.last!
 

@@ -5,9 +5,11 @@ class XcodeProjectNavigatorOptions: RuleOptions {
     enum GroupType: String {
         case interface = "interfaces"
         case codeFile = "code_files"
-        case asset = "assets"
-        case string = "strings"
+        case assets = "assets"
+        case strings = "strings"
         case folder = "folders"
+        case plist = "plists"
+        case entitlement = "entitlements"
         case other = "others"
     }
 
