@@ -1,3 +1,4 @@
+import Difference
 import Foundation
 import HandySwift
 import xcodeproj
@@ -71,10 +72,13 @@ struct XcodeProjectNavigatorRule: Rule {
                 let expected = expectedGroupTypes.map { $0.rawValue }.joined(separator: ",")
                 let parentPath = parentPathComponents.joined(separator: "/")
 
+                let difference = diff(sortedChildrenNames, childrenNames)
+
                 let message = """
                     Entries of type(s) '\(expected)' in group '\(parentPath)' are not sorted by name.
-                    Found: \(childrenNames)
-                    Expected:\(sortedChildrenNames)
+                    Found:\n\(childrenNames)
+                    Expected:\n\(sortedChildrenNames)
+                    Difference:\n\(difference.joined())
                     """
                 violations.append(
                     FileViolation(

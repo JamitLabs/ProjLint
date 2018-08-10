@@ -20,12 +20,12 @@
         }
       },
       {
-        "package": "Differ",
-        "repositoryURL": "https://github.com/tonyarnold/Differ.git",
+        "package": "Difference",
+        "repositoryURL": "https://github.com/krzysztofzablocki/Difference.git",
         "state": {
-          "branch": null,
-          "revision": "a3252fbc44b6fbc2a87539dc555a8e014233fe20",
-          "version": "1.2.3"
+          "branch": "master",
+          "revision": "996c2d6ec8ef6098f56537c55bc51fbeb582bd82",
+          "version": null
         }
       },
       {
@@ -96,7 +96,7 @@
         "repositoryURL": "https://github.com/tuist/xcodeproj.git",
         "state": {
           "branch": "master",
-          "revision": "bd370fcf0b75875b09bdb83bf5287b755f224b1b",
+          "revision": "6729587344efca8498841d62539d87ea299e92ed",
           "version": null
         }
       },

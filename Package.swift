@@ -10,7 +10,7 @@ let package = Package(
     ],
     dependencies: [
         .package(url: "https://github.com/kiliankoe/CLISpinner.git", .upToNextMinor(from: "0.3.5")),
-        .package(url: "https://github.com/tonyarnold/Differ.git", .upToNextMajor(from: "1.2.3")),
+        .package(url: "https://github.com/krzysztofzablocki/Difference.git", .branch("master")),
         .package(url: "https://github.com/Flinesoft/HandySwift.git", .upToNextMajor(from: "2.6.0")),
         .package(url: "https://github.com/onevcat/Rainbow.git", .upToNextMajor(from: "3.1.4")),
         .package(url: "https://github.com/stencilproject/Stencil.git", .upToNextMajor(from: "0.11.0")),
@@ -27,7 +27,7 @@ let package = Package(
             name: "ProjLintKit",
             dependencies: [
                 "CLISpinner",
-                "Differ",
+                "Difference",
                 "HandySwift",
                 "Rainbow",
                 "Stencil",
