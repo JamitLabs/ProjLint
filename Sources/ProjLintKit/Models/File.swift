@@ -24,8 +24,8 @@ class File {
             } else {
                 let (dataOptional, _, errorOptional) = Globals.session.syncDataTask(with: url)
 
-                if let error = errorOptional as? URLError, error.code == .timedOut {
-                    return Globals.requestTimedOut
+                if let error = errorOptional as? URLError, Globals.networkErrorCodes.contains(error.code) {
+                    return Globals.networkErrorFakeString
                 }
 
                 guard let data = dataOptional, let contents = String(data: data, encoding: .utf8) else {

@@ -65,9 +65,9 @@ The TranslationManager provides the following sub commands:
 **Lint-only Flags:**
 - `--xcode`, `-x`: Output are done in a format that is compatible with Xcode – for usage in Build Scripts.
 - `--timeout`, `-t`: Seconds to wait for network requests until skipped.
-- `--ignore-timeouts`, `-i`: Ignores if network requests time out without reporting errors/warnings.
+- `--ignore-network-errors`, `-i`: Ignores network timeouts or missing network connection errors.
 
-NOTE: It is recommended to set the options `--timeout 2` and `--ignore-timeouts` if you plan to run `projlint lint` automatically on every build. Otherwise your build time might increase significantly on bad internet connections.
+NOTE: It is recommended to set the options `--timeout 2` and `--ignore-network-errors` if you plan to run `projlint lint` automatically on every build. Otherwise your build time might increase significantly on bad/missing internet connections.
 
 ### Configuration
 

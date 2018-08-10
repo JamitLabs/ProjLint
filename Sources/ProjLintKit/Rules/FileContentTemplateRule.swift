@@ -22,17 +22,13 @@ struct FileContentTemplateRule: Rule {
             let file = File(at: url)
             let templateFile = File(at: templateWithParams.url)
 
-            guard templateFile.contents != Globals.requestTimedOut else {
-                if Globals.ignoreTimeouts {
-                    let message = """
-                        Skipped rule \(FileContentRegexRule.identifier) for file '\(url.path)'. Reason:
-                        Request to '\(templateWithParams.url)' timed out after \(Globals.timeout) seconds.
-                        """
-                    print(message, level: .info)
+            guard templateFile.contents != Globals.networkErrorFakeString else {
+                if Globals.ignoreNetworkErrors {
+                    print("Skipped rule \(FileContentRegexRule.identifier) for file '\(url.path)'. Request resulted in a network error.", level: .info)
                     continue
                 }
 
-                print("Could not load contents of file '\(templateWithParams.url)' – the request timed out after \(Globals.timeout) seconds.", level: .error)
+                print("Could not load contents of file '\(templateWithParams.url)' – the request resultes in a network error.", level: .error)
                 exit(EXIT_FAILURE)
             }
 

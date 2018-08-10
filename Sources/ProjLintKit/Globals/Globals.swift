@@ -10,7 +10,8 @@ enum Globals {
         configuration.timeoutIntervalForResource = timeout
         return URLSession(configuration: configuration, delegate: nil, delegateQueue: nil)
     }
-    static var ignoreTimeouts: Bool = false
+    static var ignoreNetworkErrors: Bool = false
 
-    static let requestTimedOut = "#!-REQEUST_TIMED_OUT-!#"
+    static let networkErrorCodes: [URLError.Code] = [.notConnectedToInternet, .timedOut]
+    static let networkErrorFakeString = "#!-NETWORK_ERROR-!#"
 }

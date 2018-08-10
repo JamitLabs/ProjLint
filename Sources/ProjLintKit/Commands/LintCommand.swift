@@ -8,7 +8,7 @@ public class LintCommand: Command {
 
     public let xcode = Flag("-x", "--xcode", description: "Output are done in a format that is compatible with Xcode")
     public let timeout = Key<Double>("-t", "--timeout", description: "Seconds to wait for network requests until skipped")
-    public let ignoreTimeouts = Flag("-i", "--ignore-timeouts", description: "Ignores if network requests time out without reporting errors/warnings")
+    public let ignoreNetworkErrors = Flag("-i", "--ignore-network-errors", description: "Ignores network timeouts or missing network connection errors")
 
     // MARK: - Initializers
     public init() {}
@@ -23,8 +23,8 @@ public class LintCommand: Command {
             Globals.timeout = timeout
         }
 
-        if ignoreTimeouts.value {
-            Globals.ignoreTimeouts = true
+        if ignoreNetworkErrors.value {
+            Globals.ignoreNetworkErrors = true
         }
 
         print("Started linting current directory...", level: .info)
