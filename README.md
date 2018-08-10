@@ -56,8 +56,14 @@ $ mint update JamitLabs/ProjLint@stable projlint
 ## Usage
 
 The TranslationManager provides the following sub commands:
-- **`lint`**: Lints the current directory and shows warnings and errors as console output.
+- **`lint`**: Lints the current directory and shows warnings and errors as console output. Has option `--xcode` (or `-x`) to show warnings/errors within Xcodes project navigator.
 - **`correct`**: Corrects all correctable violations in the current directory.
+
+**Shared Flags:**
+- `--verbose`, `-v`: Prints out more detailed information about steps taken.
+
+**Lint-only Flags:**
+- `--xcode`, `-x`: Output are done in a format that is compatible with Xcode – for usage in Build Scripts.
 
 ### Configuration
 

@@ -1,3 +1,4 @@
+import Foundation
 import ProjLintKit
 import SwiftCLI
 

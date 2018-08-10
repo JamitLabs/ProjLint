@@ -6,11 +6,17 @@ public class LintCommand: Command {
     public let name: String = "lint"
     public let shortDescription: String = "Lints the current directory and shows warnings and errors as console output"
 
+    public let xcode = Flag("-x", "--xcode", description: "Output are done in a format that is compatible with Xcode")
+
     // MARK: - Initializers
     public init() {}
 
     // MARK: - Instance Methods
     public func execute() throws {
+        if xcode.value {
+            outputFormatTarget = .xcode
+        }
+
         print("Started linting current directory...", level: .info)
         let currentDirectoryUrl = URL(fileURLWithPath: FileManager.default.currentDirectoryPath)
         let configuration = ConfigurationManager.loadConfiguration()
