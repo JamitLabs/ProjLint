@@ -8,8 +8,8 @@
         <img src="https://app.bitrise.io/app/0b051a51c12124b7/status.svg?token=riIJ81rKJYiKLNufYx7BZQ&branch=stable"
              alt="Build Status">
     </a>
-    <a href="https://codebeat.co/projects/github-com-jamitlabs-projlint">
-        <img src="https://codebeat.co/badges/<TODO>"
+    <a href="https://codebeat.co/projects/github-com-jamitlabs-projlint-stable">
+        <img src="https://codebeat.co/badges/721facf6-3505-48b1-ba3b-ae5cef9a3bf8"
              alt="Codebeat Badge">
     </a>
     <a href="https://github.com/JamitLabs/ProjLint/releases">
