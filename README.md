@@ -49,13 +49,13 @@ Project Linter to lint & autocorrect your non-code best practices.
 To **install** ProjLint simply run this command:
 
 ```shell
-$ mint install JamitLabs/ProjLint@stable projlint
+$ mint install JamitLabs/ProjLint
 ```
 
 To **update** to the newest version of TranslationManager when you have an old version already installed run:
 
 ```shell
-$ mint update JamitLabs/ProjLint@stable projlint
+$ mint update JamitLabs/ProjLint
 ```
 
 ## Usage
