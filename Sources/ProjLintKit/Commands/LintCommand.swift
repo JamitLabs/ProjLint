@@ -7,6 +7,8 @@ public class LintCommand: Command {
     public let shortDescription: String = "Lints the current directory and shows warnings and errors as console output"
 
     public let xcode = Flag("-x", "--xcode", description: "Output are done in a format that is compatible with Xcode")
+    public let timeout = Key<Double>("-t", "--timeout", description: "Seconds to wait for network requests until skipped")
+    public let ignoreTimeouts = Flag("-i", "--ignore-timeouts", description: "Ignores if network requests time out without reporting errors/warnings")
 
     // MARK: - Initializers
     public init() {}
@@ -14,7 +16,15 @@ public class LintCommand: Command {
     // MARK: - Instance Methods
     public func execute() throws {
         if xcode.value {
-            outputFormatTarget = .xcode
+            Globals.outputFormatTarget = .xcode
+        }
+
+        if let timeout = timeout.value {
+            Globals.timeout = timeout
+        }
+
+        if ignoreTimeouts.value {
+            Globals.ignoreTimeouts = true
         }
 
         print("Started linting current directory...", level: .info)

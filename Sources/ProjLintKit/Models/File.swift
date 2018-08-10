@@ -14,10 +14,28 @@ class File {
     }
 
     private func loadContents() -> String {
-        guard let contents = try? String(contentsOf: url, encoding: .utf8) else {
-            print("Could not load contents of file '\(url)'.", level: .error)
-            exit(EXIT_FAILURE)
-        }
+        let contents: String = {
+            if url.isFileURL {
+                guard let contents = try? String(contentsOf: url, encoding: .utf8) else {
+                    print("Could not load contents of file '\(url)'.", level: .error)
+                    exit(EXIT_FAILURE)
+                }
+                return contents
+            } else {
+                let (dataOptional, _, errorOptional) = Globals.session.syncDataTask(with: url)
+
+                if let error = errorOptional as? URLError, error.code == .timedOut {
+                    return Globals.requestTimedOut
+                }
+
+                guard let data = dataOptional, let contents = String(data: data, encoding: .utf8) else {
+                    print("Could not load contents of file '\(url)'. Error: \(String(describing: errorOptional))", level: .error)
+                    exit(EXIT_FAILURE)
+                }
+
+                return contents
+            }
+        }()
 
         self.cachedContents = contents
         return contents

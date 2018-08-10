@@ -32,10 +32,8 @@ enum OutputFormatTarget {
     case xcode
 }
 
-var outputFormatTarget: OutputFormatTarget = .human
-
 func print(_ message: String, level: PrintLevel, file: String? = nil, line: Int? = nil) {
-    switch outputFormatTarget {
+    switch Globals.outputFormatTarget {
     case .human:
         humanPrint(message, file: file, line: line, level: level)
 

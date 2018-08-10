@@ -64,6 +64,10 @@ The TranslationManager provides the following sub commands:
 
 **Lint-only Flags:**
 - `--xcode`, `-x`: Output are done in a format that is compatible with Xcode – for usage in Build Scripts.
+- `--timeout`, `-t`: Seconds to wait for network requests until skipped.
+- `--ignore-timeouts`, `-i`: Ignores if network requests time out without reporting errors/warnings.
+
+NOTE: It is recommended to set the options `--timeout 2` and `--ignore-timeouts` if you plan to run `projlint lint` automatically on every build. Otherwise your build time might increase significantly on bad internet connections.
 
 ### Configuration
 
@@ -95,14 +99,17 @@ A list of all currently available rules and their options can be found in the [R
 
 ```yaml
 rules:
-  - file_existence: # rule with options
-      forced_violation_level: warning
-      paths: # note the additional indentation
+  - file_existence: # rule identifier
+      forced_violation_level: warning # override default option
+      paths: # note the additional indentation # rule option
         - .swiftlint.yml
         - README.md
         - CONTRIBUTING.md
         - CHANGELOG.md
-  - another_rule # rule without options
+  - file_content_template: #rule identifier
+      matching: # rule option
+        .swiftlint.yml:
+          template_url: "https://github.com/User/Templates/blob/stable/SwiftLint.stencil"
 ```
 
 

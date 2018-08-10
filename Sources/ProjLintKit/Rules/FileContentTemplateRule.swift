@@ -21,6 +21,21 @@ struct FileContentTemplateRule: Rule {
             let url = URL(fileURLWithPath: path)
             let file = File(at: url)
             let templateFile = File(at: templateWithParams.url)
+
+            guard templateFile.contents != Globals.requestTimedOut else {
+                if Globals.ignoreTimeouts {
+                    let message = """
+                        Skipped rule \(FileContentRegexRule.identifier) for file '\(url.path)'. Reason:
+                        Request to '\(templateWithParams.url)' timed out after \(Globals.timeout) seconds.
+                        """
+                    print(message, level: .info)
+                    continue
+                }
+
+                print("Could not load contents of file '\(templateWithParams.url)' – the request timed out after \(Globals.timeout) seconds.", level: .error)
+                exit(EXIT_FAILURE)
+            }
+
             let template = Template(templateString: templateFile.contents)
             guard let expectedFileContents = try? template.render(templateWithParams.parameters) else {
                 print("Could not render template at path '\(templateFile.url)'.", level: .error)
