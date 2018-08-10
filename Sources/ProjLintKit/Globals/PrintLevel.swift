@@ -56,10 +56,10 @@ private func humanPrint(_ message: String, file: String? = nil, line: Int? = nil
         print("ℹ️ ", message.lightBlue)
 
     case .warning:
-        print("⚠️ Warning: ", message.yellow)
+        print("⚠️ ", message.yellow)
 
     case .error:
-        print("❌ Error: ", message.red)
+        print("❌ ", message.red)
     }
 }
 
