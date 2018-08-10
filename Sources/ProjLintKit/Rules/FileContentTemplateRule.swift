@@ -1,4 +1,3 @@
-import Differ
 import Foundation
 import HandySwift
 import Stencil
