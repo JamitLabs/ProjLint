@@ -30,13 +30,15 @@ extension FileContentRegexRuleTests {
 
 extension FileContentTemplateOptionsTests {
     static var allTests: [(String, (FileContentTemplateOptionsTests) -> () throws -> Void)] = [
-        ("testInitWithMatchingPathTemplate", testInitWithMatchingPathTemplate)
+        ("testInitWithMatchingPathTemplateViaPath", testInitWithMatchingPathTemplateViaPath),
+        ("testInitWithMatchingPathTemplateViaURL", testInitWithMatchingPathTemplateViaURL)
     ]
 }
 
 extension FileContentTemplateRuleTests {
     static var allTests: [(String, (FileContentTemplateRuleTests) -> () throws -> Void)] = [
-        ("testMatchingPathTemplate", testMatchingPathTemplate)
+        ("testMatchingPathTemplateViaPath", testMatchingPathTemplateViaPath),
+        ("testMatchingPathTemplateViaURL", testMatchingPathTemplateViaURL)
     ]
 }
 
@@ -54,11 +56,39 @@ extension FileExistenceRuleTests {
     ]
 }
 
+extension XcodeBuildPhasesOptionsTests {
+    static var allTests: [(String, (XcodeBuildPhasesOptionsTests) -> () throws -> Void)] = [
+        ("testInitWithAllOptions", testInitWithAllOptions)
+    ]
+}
+
+extension XcodeBuildPhasesRuleTests {
+    static var allTests: [(String, (XcodeBuildPhasesRuleTests) -> () throws -> Void)] = [
+        ("testAllOptions", testAllOptions)
+    ]
+}
+
+extension XcodeProjectNavigatorOptionsTests {
+    static var allTests: [(String, (XcodeProjectNavigatorOptionsTests) -> () throws -> Void)] = [
+        ("testInitWithAllOptions", testInitWithAllOptions)
+    ]
+}
+
+extension XcodeProjectNavigatorRuleTests {
+    static var allTests: [(String, (XcodeProjectNavigatorRuleTests) -> () throws -> Void)] = [
+        ("testWithAllOptions", testWithAllOptions)
+    ]
+}
+
 XCTMain([
     testCase(FileContentRegexOptionsTests.allTests),
     testCase(FileContentRegexRuleTests.allTests),
     testCase(FileContentTemplateOptionsTests.allTests),
     testCase(FileContentTemplateRuleTests.allTests),
     testCase(FileExistenceOptionsTests.allTests),
-    testCase(FileExistenceRuleTests.allTests)
+    testCase(FileExistenceRuleTests.allTests),
+    testCase(XcodeBuildPhasesOptionsTests.allTests),
+    testCase(XcodeBuildPhasesRuleTests.allTests),
+    testCase(XcodeProjectNavigatorOptionsTests.allTests),
+    testCase(XcodeProjectNavigatorRuleTests.allTests)
 ])
