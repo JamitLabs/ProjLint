@@ -1,4 +1,9 @@
 <p align="center">
+    <img src="https://raw.githubusercontent.com/JamitLabs/ProjLint/stable/Logo.png"
+      width=600>
+</p>
+
+<p align="center">
     <a href="https://app.bitrise.io/app/0b051a51c12124b7">
         <img src="https://app.bitrise.io/app/0b051a51c12124b7/status.svg?token=riIJ81rKJYiKLNufYx7BZQ&branch=stable"
              alt="Build Status">
