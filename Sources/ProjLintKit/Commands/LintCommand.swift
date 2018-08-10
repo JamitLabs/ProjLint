@@ -6,7 +6,7 @@ public class LintCommand: Command {
     public let name: String = "lint"
     public let shortDescription: String = "Lints the current directory and shows warnings and errors as console output"
 
-    public let xcode = Flag("-x", "--xcode")
+    public let xcode = Flag("-x", "--xcode", description: "Output are done in a format that is compatible with Xcode")
 
     // MARK: - Initializers
     public init() {}

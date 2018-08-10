@@ -63,7 +63,7 @@ The TranslationManager provides the following sub commands:
 - `--verbose`, `-v`: Prints out more detailed information about steps taken.
 
 **Lint-only Flags:**
-- `--xcode`, `-x`: Output are done in a format that is compatible with Xcode for usage in Build Scripts.
+- `--xcode`, `-x`: Output are done in a format that is compatible with Xcode – for usage in Build Scripts.
 
 ### Configuration
 
