@@ -13,6 +13,6 @@ class Violation {
     }
 
     func logViolation() {
-        print("\(type(of: rule).name) Violation – \(message)", level: level.printLevel) // swiftlint:disable:this leveled_print
+        print("\(type(of: rule).name) Violation – \(message)", level: level.printLevel, file: nil, line: nil)
     }
 }
