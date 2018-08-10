@@ -135,14 +135,7 @@ rules:
 
 ## Contributing
 
-Contributions are welcome. Please just **open an Issue** on GitHub to suggest a new rule or report an error with an existing one. Also feel free to **send a Pull Request** with your suggestion.
-
-When sending a pull request please make sure to:
-- **write tests for your changes** in order to make sure they don't break in the future
-- follow the same syntax and semantic in your **commit messages** (see rationale [here](http://chris.beams.io/posts/git-commit/))
-- add an entry into the `Unreleased` section of the `Changelog.md` file summarizing your change
-
-Note that there is a framework target within the project to make testing easier. You can generate an Xcode project by running `swift package generate-xcodeproj`.
+See the file [CONTRIBUTING.md](https://github.com/JamitLabs/ProjLint/blob/stable/CONTRIBUTING.md).
 
 ## License
 This library is released under the [MIT License](http://opensource.org/licenses/MIT). See LICENSE for details.
