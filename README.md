@@ -61,7 +61,7 @@ $ mint update JamitLabs/ProjLint
 ## Usage
 
 ProjLint provides the following sub commands:
-- **`lint`**: Lints the current directory and shows warnings and errors as console output. Has option `--xcode` (or `-x`) to show warnings/errors within Xcodes project navigator.
+- **`lint`**: Lints the current directory and shows warnings and errors as console output.
 - **`correct`**: Corrects all correctable violations in the current directory.
 
 **Shared Flags:**
