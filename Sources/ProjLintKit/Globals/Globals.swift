@@ -13,5 +13,5 @@ enum Globals {
     static var ignoreNetworkErrors: Bool = false
 
     static let networkErrorCodes: [URLError.Code] = [.notConnectedToInternet, .timedOut]
-    static let networkErrorFakeString = "#!-NETWORK_ERROR-!#"
+    static let networkErrorFakeString: String = "#!-NETWORK_ERROR-!#"
 }

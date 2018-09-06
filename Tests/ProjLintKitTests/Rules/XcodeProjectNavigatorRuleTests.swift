@@ -1,6 +1,8 @@
 @testable import ProjLintKit
 import XCTest
 
+// swiftlint:disable type_body_length line_length multiline_literal_brackets function_body_length
+
 final class XcodeProjectNavigatorRuleTests: XCTestCase {
     let xcprojResource = Resource(
         path: "Example.xcodeproj/project.pbxproj",
@@ -200,7 +202,7 @@ final class XcodeProjectNavigatorRuleTests: XCTestCase {
                 "structure": [
                     "Package.swift",
                     ["App": [
-                        "AppDelegate.swift",
+                        "AppDelegate.swift"
                     ]],
                     ["Tests": [
                         ["SupportingFiles": [

@@ -1,6 +1,8 @@
 @testable import ProjLintKit
 import XCTest
 
+// swiftlint:disable type_body_length line_length
+
 final class XcodeBuildPhasesRuleTests: XCTestCase {
     let xcprojResource = Resource(
         path: "Example.xcodeproj/project.pbxproj",

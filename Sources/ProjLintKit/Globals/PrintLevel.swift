@@ -4,6 +4,11 @@ import Rainbow
 
 // swiftlint:disable leveled_print
 
+enum OutputFormatTarget {
+    case human
+    case xcode
+}
+
 enum PrintLevel {
     case verbose
     case info
@@ -27,22 +32,17 @@ enum PrintLevel {
     }
 }
 
-enum OutputFormatTarget {
-    case human
-    case xcode
-}
-
 func print(_ message: String, level: PrintLevel, file: String? = nil, line: Int? = nil) {
     switch Globals.outputFormatTarget {
     case .human:
-        humanPrint(message, file: file, line: line, level: level)
+        humanPrint(message, level: level, file: file, line: line)
 
     case .xcode:
-        xcodePrint(message, file: file, line: line, level: level)
+        xcodePrint(message, level: level, file: file, line: line)
     }
 }
 
-private func humanPrint(_ message: String, file: String? = nil, line: Int? = nil, level: PrintLevel) {
+private func humanPrint(_ message: String, level: PrintLevel, file: String? = nil, line: Int? = nil) {
     let location = locationInfo(file: file, line: line)
     let message = location != nil ? [location!, message].joined(separator: " ") : message
 
@@ -63,7 +63,7 @@ private func humanPrint(_ message: String, file: String? = nil, line: Int? = nil
     }
 }
 
-private func xcodePrint(_ message: String, file: String? = nil, line: Int? = nil, level: PrintLevel) {
+private func xcodePrint(_ message: String, level: PrintLevel, file: String? = nil, line: Int? = nil) {
     let location = locationInfo(file: file, line: line)
 
     switch level {
@@ -83,7 +83,6 @@ private func xcodePrint(_ message: String, file: String? = nil, line: Int? = nil
             print("info: ProjLint: ", message)
         }
 
-
     case .warning:
         if let location = location {
             print(location, "warning: ProjLint: ", message)
@@ -91,14 +90,12 @@ private func xcodePrint(_ message: String, file: String? = nil, line: Int? = nil
             print("warning: ProjLint: ", message)
         }
 
-
     case .error:
         if let location = location {
             print(location, "error: ProjLint: ", message)
         } else {
             print("error: ProjLint: ", message)
         }
-
     }
 }
 

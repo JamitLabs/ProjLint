@@ -20,6 +20,7 @@ class File {
                     print("Could not load contents of file '\(url)'.", level: .error)
                     exit(EXIT_FAILURE)
                 }
+
                 return contents
             } else {
                 let (dataOptional, _, errorOptional) = Globals.session.syncDataTask(with: url)
