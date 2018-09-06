@@ -30,25 +30,52 @@ enum ConfigurationManager {
             exit(EX_USAGE)
         }
 
-        let sharedVariables: [String: String] = {
+        var sharedVariables: [String: String] = {
             guard let sharedVariables = configDict["shared_variables"] as? [String: String] else { return [:] }
             return sharedVariables
         }()
 
-        let defaultOptionsDict: [String: Any] = {
+        var defaultOptionsDict: [String: Any] = {
             guard let defaultOptionsDict = configDict["default_options"] as? [String: Any] else { return [:] }
             return defaultOptionsDict
         }()
 
+        var ruleEntries: [Any] = configDict["rules"] as? [Any] ?? []
+
+        // override values using local config file if available
+        let localConfigFileUrl = currentDirUrl.appendingPathComponent(".projlint-local.yml")
+
+        if let localConfigContentString = try? String(contentsOf: localConfigFileUrl, encoding: .utf8) {
+            guard let localConfigYaml = try? Yams.load(yaml: localConfigContentString), let localConfigDict = localConfigYaml as? [String: Any] else {
+                print("Could not load local config file. Could not parse as YAML – please check if your file is valid YAML.", level: .error)
+                exit(EX_USAGE)
+            }
+
+            let localSharedVariables: [String: String] = {
+                guard let localSharedVariables = localConfigDict["shared_variables"] as? [String: String] else { return [:] }
+                return localSharedVariables
+            }()
+
+            sharedVariables.merge(localSharedVariables)
+
+            let localDefaultOptionsDict: [String: Any] = {
+                guard let localDefaultOptionsDict = localConfigDict["default_options"] as? [String: Any] else { return [:] }
+                return localDefaultOptionsDict
+            }()
+
+            defaultOptionsDict.merge(localDefaultOptionsDict)
+
+            let localRuleEntries: [Any] = localConfigDict["rules"] as? [Any] ?? []
+            ruleEntries.append(contentsOf: localRuleEntries)
+        }
+
         return Configuration(
             defaultOptions: RuleOptions(defaultOptionsDict, rule: DefaultRule.self),
-            rules: ruleArray(forOption: "rules", in: configDict, sharedVariables: sharedVariables)
+            rules: rules(in: ruleEntries, sharedVariables: sharedVariables)
         )
     }
 
-    private static func ruleArray(forOption optionName: String, in configDict: [String: Any], sharedVariables: [String: String]) -> [Rule] {
-        guard let ruleEntries = configDict[optionName] as? [Any] else { return [] }
-
+    private static func rules(in ruleEntries: [Any], sharedVariables: [String: String]) -> [Rule] {
         var rules = [Rule]()
 
         for ruleEntry in ruleEntries {

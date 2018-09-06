@@ -82,6 +82,8 @@ To configure the checks ProjLint does for you, you need to have a YAML configura
 - [`Rules with Options`](#rules-with-options): The list of rules to check & correct when the appropriate tasks are run with ability to customize them.
 - [`Shared Variables`](#shared-variables): Define String variables to be replaced in rule options using structure `<:var_name:>`.
 
+In addition to the `.projlint.yml` file, you can also place an additional `.projlint-local.yml` file with the same possibilities as in the normal config file. This allows you to share the same `.projlint.yml` file amongst multiple projects and keep them in sync while adding project-specific rules via the `-local` config file. Note that defaults options and shared variables with the same keys in the `-local` file will override those from the normal file.
+
 #### Default Options
 
 The following default options are available:
