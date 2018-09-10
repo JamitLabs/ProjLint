@@ -1,7 +1,9 @@
 import Foundation
 
 extension URLSession {
-    func syncDataTask(with url: URL) -> (Data?, URLResponse?, Error?) {
+    typealias Result = (Data?, URLResponse?, Error?)
+
+    func syncDataTask(with url: URL) -> Result {
         var data: Data?
         var response: URLResponse?
         var error: Error?
@@ -15,8 +17,8 @@ extension URLSession {
 
             semaphore.signal()
         }
-        dataTask.resume()
 
+        dataTask.resume()
         _ = semaphore.wait(timeout: .distantFuture)
 
         return (data, response, error)

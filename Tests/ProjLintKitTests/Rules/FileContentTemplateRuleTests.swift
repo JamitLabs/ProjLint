@@ -95,7 +95,7 @@ final class FileContentTemplateRuleTests: XCTestCase {
             let optionsDict = [
                 "matching": [
                     swiftlintConfigExample.path: [
-                        "template_url": "https://raw.githubusercontent.com/JamitLabs/ProjLint/stable/Resources/SwiftLint.stencil?token=AGnt0DJsNntcNAUusu2XcEkyoEb5T9Plks5bcqqMwA%3D%3D",
+                        "template_url": "https://raw.githubusercontent.com/JamitLabs/ProjLint/stable/Resources/SwiftLint.stencil?token=AGnt0DJsNntcNAUusu2XcEkyoEb5T9Plks5bcqqMwA%3D%3D", // swiftlint:disable:this line_length
                         "parameters": [
                             "additionalRules": ["attributes", "empty_count", "sorted_imports"],
                             "lineLength": "160"
@@ -113,7 +113,7 @@ final class FileContentTemplateRuleTests: XCTestCase {
             let optionsDict = [
                 "matching": [
                     swiftlintConfigExample.path: [
-                        "template_url": "https://raw.githubusercontent.com/JamitLabs/ProjLint/stable/Resources/SwiftLint.stencil?token=AGnt0DJsNntcNAUusu2XcEkyoEb5T9Plks5bcqqMwA%3D%3D",
+                        "template_url": "https://raw.githubusercontent.com/JamitLabs/ProjLint/stable/Resources/SwiftLint.stencil?token=AGnt0DJsNntcNAUusu2XcEkyoEb5T9Plks5bcqqMwA%3D%3D", // swiftlint:disable:this line_length
                         "parameters": [
                             "additionalRules": ["attributes", "sorted_imports", "yoda_condition"],
                             "lineLength": "80"

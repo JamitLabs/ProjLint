@@ -8,13 +8,13 @@
         <img src="https://app.bitrise.io/app/0b051a51c12124b7/status.svg?token=riIJ81rKJYiKLNufYx7BZQ&branch=stable"
              alt="Build Status">
     </a>
-    <a href="https://codebeat.co/projects/github-com-jamitlabs-projlint">
-        <img src="https://codebeat.co/badges/<TODO>"
+    <a href="https://codebeat.co/projects/github-com-jamitlabs-projlint-stable">
+        <img src="https://codebeat.co/badges/721facf6-3505-48b1-ba3b-ae5cef9a3bf8"
              alt="Codebeat Badge">
     </a>
     <a href="https://github.com/JamitLabs/ProjLint/releases">
-        <img src="https://img.shields.io/badge/Version-0.1.0-blue.svg"
-             alt="Version: 0.1.0">
+        <img src="https://img.shields.io/badge/Version-0.1.1-blue.svg"
+             alt="Version: 0.1.1">
     </a>
     <img src="https://img.shields.io/badge/Swift-4.1-FFAC45.svg"
          alt="Swift: 4.1">
@@ -49,19 +49,19 @@ Project Linter to lint & autocorrect your non-code best practices.
 To **install** ProjLint simply run this command:
 
 ```shell
-$ mint install JamitLabs/ProjLint@stable projlint
+$ mint install JamitLabs/ProjLint
 ```
 
 To **update** to the newest version of TranslationManager when you have an old version already installed run:
 
 ```shell
-$ mint update JamitLabs/ProjLint@stable projlint
+$ mint update JamitLabs/ProjLint
 ```
 
 ## Usage
 
-The TranslationManager provides the following sub commands:
-- **`lint`**: Lints the current directory and shows warnings and errors as console output. Has option `--xcode` (or `-x`) to show warnings/errors within Xcodes project navigator.
+ProjLint provides the following sub commands:
+- **`lint`**: Lints the current directory and shows warnings and errors as console output.
 - **`correct`**: Corrects all correctable violations in the current directory.
 
 **Shared Flags:**
@@ -81,6 +81,8 @@ To configure the checks ProjLint does for you, you need to have a YAML configura
 - [`Default Options`](#default-options): Documented below, these options are applied to all rules unless they override them specifically.
 - [`Rules with Options`](#rules-with-options): The list of rules to check & correct when the appropriate tasks are run with ability to customize them.
 - [`Shared Variables`](#shared-variables): Define String variables to be replaced in rule options using structure `<:var_name:>`.
+
+In addition to the `.projlint.yml` file, you can also place an additional `.projlint-local.yml` file with the same possibilities as in the normal config file. This allows you to share the same `.projlint.yml` file amongst multiple projects and keep them in sync while adding project-specific rules via the `-local` config file. Note that defaults options and shared variables with the same keys in the `-local` file will override those from the normal file.
 
 #### Default Options
 
@@ -135,14 +137,7 @@ rules:
 
 ## Contributing
 
-Contributions are welcome. Please just **open an Issue** on GitHub to suggest a new rule or report an error with an existing one. Also feel free to **send a Pull Request** with your suggestion.
-
-When sending a pull request please make sure to:
-- **write tests for your changes** in order to make sure they don't break in the future
-- follow the same syntax and semantic in your **commit messages** (see rationale [here](http://chris.beams.io/posts/git-commit/))
-- add an entry into the `Unreleased` section of the `Changelog.md` file summarizing your change
-
-Note that there is a framework target within the project to make testing easier. You can generate an Xcode project by running `swift package generate-xcodeproj`.
+See the file [CONTRIBUTING.md](https://github.com/JamitLabs/ProjLint/blob/stable/CONTRIBUTING.md).
 
 ## License
 This library is released under the [MIT License](http://opensource.org/licenses/MIT). See LICENSE for details.
