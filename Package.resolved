@@ -6,8 +6,8 @@
         "repositoryURL": "https://github.com/tadija/AEXML.git",
         "state": {
           "branch": null,
-          "revision": "6eea665515d079c338690147082a8084a36484b0",
-          "version": "4.3.0"
+          "revision": "54bb8ea6fb693dd3f92a89e5fcc19e199fdeedd0",
+          "version": "4.3.3"
         }
       },
       {
@@ -69,8 +69,8 @@
         "repositoryURL": "https://github.com/stencilproject/Stencil.git",
         "state": {
           "branch": null,
-          "revision": "c2e25f25acfbe24442809c055141d8323af8f6cc",
-          "version": "0.11.0"
+          "revision": "b476e50f89577f5848e8013dbf0a850abac892aa",
+          "version": "0.12.1"
         }
       },
       {
@@ -87,17 +87,17 @@
         "repositoryURL": "https://github.com/jakeheis/SwiftCLI",
         "state": {
           "branch": null,
-          "revision": "694a1ab7c3db539b095aaeed7bc4bf774a12bdce",
-          "version": "5.1.3"
+          "revision": "37f4a7f863f6fe76ce44fc0023f331eea0089beb",
+          "version": "5.2.0"
         }
       },
       {
         "package": "xcodeproj",
         "repositoryURL": "https://github.com/tuist/xcodeproj.git",
         "state": {
-          "branch": "master",
-          "revision": "6729587344efca8498841d62539d87ea299e92ed",
-          "version": null
+          "branch": null,
+          "revision": "929fa456244d6c44d702ba711571c4b2972cf674",
+          "version": "5.2.0"
         }
       },
       {
@@ -105,8 +105,8 @@
         "repositoryURL": "https://github.com/jpsim/Yams.git",
         "state": {
           "branch": null,
-          "revision": "618582e09699b577fa183bab7d88e3ee7d9a1d19",
-          "version": "1.0.0"
+          "revision": "26ab35f50ea891e8edefcc9d975db2f6b67e1d68",
+          "version": "1.0.1"
         }
       }
     ]

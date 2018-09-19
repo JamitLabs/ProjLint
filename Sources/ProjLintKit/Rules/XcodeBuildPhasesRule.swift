@@ -28,7 +28,7 @@ struct XcodeBuildPhasesRule: Rule {
         }
 
         let allRunScriptsDict = xcodeProj.pbxproj.objects.shellScriptBuildPhases
-        let targetRunScripts = target.buildPhasesReferences.compactMap { allRunScriptsDict[$0] }
+        let targetRunScripts = target.buildPhaseReferences.compactMap { allRunScriptsDict[$0] }
 
         for (name, expectedScript) in options.runScripts {
             guard let runScript = targetRunScripts.first(where: { $0.name == name }) else {
