@@ -22,13 +22,12 @@ struct XcodeBuildPhasesRule: Rule {
             exit(EXIT_FAILURE)
         }
 
-        guard let target = xcodeProj.pbxproj.objects.targets(named: options.targetName).first else {
+        guard let target = xcodeProj.pbxproj.targets(named: options.targetName).first else {
             print("Target with name '\(options.targetName)' could not be found in project \(options.projectPath).", level: .error)
             exit(EXIT_FAILURE)
         }
 
-        let allRunScriptsDict = xcodeProj.pbxproj.objects.shellScriptBuildPhases
-        let targetRunScripts = target.buildPhaseReferences.compactMap { allRunScriptsDict[$0] }
+        let targetRunScripts = target.buildPhases.filter { $0.type() == BuildPhase.runScript } as! [PBXShellScriptBuildPhase]
 
         for (name, expectedScript) in options.runScripts {
             guard let runScript = targetRunScripts.first(where: { $0.name == name }) else {

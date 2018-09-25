@@ -51,7 +51,7 @@ struct XcodeProjectNavigatorRule: Rule {
         var currentGroup: PBXGroup = try! pbxproj.rootGroup()! // swiftlint:disable:this force_try
 
         for pathComponent in parentPathComponents {
-            let groupChildren = self.groupChildren(of: currentGroup, pbxproj: pbxproj)
+            let groupChildren = currentGroup.groupChildren
             guard let newGroup = groupChildren.first(where: { $0.path == pathComponent || $0.name == pathComponent }) else {
                 let path = parentPathComponents.joined(separator: "/")
                 print("Could not find group at path '\(path)' for sort validation in project '\(options.projectPath)'.", level: .error)
@@ -61,7 +61,7 @@ struct XcodeProjectNavigatorRule: Rule {
             currentGroup = newGroup
         }
 
-        let children = self.children(of: currentGroup, pbxproj: pbxproj)
+        let children = currentGroup.children
 
         for expectedGroupTypes in options.innerGroupOrder {
             let childrenOfGroupTypes = children.filter { expectedGroupTypes.contains(groupType(for: $0)) }
@@ -91,8 +91,7 @@ struct XcodeProjectNavigatorRule: Rule {
             }
         }
 
-        let groupChildren = self.groupChildren(of: currentGroup, pbxproj: pbxproj)
-        for group in groupChildren {
+        for group in currentGroup.groupChildren {
             violations += self.sortedViolations(pbxproj: pbxproj, parentPathComponents: parentPathComponents + [name(for: group)])
         }
 
@@ -101,7 +100,7 @@ struct XcodeProjectNavigatorRule: Rule {
 
     private func orderViolations(forChildrenIn group: PBXGroup, pbxproj: PBXProj, parentPathComponents: [String]) -> [Violation] {
         var violations = [Violation]()
-        let children = self.children(of: group, pbxproj: pbxproj)
+        let children = group.children
 
         var lastMatchingIndex = -1
         for expectedGroupTypes in options.innerGroupOrder {
@@ -135,8 +134,7 @@ struct XcodeProjectNavigatorRule: Rule {
             }
         }
 
-        let groupChildren = self.groupChildren(of: group, pbxproj: pbxproj)
-        for group in groupChildren {
+        for group in group.groupChildren {
             violations += self.orderViolations(forChildrenIn: group, pbxproj: pbxproj, parentPathComponents: parentPathComponents + [name(for: group)])
         }
 
@@ -195,16 +193,16 @@ struct XcodeProjectNavigatorRule: Rule {
         return .other
     }
 
-    private func groupChildren(of group: PBXGroup, pbxproj: PBXProj) -> [PBXGroup] {
-        return children(of: group, pbxproj: pbxproj).filter { !($0 is PBXVariantGroup) }.compactMap { $0 as? PBXGroup }
-    }
-
-    private func children(of group: PBXGroup, pbxproj: PBXProj) -> [Any] {
-        let groups = pbxproj.objects.groups
-        let variantGroups = pbxproj.objects.variantGroups
-        let filesReferences = pbxproj.objects.fileReferences
-        return group.childrenReferences.compactMap { groups[$0] ?? variantGroups[$0] ?? filesReferences[$0] }
-    }
+//    private func groupChildren(of group: PBXGroup, pbxproj: PBXProj) -> [PBXGroup] {
+//        return children(of: group, pbxproj: pbxproj).filter { !($0 is PBXVariantGroup) }.compactMap { $0 as? PBXGroup }
+//    }
+//
+//    private func children(of group: PBXGroup, pbxproj: PBXProj) -> [Any] {
+//        let groups = pbxproj.groups
+//        let variantGroups = pbxproj.variantGroups
+//        let filesReferences = pbxproj.fileReferences
+//        return group.children.compactMap { groups[$0] ?? variantGroups[$0] ?? filesReferences[$0] }
+//    }
 
     private func violations(for substructure: [XcodeProjectNavigatorOptions.TreeNode], in pbxproj: PBXProj, parentPathComponents: [String]) -> [Violation] {
         var violations = [Violation]()
@@ -250,21 +248,17 @@ struct XcodeProjectNavigatorRule: Rule {
         var currentGroup: PBXGroup = try! pbxproj.rootGroup()! // swiftlint:disable:this force_try
 
         for pathComponent in pathComponents.dropLast() {
-            let groupChildren = self.groupChildren(of: currentGroup, pbxproj: pbxproj)
+            let groupChildren = currentGroup.groupChildren
             currentGroup = groupChildren.first { $0.path == pathComponent || $0.name == pathComponent }!
         }
 
-        return children(of: currentGroup, pbxproj: pbxproj).contains { found in
+        return currentGroup.children.contains { found in
             switch found {
             case let group as PBXGroup:
                 return group.path ?? group.name == pathComponents.last!
 
-            case let fileElement as PBXFileElement:
-                return fileElement.path ?? fileElement.name == pathComponents.last!
-
             default:
-                print("Found unexpected type in project group children.", level: .error)
-                exit(EXIT_FAILURE)
+                return found.path ?? found.name == pathComponents.last!
             }
         }
     }
