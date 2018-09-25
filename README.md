@@ -35,7 +35,7 @@
 
 # ProjLint
 
-Project Linter to lint & autocorrect your non-code best practices.
+Project Linter to enforce your non-code best practices.
 
 ## Requirements
 
@@ -62,7 +62,6 @@ $ mint update JamitLabs/ProjLint
 
 ProjLint provides the following sub commands:
 - **`lint`**: Lints the current directory and shows warnings and errors as console output.
-- **`correct`**: Corrects all correctable violations in the current directory.
 
 **Shared Flags:**
 - `--verbose`, `-v`: Prints out more detailed information about steps taken.
@@ -97,7 +96,7 @@ All default options can be overridden by specifying a different value within the
 
 ```yaml
 default_options:
-  lint_fail_level: error 
+  lint_fail_level: error
 ```
 
 #### Rules with Options
