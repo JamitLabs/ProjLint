@@ -6,8 +6,8 @@
         "repositoryURL": "https://github.com/tadija/AEXML.git",
         "state": {
           "branch": null,
-          "revision": "54bb8ea6fb693dd3f92a89e5fcc19e199fdeedd0",
-          "version": "4.3.3"
+          "revision": "6eea665515d079c338690147082a8084a36484b0",
+          "version": "4.3.0"
         }
       },
       {
@@ -96,8 +96,8 @@
         "repositoryURL": "https://github.com/tuist/xcodeproj.git",
         "state": {
           "branch": null,
-          "revision": "929fa456244d6c44d702ba711571c4b2972cf674",
-          "version": "5.2.0"
+          "revision": "1314329687682864119ecc03c73a413dfc24ade0",
+          "version": "6.0.1"
         }
       },
       {

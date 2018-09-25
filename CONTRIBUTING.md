@@ -84,16 +84,6 @@ FileManager.default.currentDirectoryPath
 
 To test a specific ProjLint configuration just create a `.projlint.yml` file within that directory and place your example project to check there, too.
 
-#### Debugging failing Tests
-
-For some reason when running the tests of the `ProjLint-Package` scheme Xcode seems to always fail without running any tests. So the tests need to be run from the command line using `swift test`. To debug this way it might be useful to put `print` statements within the code area that is of your interest.
-
-If the tests fail with a crash, you might want to locate the crashing code by placing many of the following line to the crashing rule to find the file and line that was last correctly executed:
-
-```swift
-print("Reached line \(#line) in file \(#file).")
-```
-
 ### Commit Messages
 
 Please also try to follow the same syntax and semantic in your **commit messages** (see rationale [here](http://chris.beams.io/posts/git-commit/)).
