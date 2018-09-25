@@ -13,11 +13,11 @@
              alt="Codebeat Badge">
     </a>
     <a href="https://github.com/JamitLabs/ProjLint/releases">
-        <img src="https://img.shields.io/badge/Version-0.1.2-blue.svg"
-             alt="Version: 0.1.2">
+        <img src="https://img.shields.io/badge/Version-0.1.3-blue.svg"
+             alt="Version: 0.1.3">
     </a>
-    <img src="https://img.shields.io/badge/Swift-4.1-FFAC45.svg"
-         alt="Swift: 4.1">
+    <img src="https://img.shields.io/badge/Swift-4.2-FFAC45.svg"
+         alt="Swift: 4.2">
     <img src="https://img.shields.io/badge/Platforms-macOS%20%7C%20Linux-FF69B4.svg"
         alt="Platforms: macOS | Linux">
     <a href="https://github.com/JamitLabs/ProjLint/blob/stable/LICENSE">
