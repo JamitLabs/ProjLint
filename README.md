@@ -4,8 +4,8 @@
 </p>
 
 <p align="center">
-    <a href="https://app.bitrise.io/app/0b051a51c12124b7">
-        <img src="https://app.bitrise.io/app/0b051a51c12124b7/status.svg?token=riIJ81rKJYiKLNufYx7BZQ&branch=stable"
+    <a href="https://app.bitrise.io/app/a3ce6767dee0a130">
+        <img src="https://app.bitrise.io/app/a3ce6767dee0a130/status.svg?token=YIEEwn72h6tbGA6Zlr6bTQ&branch=stable"
              alt="Build Status">
     </a>
     <a href="https://codebeat.co/projects/github-com-jamitlabs-projlint-stable">
