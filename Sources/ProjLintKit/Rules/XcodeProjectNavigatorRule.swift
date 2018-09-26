@@ -4,6 +4,8 @@ import HandySwift
 import xcodeproj
 
 struct XcodeProjectNavigatorRule: Rule {
+    static let orderExceptionGroups: [String] = ["RootFiles"]
+
     static let name: String = "Xcode Project Navigator"
     static let identifier: String = "xcode_project_navigator"
 
@@ -99,6 +101,8 @@ struct XcodeProjectNavigatorRule: Rule {
     }
 
     private func orderViolations(forChildrenIn group: PBXGroup, pbxproj: PBXProj, parentPathComponents: [String]) -> [Violation] {
+        guard group.name == nil || !XcodeProjectNavigatorRule.orderExceptionGroups.contains(group.name!) else { return [] }
+
         var violations = [Violation]()
         let children = group.children
 
