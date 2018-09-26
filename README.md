@@ -4,8 +4,8 @@
 </p>
 
 <p align="center">
-    <a href="https://app.bitrise.io/app/0b051a51c12124b7">
-        <img src="https://app.bitrise.io/app/0b051a51c12124b7/status.svg?token=riIJ81rKJYiKLNufYx7BZQ&branch=stable"
+    <a href="https://app.bitrise.io/app/a3ce6767dee0a130">
+        <img src="https://app.bitrise.io/app/a3ce6767dee0a130/status.svg?token=YIEEwn72h6tbGA6Zlr6bTQ&branch=stable"
              alt="Build Status">
     </a>
     <a href="https://codebeat.co/projects/github-com-jamitlabs-projlint-stable">
@@ -13,8 +13,8 @@
              alt="Codebeat Badge">
     </a>
     <a href="https://github.com/JamitLabs/ProjLint/releases">
-        <img src="https://img.shields.io/badge/Version-0.1.3-blue.svg"
-             alt="Version: 0.1.3">
+        <img src="https://img.shields.io/badge/Version-0.1.4-blue.svg"
+             alt="Version: 0.1.4">
     </a>
     <img src="https://img.shields.io/badge/Swift-4.2-FFAC45.svg"
          alt="Swift: 4.2">
