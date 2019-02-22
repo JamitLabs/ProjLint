@@ -39,16 +39,31 @@ Project Linter to enforce your non-code best practices.
 
 ## Requirements
 
-- Xcode 9.3+ and Swift 4.1+
+- Xcode 10.1+ and Swift 4.2+
 - Xcode Command Line Tools (see [here](http://stackoverflow.com/a/9329325/3451975) for installation instructions)
 
 ## Installation
+
+### Using [Homebrew](https://brew.sh):
+
+To **install** ProjLint the first time run these commands:
+
+```bash
+brew tap JamitLabs/ProjLint https://github.com/JamitLabs/ProjLint.git
+brew install projlint
+```
+
+To **update** to the latest version run:
+
+```bash
+brew upgrade projlint
+```
 
 ### Using [Mint](https://github.com/yonaskolb/Mint):
 
 To **install** the latest version of ProjLint simply run this command:
 
-```shell
+```bash
 $ mint install JamitLabs/ProjLint
 ```
 
