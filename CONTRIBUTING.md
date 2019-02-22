@@ -10,7 +10,7 @@ This section will tell you how you can get started contributing to ProjLint.
 
 Before you start developing, please make sure you have the following tools installed on your machine:
 
-- Xcode 9.4+
+- Xcode 10.1+
 - [SwiftLint](https://github.com/realm/SwiftLint)
 - [Beak](https://github.com/yonaskolb/Beak)
 - [Sourcery](https://github.com/krzysztofzablocki/Sourcery)

@@ -61,7 +61,7 @@ rules:
   - file_content_template:
       matching:
         .swiftlint.yml:
-          template_url: "https://github.com/User/Templates/blob/stable/SwiftLint.stencil"
+          template_url: "https://raw.githubusercontent.com/JamitLabs/ProjLintTemplates/master/iOS/SwiftLint.stencil"
           parameters:
             additionalRules:
               - attributes
