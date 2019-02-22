@@ -3,7 +3,7 @@ import ProjLintKit
 import SwiftCLI
 
 // MARK: - CLI
-let cli = CLI(name: "projlint", version: "0.1.5", description: "Project Linter to lint & autocorrect your non-code best practices.")
+let cli = CLI(name: "projlint", version: "0.2.0", description: "Project Linter to lint & autocorrect your non-code best practices.")
 
 cli.commands = [LintCommand()]
 cli.globalOptions.append(contentsOf: GlobalOptions.all)
