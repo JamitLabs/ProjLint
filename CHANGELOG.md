@@ -5,5 +5,14 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/) a
 
 ## [Unreleased]
 ### Added
-- Add new rule `file_existence`.
-- Add new rule `file_content_regex`.
+- None.
+### Changed
+- Replaced `lint_fail_level` configuration option with `strict` command line argument. Specify `--strict` or `-s` if you want the tool to fail on warnings.
+### Deprecated
+- None.
+### Removed
+- None.
+### Fixed
+- None.
+### Security
+- None.

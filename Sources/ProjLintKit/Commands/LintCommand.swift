@@ -9,6 +9,7 @@ public class LintCommand: Command {
     public let xcode = Flag("-x", "--xcode", description: "Output are done in a format that is compatible with Xcode")
     public let timeout = Key<Double>("-t", "--timeout", description: "Seconds to wait for network requests until skipped")
     public let ignoreNetworkErrors = Flag("-i", "--ignore-network-errors", description: "Ignores network timeouts or missing network connection errors")
+    public let strict = Flag("-s", "--strict", description: "Exit with non-zero status if any issue is found")
 
     // MARK: - Initializers
     public init() {}
@@ -59,8 +60,7 @@ public class LintCommand: Command {
             print("Linting failed with \(errorViolationsCount) errors and \(warningViolationsCount) warnings in current directory.", level: printLevel)
 
             let shouldFail: Bool = {
-                guard let lintFailLevel = configuration.defaultOptions.lintFailLevel else { return false }
-                guard lintFailLevel != .warning else { return true }
+                guard !strict.value else { return true }
                 return errorViolationsCount > 0
             }()
 

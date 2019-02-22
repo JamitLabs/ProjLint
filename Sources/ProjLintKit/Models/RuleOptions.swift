@@ -5,11 +5,9 @@ import HandySwift
 
 class RuleOptions {
     /// Specifies when the lint command should fail.
-    let lintFailLevel: ViolationLevel?
     let forcedViolationLevel: ViolationLevel?
 
     init(_ optionsDict: [String: Any], rule: Rule.Type) {
-        lintFailLevel = RuleOptions.optionalViolationLevel(forOption: "lint_fail_level", in: optionsDict, rule: rule)
         forcedViolationLevel = RuleOptions.optionalViolationLevel(forOption: "forced_violation_level", in: optionsDict, rule: rule)
     }
 

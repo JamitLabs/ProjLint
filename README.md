@@ -13,8 +13,8 @@
              alt="Codebeat Badge">
     </a>
     <a href="https://github.com/JamitLabs/ProjLint/releases">
-        <img src="https://img.shields.io/badge/Version-0.1.5-blue.svg"
-             alt="Version: 0.1.5">
+        <img src="https://img.shields.io/badge/Version-0.2.0-blue.svg"
+             alt="Version: 0.2.0">
     </a>
     <img src="https://img.shields.io/badge/Swift-4.2-FFAC45.svg"
          alt="Swift: 4.2">
@@ -64,6 +64,7 @@ ProjLint provides the following sub commands:
 - `--xcode`, `-x`: Output are done in a format that is compatible with Xcode – for usage in Build Scripts.
 - `--timeout`, `-t`: Seconds to wait for network requests until skipped.
 - `--ignore-network-errors`, `-i`: Ignores network timeouts or missing network connection errors.
+- `--strict`, `-s`: Exit with non-zero status on warnings, too. (Only for errors by default.)
 
 NOTE: It is recommended to set the options `--timeout 2` and `--ignore-network-errors` if you plan to run `projlint lint` automatically on every build. Otherwise your build time might increase significantly on bad/missing internet connections.
 
@@ -83,14 +84,13 @@ The following default options are available:
 
 Option | Type | Required? | Description
 --- | --- | --- | ---
-`lint_fail_level` | `String` | no | One of `warning` or `error` – specifies when the `lint` command should fail.
 `forced_violation_level` | `String` | no | One of `warning` or `error` – enforces the specified level on all violations.
 
 All default options can be overridden by specifying a different value within the rule options. Here's an example:
 
 ```yaml
 default_options:
-  lint_fail_level: error
+  forced_violation_level: warning
 ```
 
 #### Rules with Options
