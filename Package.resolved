@@ -21,10 +21,10 @@
       },
       {
         "package": "Difference",
-        "repositoryURL": "https://github.com/krzysztofzablocki/Difference.git",
+        "repositoryURL": "https://github.com/Dschee/Difference.git",
         "state": {
           "branch": "master",
-          "revision": "996c2d6ec8ef6098f56537c55bc51fbeb582bd82",
+          "revision": "37018576e3f56c6c63ed9865a211bccefa8bd3e2",
           "version": null
         }
       },
@@ -33,8 +33,8 @@
         "repositoryURL": "https://github.com/Flinesoft/HandySwift.git",
         "state": {
           "branch": null,
-          "revision": "dfa0f27ac41b8f1129581a62d1d65c355cb0b3a3",
-          "version": "2.7.0"
+          "revision": "f736ec0ab264269cd4df91d6a685b4c78292cd76",
+          "version": "2.8.0"
         }
       },
       {
@@ -75,11 +75,11 @@
       },
       {
         "package": "SwiftCLI",
-        "repositoryURL": "https://github.com/jakeheis/SwiftCLI",
+        "repositoryURL": "https://github.com/jakeheis/SwiftCLI.git",
         "state": {
           "branch": null,
-          "revision": "37f4a7f863f6fe76ce44fc0023f331eea0089beb",
-          "version": "5.2.0"
+          "revision": "5318c37d3cacc8780f50b87a8840a6774320ebdf",
+          "version": "5.2.2"
         }
       },
       {
@@ -96,8 +96,8 @@
         "repositoryURL": "https://github.com/tuist/xcodeproj.git",
         "state": {
           "branch": null,
-          "revision": "23da51abd3de3bedaad59a0afbb150b48504b5b0",
-          "version": "6.3.0"
+          "revision": "4d31d2be2532e9213d58cd4e0b15588c5dfae42d",
+          "version": "6.5.0"
         }
       },
       {
