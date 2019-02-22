@@ -13,8 +13,8 @@
              alt="Codebeat Badge">
     </a>
     <a href="https://github.com/JamitLabs/ProjLint/releases">
-        <img src="https://img.shields.io/badge/Version-0.1.4-blue.svg"
-             alt="Version: 0.1.4">
+        <img src="https://img.shields.io/badge/Version-0.1.5-blue.svg"
+             alt="Version: 0.1.5">
     </a>
     <img src="https://img.shields.io/badge/Swift-4.2-FFAC45.svg"
          alt="Swift: 4.2">
