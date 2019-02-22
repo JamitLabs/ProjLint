@@ -1,5 +1,5 @@
-// beak: kareman/SwiftShell @ .upToNextMajor(from: "4.0.1")
-// beak: stencilproject/Stencil @ .upToNextMajor(from: "0.11.0")
+// beak: kareman/SwiftShell @ .upToNextMajor(from: "4.1.2")
+// beak: stencilproject/Stencil @ .upToNextMajor(from: "0.13.1")
 
 import Foundation
 import SwiftShell

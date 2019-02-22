@@ -13,8 +13,8 @@
              alt="Codebeat Badge">
     </a>
     <a href="https://github.com/JamitLabs/ProjLint/releases">
-        <img src="https://img.shields.io/badge/Version-0.1.4-blue.svg"
-             alt="Version: 0.1.4">
+        <img src="https://img.shields.io/badge/Version-0.1.5-blue.svg"
+             alt="Version: 0.1.5">
     </a>
     <img src="https://img.shields.io/badge/Swift-4.2-FFAC45.svg"
          alt="Swift: 4.2">
@@ -46,16 +46,10 @@ Project Linter to enforce your non-code best practices.
 
 ### Using [Mint](https://github.com/yonaskolb/Mint):
 
-To **install** ProjLint simply run this command:
+To **install** the latest version of ProjLint simply run this command:
 
 ```shell
 $ mint install JamitLabs/ProjLint
-```
-
-To **update** to the newest version of TranslationManager when you have an old version already installed run:
-
-```shell
-$ mint update JamitLabs/ProjLint
 ```
 
 ## Usage
@@ -101,13 +95,13 @@ default_options:
 
 #### Rules with Options
 
-A list of all currently available rules and their options can be found in the [Rules.md](https://github.com/JamitLabs/ProjLint/blob/stable/Rules.md) file. The structure of how rules can be configures looks like the following:
+A list of all currently available rules and their options can be found in the [Rules.md](https://github.com/JamitLabs/ProjLint/blob/stable/Rules.md) file. The structure of how rules can be configured looks like the following:
 
 ```yaml
 rules:
   - file_existence: # rule identifier
       forced_violation_level: warning # override default option
-      paths: # note the additional indentation # rule option
+      paths: # rule option (note the additional indentation)
         - .swiftlint.yml
         - README.md
         - CONTRIBUTING.md
@@ -115,9 +109,8 @@ rules:
   - file_content_template: #rule identifier
       matching: # rule option
         .swiftlint.yml:
-          template_url: "https://github.com/User/Templates/blob/stable/SwiftLint.stencil"
+          template_url: "https://raw.githubusercontent.com/JamitLabs/ProjLintTemplates/master/iOS/SwiftLint.stencil"
 ```
-
 
 #### Shared Variables
 

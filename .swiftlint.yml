@@ -65,6 +65,7 @@ opt_in_rules:
 
 disabled_rules:
 - force_cast
+- superfluous_disable_command
 - todo
 - type_name
 
