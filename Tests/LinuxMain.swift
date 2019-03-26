@@ -1,4 +1,4 @@
-// Generated using Sourcery 0.13.1 — https://github.com/krzysztofzablocki/Sourcery
+// Generated using Sourcery 0.15.0 — https://github.com/krzysztofzablocki/Sourcery
 // DO NOT EDIT
 
 @testable import ProjLintKitTests
@@ -37,8 +37,7 @@ extension FileContentTemplateOptionsTests {
 
 extension FileContentTemplateRuleTests {
     static var allTests: [(String, (FileContentTemplateRuleTests) -> () throws -> Void)] = [
-        ("testMatchingPathTemplateViaPath", testMatchingPathTemplateViaPath),
-        ("testMatchingPathTemplateViaURL", testMatchingPathTemplateViaURL)
+        ("testMatchingPathTemplateViaPath", testMatchingPathTemplateViaPath)
     ]
 }
 
