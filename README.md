@@ -13,11 +13,11 @@
              alt="Codebeat Badge">
     </a>
     <a href="https://github.com/JamitLabs/ProjLint/releases">
-        <img src="https://img.shields.io/badge/Version-0.2.0-blue.svg"
-             alt="Version: 0.2.0">
+        <img src="https://img.shields.io/badge/Version-0.2.1-blue.svg"
+             alt="Version: 0.2.1">
     </a>
-    <img src="https://img.shields.io/badge/Swift-4.2-FFAC45.svg"
-         alt="Swift: 4.2">
+    <img src="https://img.shields.io/badge/Swift-5.0-FFAC45.svg"
+         alt="Swift: 5.0">
     <img src="https://img.shields.io/badge/Platforms-macOS%20%7C%20Linux-FF69B4.svg"
         alt="Platforms: macOS | Linux">
     <a href="https://github.com/JamitLabs/ProjLint/blob/stable/LICENSE">
@@ -39,7 +39,7 @@ Project Linter to enforce your non-code best practices.
 
 ## Requirements
 
-- Xcode 10.1+ and Swift 4.2+
+- Xcode 10.2+ and Swift 5.0+
 - Xcode Command Line Tools (see [here](http://stackoverflow.com/a/9329325/3451975) for installation instructions)
 
 ## Installation
