@@ -4,8 +4,9 @@ import XCTest
 // swiftlint:disable type_body_length line_length
 
 final class XcodeBuildPhasesRuleTests: XCTestCase {
+    private static let xcprojPath: String = "Example.xcodeproj"
     let xcprojResource = Resource(
-        path: "Example.xcodeproj/project.pbxproj",
+        path: "\(xcprojPath)/project.pbxproj",
         contents: """
             // !$*UTF8*$!
             {
@@ -253,7 +254,7 @@ final class XcodeBuildPhasesRuleTests: XCTestCase {
     func testAllOptions() {
         resourcesLoaded([xcprojResource]) {
             let optionsDict: [String: Any] = [
-                "project_path": URL(fileURLWithPath: xcprojResource.path).deletingLastPathComponent().path,
+                "project_path": XcodeBuildPhasesRuleTests.xcprojPath,
                 "target_name": "Test",
                 "run_scripts": [
                     "SwiftLint": """
@@ -275,7 +276,7 @@ final class XcodeBuildPhasesRuleTests: XCTestCase {
 
         resourcesLoaded([xcprojResource]) {
             let optionsDict: [String: Any] = [
-                "project_path": URL(fileURLWithPath: xcprojResource.path).deletingLastPathComponent().path,
+                "project_path": XcodeBuildPhasesRuleTests.xcprojPath,
                 "target_name": "Test",
                 "run_scripts": [
                     "ProjLint": """

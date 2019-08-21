@@ -342,3 +342,15 @@ custom_rules:
     name: "Whitespace Comment Start"
     message: "A comment should always start with a whitespace."
     severity: warning
+  # This rule is needed because, when passing a relative path to URL(fileURLWithPath:), it automatically creates it relative to currentDirectoryPath
+  # Most of the times this is an undesired behavior, as the path may be relative to other directory different than the current one
+  url_should_have_relative:
+    included: ".*.swift"
+    regex: 'fileURLWithPath(?!([^\n]*relativeTo))'
+    message: "Url should specify its path relative to a base directory: use 'URL(fileURLWithPath: path, relativeTo: baseDirectory)'"
+    severity: error
+  prefer_url_over_string:
+    included: ".*.swift"
+    regex: '\.currentDirectoryPath'
+    message: "Use 'currentDirectoryUrl' instead of 'currentDirectoryPath'"
+    severity: warning
