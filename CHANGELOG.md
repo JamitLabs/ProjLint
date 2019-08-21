@@ -5,7 +5,7 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/) a
 
 ## [Unreleased]
 ### Added
-- None.
+- Added the `allowed_paths_regex` subrule under the file existance rule. Now it is possible to specify the allowed paths in a project by using multiple regexes.
 ### Changed
 - Replaced `lint_fail_level` configuration option with `strict` command line argument. Specify `--strict` or `-s` if you want the tool to fail on warnings.
 ### Deprecated
