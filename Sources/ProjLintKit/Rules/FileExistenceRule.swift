@@ -89,7 +89,7 @@ struct FileExistenceRule: Rule {
                 rule: self,
                 message: "File exists, but it mustn't.",
                 level: options.violationLevel(defaultTo: defaultViolationLevel),
-                path: $0.path
+                url: $0
             )
             violations.append(violation)
         }

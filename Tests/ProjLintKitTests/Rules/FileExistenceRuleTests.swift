@@ -55,7 +55,7 @@ final class FileExistenceRuleTests: XCTestCase {
 
             let violations = rule.violations(in: Resource.baseUrl)
             XCTAssertEqual(violations.count, 1)
-            XCTAssertEqual(violations.compactMap { ($0 as? FileViolation)?.path }, [infoPlistResource.path])
+            XCTAssertEqual(violations.compactMap { ($0 as? FileViolation)?.url.relativePath }, [infoPlistResource.relativePath])
             XCTAssertEqual(violations.compactMap { ($0 as? FileViolation)?.message }, ["File exists, but it mustn\'t."])
         }
 
@@ -81,7 +81,7 @@ final class FileExistenceRuleTests: XCTestCase {
 
             let violations = rule.violations(in: Resource.baseUrl)
             XCTAssertEqual(violations.count, 1)
-            XCTAssertEqual(violations.compactMap { ($0 as? FileViolation)?.path }, [infoPlistResource.path])
+            XCTAssertEqual(violations.compactMap { ($0 as? FileViolation)?.url.relativePath }, [infoPlistResource.relativePath])
             XCTAssertEqual(violations.compactMap { ($0 as? FileViolation)?.message }, ["File exists, but it mustn\'t."])
         }
     }
@@ -98,7 +98,7 @@ final class FileExistenceRuleTests: XCTestCase {
     func testAllowedPathsWithSamePathInOtherRules() {
         resourcesLoaded([infoPlistResource]) {
             let optionsDict = [
-                "existing_paths": [infoPlistResource.path],
+                "existing_paths": [infoPlistResource.relativePath],
                 "allowed_paths_regex": ["ThisIsARandomPathThatDoesNotMatch"]
             ]
             let rule = FileExistenceRule(optionsDict)
