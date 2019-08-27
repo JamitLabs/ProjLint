@@ -6,7 +6,7 @@ final class FileExistenceRuleTests: XCTestCase {
 
     func testExistingPaths() {
         resourcesLoaded([infoPlistResource]) {
-            let optionsDict = ["existing_paths": [infoPlistResource.path]]
+            let optionsDict = ["existing_paths": [infoPlistResource.relativePath]]
             let rule = FileExistenceRule(optionsDict)
 
             let violations = rule.violations(in: Resource.baseUrl)
@@ -14,7 +14,7 @@ final class FileExistenceRuleTests: XCTestCase {
         }
 
         resourcesLoaded([]) {
-            let optionsDict = ["existing_paths": [infoPlistResource.path]]
+            let optionsDict = ["existing_paths": [infoPlistResource.relativePath]]
             let rule = FileExistenceRule(optionsDict)
 
             let violations = rule.violations(in: Resource.baseUrl)
@@ -24,7 +24,7 @@ final class FileExistenceRuleTests: XCTestCase {
 
     func testNonExistingPaths() {
         resourcesLoaded([infoPlistResource]) {
-            let optionsDict = ["non_existing_paths": [infoPlistResource.path]]
+            let optionsDict = ["non_existing_paths": [infoPlistResource.relativePath]]
             let rule = FileExistenceRule(optionsDict)
 
             let violations = rule.violations(in: Resource.baseUrl)
@@ -32,7 +32,7 @@ final class FileExistenceRuleTests: XCTestCase {
         }
 
         resourcesLoaded([]) {
-            let optionsDict = ["non_existing_paths": [infoPlistResource.path]]
+            let optionsDict = ["non_existing_paths": [infoPlistResource.relativePath]]
             let rule = FileExistenceRule(optionsDict)
 
             let violations = rule.violations(in: Resource.baseUrl)

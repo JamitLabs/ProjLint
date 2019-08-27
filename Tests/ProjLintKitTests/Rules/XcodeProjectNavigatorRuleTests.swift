@@ -4,8 +4,9 @@ import XCTest
 // swiftlint:disable type_body_length line_length multiline_literal_brackets function_body_length
 
 final class XcodeProjectNavigatorRuleTests: XCTestCase {
+    private static let xcprojPath: String = "Example.xcodeproj"
     let xcprojResource = Resource(
-        path: "Example.xcodeproj/project.pbxproj",
+        path: "\(XcodeProjectNavigatorRuleTests.xcprojPath)/project.pbxproj",
         contents: """
             // !$*UTF8*$!
             {
@@ -191,7 +192,7 @@ final class XcodeProjectNavigatorRuleTests: XCTestCase {
     func testWithAllOptions() {
         resourcesLoaded([xcprojResource]) {
             let optionsDict: [String: Any] = [
-                "project_path": URL(fileURLWithPath: xcprojResource.path).deletingLastPathComponent().path,
+                "project_path": XcodeProjectNavigatorRuleTests.xcprojPath,
                 "sorted": [],
                 "inner_group_order": [
                     ["others", "plists", "entitlements"],
@@ -219,7 +220,7 @@ final class XcodeProjectNavigatorRuleTests: XCTestCase {
 
         resourcesLoaded([xcprojResource]) {
             let optionsDict: [String: Any] = [
-                "project_path": URL(fileURLWithPath: xcprojResource.path).deletingLastPathComponent().path,
+                "project_path": XcodeProjectNavigatorRuleTests.xcprojPath,
                 "sorted": [
                     "App",
                     "Tests"

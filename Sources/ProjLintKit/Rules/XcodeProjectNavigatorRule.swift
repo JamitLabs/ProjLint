@@ -19,36 +19,36 @@ struct XcodeProjectNavigatorRule: Rule {
     func violations(in directory: URL) -> [Violation] {
         var violations = [Violation]()
 
-        let absolutePathUrl = URL(fileURLWithPath: options.projectPath)
-        guard let xcodeProj = try? XcodeProj(pathString: absolutePathUrl.path) else {
-            print("Could not read project file at path '\(absolutePathUrl.path)'.", level: .error)
+        let projectUrl = URL(fileURLWithPath: options.projectPath, relativeTo: directory)
+        guard let xcodeProj = try? XcodeProj(pathString: projectUrl.path) else {
+            print("Could not read project file at path '\(projectUrl.path)'.", level: .error)
             exit(EXIT_FAILURE)
         }
 
         // find structure violations
-        violations += self.violations(for: options.structure, in: xcodeProj.pbxproj, parentPathComponents: [])
+        violations += self.violations(for: options.structure, in: xcodeProj.pbxproj, parentPathComponents: [], projectUrl: projectUrl)
 
         guard let rootGroup = try? xcodeProj.pbxproj.rootGroup()! else {
-            print("Could not read root group for file at path '\(absolutePathUrl.path)'.", level: .error)
+            print("Could not read root group for file at path '\(projectUrl.path)'.", level: .error)
             exit(EXIT_FAILURE)
         }
 
         // find inner group order violations
-        violations += self.orderViolations(forChildrenIn: rootGroup, pbxproj: xcodeProj.pbxproj, parentPathComponents: [])
+        violations += self.orderViolations(forChildrenIn: rootGroup, pbxproj: xcodeProj.pbxproj, parentPathComponents: [], projectUrl: projectUrl)
 
         // find sorted violations
         if let sortedPaths = options.sorted {
             for sortedPath in sortedPaths {
                 // swiftlint:disable:next remove_where_for_negative_filtering
                 let parentPathComponents = sortedPath.components(separatedBy: "/").filter { !$0.isBlank }
-                violations += self.sortedViolations(pbxproj: xcodeProj.pbxproj, parentPathComponents: parentPathComponents)
+                violations += self.sortedViolations(pbxproj: xcodeProj.pbxproj, parentPathComponents: parentPathComponents, projectUrl: projectUrl)
             }
         }
 
         return violations
     }
 
-    private func sortedViolations(pbxproj: PBXProj, parentPathComponents: [String]) -> [Violation] {
+    private func sortedViolations(pbxproj: PBXProj, parentPathComponents: [String], projectUrl: URL) -> [Violation] {
         var violations = [Violation]()
         var currentGroup: PBXGroup = try! pbxproj.rootGroup()! // swiftlint:disable:this force_try
 
@@ -56,7 +56,7 @@ struct XcodeProjectNavigatorRule: Rule {
             let groupChildren = currentGroup.groupChildren
             guard let newGroup = groupChildren.first(where: { $0.path == pathComponent || $0.name == pathComponent }) else {
                 let path = parentPathComponents.joined(separator: "/")
-                print("Could not find group at path '\(path)' for sort validation in project '\(options.projectPath)'.", level: .error)
+                print("Could not find group at path '\(path)' for sort validation in project '\(projectUrl.path)'.", level: .error)
                 exit(EXIT_FAILURE)
             }
 
@@ -87,20 +87,20 @@ struct XcodeProjectNavigatorRule: Rule {
                         rule: self,
                         message: message,
                         level: defaultViolationLevel,
-                        path: options.projectPath
+                        url: projectUrl
                     )
                 )
             }
         }
 
         for group in currentGroup.groupChildren {
-            violations += self.sortedViolations(pbxproj: pbxproj, parentPathComponents: parentPathComponents + [name(for: group)])
+            violations += self.sortedViolations(pbxproj: pbxproj, parentPathComponents: parentPathComponents + [name(for: group)], projectUrl: projectUrl)
         }
 
         return violations
     }
 
-    private func orderViolations(forChildrenIn group: PBXGroup, pbxproj: PBXProj, parentPathComponents: [String]) -> [Violation] {
+    private func orderViolations(forChildrenIn group: PBXGroup, pbxproj: PBXProj, parentPathComponents: [String], projectUrl: URL) -> [Violation] {
         guard group.name == nil || !XcodeProjectNavigatorRule.orderExceptionGroups.contains(group.name!) else { return [] }
 
         var violations = [Violation]()
@@ -132,14 +132,19 @@ struct XcodeProjectNavigatorRule: Rule {
                         rule: self,
                         message: "The '\(groupType)' entry '\(path)' should not be placed amongst the group type(s) '\(expected)'.",
                         level: defaultViolationLevel,
-                        path: options.projectPath
+                        url: projectUrl
                     )
                 )
             }
         }
 
         for group in group.groupChildren {
-            violations += self.orderViolations(forChildrenIn: group, pbxproj: pbxproj, parentPathComponents: parentPathComponents + [name(for: group)])
+            violations += self.orderViolations(
+                forChildrenIn: group,
+                pbxproj: pbxproj,
+                parentPathComponents: parentPathComponents + [name(for: group)],
+                projectUrl: projectUrl
+            )
         }
 
         return violations
@@ -208,7 +213,12 @@ struct XcodeProjectNavigatorRule: Rule {
 //        return group.children.compactMap { groups[$0] ?? variantGroups[$0] ?? filesReferences[$0] }
 //    }
 
-    private func violations(for substructure: [XcodeProjectNavigatorOptions.TreeNode], in pbxproj: PBXProj, parentPathComponents: [String]) -> [Violation] {
+    private func violations(
+        for substructure: [XcodeProjectNavigatorOptions.TreeNode],
+        in pbxproj: PBXProj,
+        parentPathComponents: [String],
+        projectUrl: URL
+        ) -> [Violation] {
         var violations = [Violation]()
 
         for node in substructure {
@@ -221,7 +231,7 @@ struct XcodeProjectNavigatorRule: Rule {
                             rule: self,
                             message: "Expected to find entry '\(fileName)' in path '\(parentPath)' within the project navigator.",
                             level: defaultViolationLevel,
-                            path: options.projectPath
+                            url: projectUrl
                         )
                     )
                 }
@@ -234,11 +244,11 @@ struct XcodeProjectNavigatorRule: Rule {
                             rule: self,
                             message: "Expected to find entry '\(groupName)' in path '\(parentPath)' within the project navigator.",
                             level: defaultViolationLevel,
-                            path: options.projectPath
+                            url: projectUrl
                         )
                     )
                 } else {
-                    violations += self.violations(for: subnodes, in: pbxproj, parentPathComponents: parentPathComponents + [groupName])
+                    violations += self.violations(for: subnodes, in: pbxproj, parentPathComponents: parentPathComponents + [groupName], projectUrl: projectUrl)
                 }
             }
         }
