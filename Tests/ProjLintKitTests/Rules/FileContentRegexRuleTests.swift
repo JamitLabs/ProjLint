@@ -74,6 +74,16 @@ final class FileContentRegexRuleTests: XCTestCase {
 
             let violations = rule.violations(in: Resource.baseUrl)
             XCTAssertEqual(violations.count, 1)
+            XCTAssertEqual(violations.compactMap { ($0 as? FileViolation)?.line }, [1])
+        }
+
+        resourcesLoaded([fruitEnumResource]) {
+            let optionsDict = ["not_matching": [fruitEnumResource.relativePath: "case"]]
+            let rule = FileContentRegexRule(optionsDict)
+
+            let violations = rule.violations(in: Resource.baseUrl)
+            XCTAssertEqual(violations.count, 3)
+            XCTAssertEqual(violations.compactMap { ($0 as? FileViolation)?.line }, [2, 3, 4])
         }
 
         resourcesLoaded([fruitEnumResource]) {
@@ -91,7 +101,25 @@ final class FileContentRegexRuleTests: XCTestCase {
             let rule = FileContentRegexRule(optionsDict)
 
             let violations = rule.violations(in: Resource.baseUrl)
-            XCTAssertEqual(violations.count, 1)
+            XCTAssertEqual(violations.count, 3)
+            XCTAssertEqual(violations.compactMap { ($0 as? FileViolation)?.line }, [2, 3, 4])
+        }
+
+        resourcesLoaded([fruitEnumResource]) {
+            let optionsDict = ["not_matching_all": [fruitEnumResource.relativePath: ["case", "banana", "orange"]]]
+            let rule = FileContentRegexRule(optionsDict)
+
+            let violations = rule.violations(in: Resource.baseUrl)
+            XCTAssertEqual(violations.count, 5)
+            XCTAssertEqual(violations.compactMap { ($0 as? FileViolation)?.line }, [2, 3, 4, 3, 4])
+        }
+
+        resourcesLoaded([fruitEnumResource]) {
+            let optionsDict = ["not_matching_all": [fruitEnumResource.relativePath: ["case", "banana", "grapefruit"]]]
+            let rule = FileContentRegexRule(optionsDict)
+
+            let violations = rule.violations(in: Resource.baseUrl)
+            XCTAssertEqual(violations.count, 0)
         }
 
         resourcesLoaded([fruitEnumResource]) {
@@ -110,6 +138,7 @@ final class FileContentRegexRuleTests: XCTestCase {
 
             let violations = rule.violations(in: Resource.baseUrl)
             XCTAssertEqual(violations.count, 2)
+            XCTAssertEqual(violations.compactMap { ($0 as? FileViolation)?.line }, [2, 3])
         }
 
         resourcesLoaded([fruitEnumResource]) {
