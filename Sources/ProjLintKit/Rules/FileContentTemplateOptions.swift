@@ -2,9 +2,24 @@ import Foundation
 import HandySwift
 
 class FileContentTemplateOptions: RuleOptions {
+    enum TemplateOrigin {
+        case url(URL)
+        case file(String)
+    }
+
     struct TemplateWithParameters {
-        let url: URL
+        let origin: TemplateOrigin
         let parameters: [String: Any]
+
+        func originUrl(base: URL) -> URL {
+            switch origin {
+            case let .file(path):
+                return URL(fileURLWithPath: path, relativeTo: base)
+
+            case let .url(url):
+                return url
+            }
+        }
     }
 
     let matchingPathTemplate: [String: TemplateWithParameters]
@@ -26,8 +41,7 @@ class FileContentTemplateOptions: RuleOptions {
             }
 
             if let templatePath = templateDict["template_path"] as? String {
-                let templateUrl = URL(fileURLWithPath: templatePath)
-                return TemplateWithParameters(url: templateUrl, parameters: parameters)
+                return TemplateWithParameters(origin: .file(templatePath), parameters: parameters)
             }
 
             if let templateUrlString = templateDict["template_url"] as? String {
@@ -36,7 +50,7 @@ class FileContentTemplateOptions: RuleOptions {
                     exit(EX_USAGE)
                 }
 
-                return TemplateWithParameters(url: templateUrl, parameters: parameters)
+                return TemplateWithParameters(origin: .url(templateUrl), parameters: parameters)
             }
 
             print("No template was specified – use `template_path` or `template_url` options to specify one.", level: .error)

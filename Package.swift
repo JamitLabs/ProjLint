@@ -4,6 +4,9 @@ import PackageDescription
 
 let package = Package(
     name: "ProjLint",
+    platforms: [
+        .macOS(.v10_11),
+    ],
     products: [
         .executable(name: "projlint", targets: ["ProjLint"]),
         .library(name: "ProjLintKit", targets: ["ProjLintKit"])

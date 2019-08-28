@@ -55,8 +55,8 @@ final class FileContentTemplateRuleTests: XCTestCase {
         resourcesLoaded([swiftlintConfigExample, swiftlintConfigTemplate]) {
             let optionsDict = [
                 "matching": [
-                    swiftlintConfigExample.path: [
-                        "template_path": swiftlintConfigTemplate.path,
+                    swiftlintConfigExample.relativePath: [
+                        "template_path": swiftlintConfigTemplate.relativePath,
                         "parameters": [
                             "additionalRules": ["attributes", "empty_count", "sorted_imports"],
                             "lineLength": "160"
@@ -73,8 +73,8 @@ final class FileContentTemplateRuleTests: XCTestCase {
         resourcesLoaded([swiftlintConfigExample, swiftlintConfigTemplate]) {
             let optionsDict = [
                 "matching": [
-                    swiftlintConfigExample.path: [
-                        "template_path": swiftlintConfigTemplate.path,
+                    swiftlintConfigExample.relativePath: [
+                        "template_path": swiftlintConfigTemplate.relativePath,
                         "parameters": [
                             "additionalRules": ["attributes", "sorted_imports", "yoda_condition"],
                             "lineLength": "80"
