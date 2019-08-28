@@ -16,13 +16,14 @@ struct FileExistenceRule: Rule {
 
         if let existingPaths = options.existingPaths {
             for path in existingPaths {
-                if !FileManager.default.fileExists(atPath: path) {
+                let url = URL(fileURLWithPath: path, relativeTo: directory)
+                if !FileManager.default.fileExists(atPath: url.path) {
                     violations.append(
                         FileViolation(
                             rule: self,
                             message: "Expected file to exist but didn't.",
                             level: options.violationLevel(defaultTo: defaultViolationLevel),
-                            path: path
+                            url: url
                         )
                     )
                 }
@@ -31,13 +32,14 @@ struct FileExistenceRule: Rule {
 
         if let nonExistingPaths = options.nonExistingPaths {
             for path in nonExistingPaths {
-                if FileManager.default.fileExists(atPath: path) {
+                let url = URL(fileURLWithPath: path, relativeTo: directory)
+                if FileManager.default.fileExists(atPath: url.path) {
                     violations.append(
                         FileViolation(
                             rule: self,
                             message: "Expected file not to exist but existed.",
                             level: options.violationLevel(defaultTo: defaultViolationLevel),
-                            path: path
+                            url: url
                         )
                     )
                 }

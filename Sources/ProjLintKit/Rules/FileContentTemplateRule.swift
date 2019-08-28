@@ -17,9 +17,9 @@ struct FileContentTemplateRule: Rule {
         var violations = [Violation]()
 
         for (path, templateWithParams) in options.matchingPathTemplate {
-            let url = URL(fileURLWithPath: path)
+            let url = URL(fileURLWithPath: path, relativeTo: directory)
             let file = File(at: url)
-            let templateFile = File(at: templateWithParams.url)
+            let templateFile = File(at: templateWithParams.originUrl(base: directory))
 
             guard templateFile.contents != Globals.networkErrorFakeString else {
                 if Globals.ignoreNetworkErrors {
@@ -27,7 +27,7 @@ struct FileContentTemplateRule: Rule {
                     continue
                 }
 
-                print("Could not load contents of file '\(templateWithParams.url)' – the request resultes in a network error.", level: .error)
+                print("Could not load contents of file '\(templateFile.url)' – the request resultes in a network error.", level: .error)
                 exit(EXIT_FAILURE)
             }
 
@@ -52,7 +52,7 @@ struct FileContentTemplateRule: Rule {
                         rule: self,
                         message: "Contents of file differ from expected contents.",
                         level: defaultViolationLevel,
-                        path: path
+                        url: url
                     )
                 )
             }

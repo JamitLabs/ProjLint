@@ -17,7 +17,7 @@ private struct DefaultRule: Rule {
 
 enum ConfigurationManager {
     static func loadConfiguration() -> Configuration {
-        let currentDirUrl = URL(fileURLWithPath: FileManager.default.currentDirectoryPath)
+        let currentDirUrl = FileManager.default.currentDirectoryUrl
         let configFileUrl = currentDirUrl.appendingPathComponent(".projlint.yml")
 
         guard let configContentString = try? String(contentsOf: configFileUrl, encoding: .utf8) else {

@@ -13,6 +13,7 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/) a
 ### Removed
 - None.
 ### Fixed
-- None.
+- Updated project to use URLs instead of String paths.  
+  Issue: [#35](https://github.com/JamitLabs/ProjLint/issues/35) | PR: [#33](https://github.com/JamitLabs/ProjLint/pull/33) | Author: [Andrés Cecilia Luque](https://github.com/acecilia)
 ### Security
 - None.

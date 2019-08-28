@@ -17,7 +17,7 @@ struct FileContentRegexRule: Rule {
 
         if let matchingRegex = options.matchingPathRegex {
             for (path, regex) in matchingRegex {
-                let url = URL(fileURLWithPath: path)
+                let url = URL(fileURLWithPath: path, relativeTo: directory)
                 let file = File(at: url)
 
                 if !regex.matches(file.contents) {
@@ -26,7 +26,7 @@ struct FileContentRegexRule: Rule {
                             rule: self,
                             message: "Content didn't match regex '\(regex)' where it should.",
                             level: options.violationLevel(defaultTo: defaultViolationLevel),
-                            path: path
+                            url: url
                         )
                     )
                 }
@@ -35,7 +35,7 @@ struct FileContentRegexRule: Rule {
 
         if let matchingAllPathRegexes = options.matchingAllPathRegexes {
             for (path, regexes) in matchingAllPathRegexes {
-                let url = URL(fileURLWithPath: path)
+                let url = URL(fileURLWithPath: path, relativeTo: directory)
                 let file = File(at: url)
 
                 for regex in regexes {
@@ -45,7 +45,7 @@ struct FileContentRegexRule: Rule {
                                 rule: self,
                                 message: "Content didn't match regex '\(regex)' where it should.",
                                 level: options.violationLevel(defaultTo: defaultViolationLevel),
-                                path: path
+                                url: url
                             )
                         )
                     }
@@ -55,7 +55,7 @@ struct FileContentRegexRule: Rule {
 
         if let matchingAnyPathRegexes = options.matchingAnyPathRegexes {
             for (path, regexes) in matchingAnyPathRegexes {
-                let url = URL(fileURLWithPath: path)
+                let url = URL(fileURLWithPath: path, relativeTo: directory)
                 let file = File(at: url)
                 if regexes.first(where: { $0.matches(file.contents) }) == nil {
                     violations.append(
@@ -63,7 +63,7 @@ struct FileContentRegexRule: Rule {
                             rule: self,
                             message: "Content didn't match any of the regexes: '\(regexes)'.",
                             level: options.violationLevel(defaultTo: defaultViolationLevel),
-                            path: path
+                            url: url
                         )
                     )
                 }
@@ -72,7 +72,7 @@ struct FileContentRegexRule: Rule {
 
         if let notMatchingRegex = options.notMatchingPathRegex {
             for (path, regex) in notMatchingRegex {
-                let url = URL(fileURLWithPath: path)
+                let url = URL(fileURLWithPath: path, relativeTo: directory)
                 let file = File(at: url)
 
                 if regex.matches(file.contents) {
@@ -81,7 +81,7 @@ struct FileContentRegexRule: Rule {
                             rule: self,
                             message: "Content matched regex '\(regex)' where it shouldn't.",
                             level: options.violationLevel(defaultTo: defaultViolationLevel),
-                            path: path
+                            url: url
                         )
                     )
                 }
@@ -90,7 +90,7 @@ struct FileContentRegexRule: Rule {
 
         if let notMatchingAllPathRegexes = options.notMatchingAllPathRegexes {
             for (path, regexes) in notMatchingAllPathRegexes {
-                let url = URL(fileURLWithPath: path)
+                let url = URL(fileURLWithPath: path, relativeTo: directory)
                 let file = File(at: url)
                 if regexes.first(where: { !$0.matches(file.contents) }) == nil {
                     violations.append(
@@ -98,7 +98,7 @@ struct FileContentRegexRule: Rule {
                             rule: self,
                             message: "Content matched all of the regexes: '\(regexes)'.",
                             level: options.violationLevel(defaultTo: defaultViolationLevel),
-                            path: path
+                            url: url
                         )
                     )
                 }
@@ -107,7 +107,7 @@ struct FileContentRegexRule: Rule {
 
         if let notMatchingAnyPathRegexes = options.notMatchingAnyPathRegexes {
             for (path, regexes) in notMatchingAnyPathRegexes {
-                let url = URL(fileURLWithPath: path)
+                let url = URL(fileURLWithPath: path, relativeTo: directory)
                 let file = File(at: url)
 
                 for regex in regexes {
@@ -117,7 +117,7 @@ struct FileContentRegexRule: Rule {
                                 rule: self,
                                 message: "Content matched regex '\(regex)' where it shouldn't.",
                                 level: options.violationLevel(defaultTo: defaultViolationLevel),
-                                path: path
+                                url: url
                             )
                         )
                     }

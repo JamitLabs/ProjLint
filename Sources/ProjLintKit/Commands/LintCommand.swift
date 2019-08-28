@@ -29,7 +29,6 @@ public class LintCommand: Command {
         }
 
         print("Started linting current directory...", level: .info)
-        let currentDirectoryUrl = URL(fileURLWithPath: FileManager.default.currentDirectoryPath)
         let configuration = ConfigurationManager.loadConfiguration()
 
         guard !configuration.rules.isEmpty else {
@@ -41,7 +40,7 @@ public class LintCommand: Command {
         var warningViolationsCount = 0
 
         configuration.rules.forEach { rule in
-            let violations = rule.violations(in: currentDirectoryUrl)
+            let violations = rule.violations(in: FileManager.default.currentDirectoryUrl)
 
             for violation in violations {
                 violation.logViolation()
