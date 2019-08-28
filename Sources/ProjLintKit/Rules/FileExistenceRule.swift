@@ -104,7 +104,7 @@ struct FileExistenceRule: Rule {
         let enumerator = FileManager.default.enumerator(
             at: currentUrl,
             includingPropertiesForKeys: resourceKeys
-            )!
+        )!
 
         for case let fileUrl as URL in enumerator {
             // Rationale: force-try is ok. This can never fail, as the resourceKeys passed here are also passed to the enumerator

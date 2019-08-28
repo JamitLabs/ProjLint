@@ -42,7 +42,7 @@ final class FileExistenceRuleTests: XCTestCase {
 
     func testAllowedPathsWithValidRegex() {
         resourcesLoaded([infoPlistResource]) {
-            let optionsDict = ["allowed_paths_regex": ["Sources/SuportingFiles/Info\\.plist"]]
+            let optionsDict = ["allowed_paths_regex": [#"Sources/SuportingFiles/Info\.plist"#]]
             let rule = FileExistenceRule(optionsDict)
 
             let violations = rule.violations(in: Resource.baseUrl)
@@ -50,7 +50,7 @@ final class FileExistenceRuleTests: XCTestCase {
         }
 
         resourcesLoaded([infoPlistResource]) {
-            let optionsDict = ["allowed_paths_regex": ["Sources/SuportingFiles/Info2\\.plist"]]
+            let optionsDict = ["allowed_paths_regex": [#"Sources/SuportingFiles/Info2\.plist"#]]
             let rule = FileExistenceRule(optionsDict)
 
             let violations = rule.violations(in: Resource.baseUrl)
@@ -60,7 +60,7 @@ final class FileExistenceRuleTests: XCTestCase {
         }
 
         resourcesLoaded([infoPlistResource]) {
-            let optionsDict = ["allowed_paths_regex": ["Sources/SuportingFiles/.*"]]
+            let optionsDict = ["allowed_paths_regex": [#"Sources/SuportingFiles/.*"#]]
             let rule = FileExistenceRule(optionsDict)
 
             let violations = rule.violations(in: Resource.baseUrl)
@@ -68,7 +68,7 @@ final class FileExistenceRuleTests: XCTestCase {
         }
 
         resourcesLoaded([infoPlistResource]) {
-            let optionsDict = ["allowed_paths_regex": [".*"]]
+            let optionsDict = ["allowed_paths_regex": [#".*"#]]
             let rule = FileExistenceRule(optionsDict)
 
             let violations = rule.violations(in: Resource.baseUrl)
@@ -76,7 +76,7 @@ final class FileExistenceRuleTests: XCTestCase {
         }
 
         resourcesLoaded([infoPlistResource]) {
-            let optionsDict = ["allowed_paths_regex": [".*\\.png"]]
+            let optionsDict = ["allowed_paths_regex": [#".*\.png"#]]
             let rule = FileExistenceRule(optionsDict)
 
             let violations = rule.violations(in: Resource.baseUrl)
@@ -87,7 +87,8 @@ final class FileExistenceRuleTests: XCTestCase {
     }
 
     func testAllowedPathsWithInvalidRegex() {
-        let optionsDict = ["allowed_paths_regex": ["["]]
+        let invalidRegex = #"["#
+        let optionsDict = ["allowed_paths_regex": [invalidRegex]]
         let rule = FileExistenceRule(optionsDict)
 
         let violations = rule.violations(in: Resource.baseUrl)
@@ -99,7 +100,7 @@ final class FileExistenceRuleTests: XCTestCase {
         resourcesLoaded([infoPlistResource]) {
             let optionsDict = [
                 "existing_paths": [infoPlistResource.relativePath],
-                "allowed_paths_regex": ["ThisIsARandomPathThatDoesNotMatch"]
+                "allowed_paths_regex": [#"ThisIsARandomPathThatDoesNotMatch"#]
             ]
             let rule = FileExistenceRule(optionsDict)
 
