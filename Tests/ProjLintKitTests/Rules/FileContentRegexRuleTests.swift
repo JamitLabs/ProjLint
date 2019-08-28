@@ -78,7 +78,7 @@ final class FileContentRegexRuleTests: XCTestCase {
         }
 
         resourcesLoaded([fruitEnumResource]) {
-            let optionsDict = ["not_matching": [fruitEnumResource.path: "case"]]
+            let optionsDict = ["not_matching": [fruitEnumResource.relativePath: "case"]]
             let rule = FileContentRegexRule(optionsDict)
 
             let violations = rule.violations(in: Resource.baseUrl)
@@ -106,7 +106,7 @@ final class FileContentRegexRuleTests: XCTestCase {
         }
 
         resourcesLoaded([fruitEnumResource]) {
-            let optionsDict = ["not_matching_all": [fruitEnumResource.path: ["case", "banana", "orange"]]]
+            let optionsDict = ["not_matching_all": [fruitEnumResource.relativePath: ["case", "banana", "orange"]]]
             let rule = FileContentRegexRule(optionsDict)
 
             let violations = rule.violations(in: Resource.baseUrl)
@@ -115,7 +115,7 @@ final class FileContentRegexRuleTests: XCTestCase {
         }
 
         resourcesLoaded([fruitEnumResource]) {
-            let optionsDict = ["not_matching_all": [fruitEnumResource.path: ["case", "banana", "grapefruit"]]]
+            let optionsDict = ["not_matching_all": [fruitEnumResource.relativePath: ["case", "banana", "grapefruit"]]]
             let rule = FileContentRegexRule(optionsDict)
 
             let violations = rule.violations(in: Resource.baseUrl)
