@@ -10,11 +10,8 @@ class FileExistenceOptions: RuleOptions {
         let nonExistingPaths = RuleOptions.optionalStringArray(forOption: "non_existing_paths", in: optionsDict, rule: rule)
         let allowedPathsRegex = RuleOptions.optionalStringArray(forOption: "allowed_paths_regex", in: optionsDict, rule: rule)
 
-        guard
-            existingPaths != nil ||
-            nonExistingPaths != nil ||
-            allowedPathsRegex != nil
-        else {
+        let options = [existingPaths, nonExistingPaths, allowedPathsRegex]
+        guard options.contains(where: { $0 != nil }) else {
             print("Rule \(rule.identifier) must have at least one option specified.", level: .error)
             exit(EX_USAGE)
         }
