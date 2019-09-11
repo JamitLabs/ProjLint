@@ -15,7 +15,7 @@ final class FileContentRegexRuleTests: XCTestCase {
 
     func testMatchingRegex() {
         resourcesLoaded([fruitEnumResource]) {
-            let optionsDict = ["matching": [fruitEnumResource.path: "enum\\s+Fruit\\s+\\{"]]
+            let optionsDict = ["matching": [fruitEnumResource.relativePath: "enum\\s+Fruit\\s+\\{"]]
             let rule = FileContentRegexRule(optionsDict)
 
             let violations = rule.violations(in: Resource.baseUrl)
@@ -23,7 +23,7 @@ final class FileContentRegexRuleTests: XCTestCase {
         }
 
         resourcesLoaded([fruitEnumResource]) {
-            let optionsDict = ["matching": [fruitEnumResource.path: "enum\\s+Vegetable\\s+\\{"]]
+            let optionsDict = ["matching": [fruitEnumResource.relativePath: "enum\\s+Vegetable\\s+\\{"]]
             let rule = FileContentRegexRule(optionsDict)
 
             let violations = rule.violations(in: Resource.baseUrl)
@@ -33,7 +33,7 @@ final class FileContentRegexRuleTests: XCTestCase {
 
     func testMatchingAllPathRegexes() {
         resourcesLoaded([fruitEnumResource]) {
-            let optionsDict = ["matching_all": [fruitEnumResource.path: ["case\\s+apple", "case\\s+banana", "case\\s+orange"]]]
+            let optionsDict = ["matching_all": [fruitEnumResource.relativePath: ["case\\s+apple", "case\\s+banana", "case\\s+orange"]]]
             let rule = FileContentRegexRule(optionsDict)
 
             let violations = rule.violations(in: Resource.baseUrl)
@@ -41,7 +41,7 @@ final class FileContentRegexRuleTests: XCTestCase {
         }
 
         resourcesLoaded([fruitEnumResource]) {
-            let optionsDict = ["matching_all": [fruitEnumResource.path: ["case\\s+apple", "case\\s+grapefruit", "case\\s+pineapple"]]]
+            let optionsDict = ["matching_all": [fruitEnumResource.relativePath: ["case\\s+apple", "case\\s+grapefruit", "case\\s+pineapple"]]]
             let rule = FileContentRegexRule(optionsDict)
 
             let violations = rule.violations(in: Resource.baseUrl)
@@ -51,7 +51,7 @@ final class FileContentRegexRuleTests: XCTestCase {
 
     func testMatchingAnyPathRegexes() {
         resourcesLoaded([fruitEnumResource]) {
-            let optionsDict = ["matching_any": [fruitEnumResource.path: ["case\\s+apple", "case\\s+grapefruit", "case\\s+pineapple"]]]
+            let optionsDict = ["matching_any": [fruitEnumResource.relativePath: ["case\\s+apple", "case\\s+grapefruit", "case\\s+pineapple"]]]
             let rule = FileContentRegexRule(optionsDict)
 
             let violations = rule.violations(in: Resource.baseUrl)
@@ -59,7 +59,7 @@ final class FileContentRegexRuleTests: XCTestCase {
         }
 
         resourcesLoaded([fruitEnumResource]) {
-            let optionsDict = ["matching_any": [fruitEnumResource.path: ["case\\s+kiwi", "case\\s+grapefruit", "case\\s+pineapple"]]]
+            let optionsDict = ["matching_any": [fruitEnumResource.relativePath: ["case\\s+kiwi", "case\\s+grapefruit", "case\\s+pineapple"]]]
             let rule = FileContentRegexRule(optionsDict)
 
             let violations = rule.violations(in: Resource.baseUrl)
@@ -69,15 +69,25 @@ final class FileContentRegexRuleTests: XCTestCase {
 
     func testNotMatchingRegex() {
         resourcesLoaded([fruitEnumResource]) {
-            let optionsDict = ["not_matching": [fruitEnumResource.path: "enum\\s+Fruit\\s+\\{"]]
+            let optionsDict = ["not_matching": [fruitEnumResource.relativePath: "enum\\s+Fruit\\s+\\{"]]
             let rule = FileContentRegexRule(optionsDict)
 
             let violations = rule.violations(in: Resource.baseUrl)
             XCTAssertEqual(violations.count, 1)
+            XCTAssertEqual(violations.compactMap { ($0 as? FileViolation)?.line }, [1])
         }
 
         resourcesLoaded([fruitEnumResource]) {
-            let optionsDict = ["not_matching": [fruitEnumResource.path: "enum\\s+Vegetable\\s+\\{"]]
+            let optionsDict = ["not_matching": [fruitEnumResource.relativePath: "case"]]
+            let rule = FileContentRegexRule(optionsDict)
+
+            let violations = rule.violations(in: Resource.baseUrl)
+            XCTAssertEqual(violations.count, 3)
+            XCTAssertEqual(violations.compactMap { ($0 as? FileViolation)?.line }, [2, 3, 4])
+        }
+
+        resourcesLoaded([fruitEnumResource]) {
+            let optionsDict = ["not_matching": [fruitEnumResource.relativePath: "enum\\s+Vegetable\\s+\\{"]]
             let rule = FileContentRegexRule(optionsDict)
 
             let violations = rule.violations(in: Resource.baseUrl)
@@ -87,15 +97,33 @@ final class FileContentRegexRuleTests: XCTestCase {
 
     func testNotMatchingAllPathRegexes() {
         resourcesLoaded([fruitEnumResource]) {
-            let optionsDict = ["not_matching_all": [fruitEnumResource.path: ["case\\s+apple", "case\\s+banana", "case\\s+orange"]]]
+            let optionsDict = ["not_matching_all": [fruitEnumResource.relativePath: ["case\\s+apple", "case\\s+banana", "case\\s+orange"]]]
             let rule = FileContentRegexRule(optionsDict)
 
             let violations = rule.violations(in: Resource.baseUrl)
-            XCTAssertEqual(violations.count, 1)
+            XCTAssertEqual(violations.count, 3)
+            XCTAssertEqual(violations.compactMap { ($0 as? FileViolation)?.line }, [2, 3, 4])
         }
 
         resourcesLoaded([fruitEnumResource]) {
-            let optionsDict = ["not_matching_all": [fruitEnumResource.path: ["case\\s+apple", "case\\s+grapefruit", "case\\s+pineapple"]]]
+            let optionsDict = ["not_matching_all": [fruitEnumResource.relativePath: ["case", "banana", "orange"]]]
+            let rule = FileContentRegexRule(optionsDict)
+
+            let violations = rule.violations(in: Resource.baseUrl)
+            XCTAssertEqual(violations.count, 5)
+            XCTAssertEqual(violations.compactMap { ($0 as? FileViolation)?.line }, [2, 3, 4, 3, 4])
+        }
+
+        resourcesLoaded([fruitEnumResource]) {
+            let optionsDict = ["not_matching_all": [fruitEnumResource.relativePath: ["case", "banana", "grapefruit"]]]
+            let rule = FileContentRegexRule(optionsDict)
+
+            let violations = rule.violations(in: Resource.baseUrl)
+            XCTAssertEqual(violations.count, 0)
+        }
+
+        resourcesLoaded([fruitEnumResource]) {
+            let optionsDict = ["not_matching_all": [fruitEnumResource.relativePath: ["case\\s+apple", "case\\s+grapefruit", "case\\s+pineapple"]]]
             let rule = FileContentRegexRule(optionsDict)
 
             let violations = rule.violations(in: Resource.baseUrl)
@@ -105,15 +133,16 @@ final class FileContentRegexRuleTests: XCTestCase {
 
     func testNotMatchingAnyPathRegexes() {
         resourcesLoaded([fruitEnumResource]) {
-            let optionsDict = ["not_matching_any": [fruitEnumResource.path: ["case\\s+apple", "case\\s+banana", "case\\s+pineapple"]]]
+            let optionsDict = ["not_matching_any": [fruitEnumResource.relativePath: ["case\\s+apple", "case\\s+banana", "case\\s+pineapple"]]]
             let rule = FileContentRegexRule(optionsDict)
 
             let violations = rule.violations(in: Resource.baseUrl)
             XCTAssertEqual(violations.count, 2)
+            XCTAssertEqual(violations.compactMap { ($0 as? FileViolation)?.line }, [2, 3])
         }
 
         resourcesLoaded([fruitEnumResource]) {
-            let optionsDict = ["not_matching_any": [fruitEnumResource.path: ["case\\s+kiwi", "case\\s+grapefruit", "case\\s+pineapple"]]]
+            let optionsDict = ["not_matching_any": [fruitEnumResource.relativePath: ["case\\s+kiwi", "case\\s+grapefruit", "case\\s+pineapple"]]]
             let rule = FileContentRegexRule(optionsDict)
 
             let violations = rule.violations(in: Resource.baseUrl)

@@ -16,14 +16,14 @@ struct XcodeBuildPhasesRule: Rule {
     func violations(in directory: URL) -> [Violation] {
         var violations = [Violation]()
 
-        let absolutePathUrl = URL(fileURLWithPath: options.projectPath)
-        guard let xcodeProj = try? XcodeProj(pathString: absolutePathUrl.path) else {
-            print("Could not read project file at path '\(absolutePathUrl.path)'.", level: .error)
+        let projectUrl = URL(fileURLWithPath: options.projectPath, relativeTo: directory)
+        guard let xcodeProj = try? XcodeProj(pathString: projectUrl.path) else {
+            print("Could not read project file at path '\(projectUrl.path)'.", level: .error)
             exit(EXIT_FAILURE)
         }
 
         guard let target = xcodeProj.pbxproj.targets(named: options.targetName).first else {
-            print("Target with name '\(options.targetName)' could not be found in project \(options.projectPath).", level: .error)
+            print("Target with name '\(options.targetName)' could not be found in project \(projectUrl.path).", level: .error)
             exit(EXIT_FAILURE)
         }
 
@@ -36,7 +36,7 @@ struct XcodeBuildPhasesRule: Rule {
                         rule: self,
                         message: "Run script with name '\(name)' could not be found for target \(options.targetName).",
                         level: defaultViolationLevel,
-                        path: options.projectPath
+                        url: projectUrl
                     )
                 )
                 continue
@@ -48,7 +48,7 @@ struct XcodeBuildPhasesRule: Rule {
                         rule: self,
                         message: "Run script with name '\(name)' in target \(options.targetName) does not have a shell script.",
                         level: defaultViolationLevel,
-                        path: options.projectPath
+                        url: projectUrl
                     )
                 )
                 continue
@@ -64,7 +64,7 @@ struct XcodeBuildPhasesRule: Rule {
                         rule: self,
                         message: "Run script with name '\(name)' in target \(options.targetName) did not match expected contents.",
                         level: defaultViolationLevel,
-                        path: options.projectPath
+                        url: projectUrl
                     )
                 )
             }
