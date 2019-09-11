@@ -1,7 +1,7 @@
 class Projlint < Formula
   desc "Project Linter to enforce your non-code best practices"
   homepage "https://github.com/JamitLabs/ProjLint"
-  url "https://github.com/JamitLabs/ProjLint.git", :tag => "0.2.1", :revision => "064b5244339749266bfa90c1646b749371f8f872"
+  url "https://github.com/JamitLabs/ProjLint.git", :tag => "0.3.0", :revision => "e2105687ed161e1e611be874f060f63ab14135ab"
   head "https://github.com/JamitLabs/ProjLint.git"
 
   depends_on :xcode => ["10.2", :build]
