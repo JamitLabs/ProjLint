@@ -104,6 +104,7 @@ Option | Type | Required? | Description
 --- | --- | --- | ---
 `existing_paths` | `[String]` | no | Files that must exist.
 `non_existing_paths` | `[String]` | no | Files that must not exist.
+`allowed_paths_regex` | `[String]` | no | A list of regexes matching only allowed paths: files with a path that do not match the regex will trigger a violation.
 
 <details>
 <summary>Example</summary>
@@ -120,6 +121,12 @@ rules:
       non_existing_paths:
         - Podfile
         - Podfile.lock
+      allowed_paths_regex:
+        - (Sources|Tests)/.+\.swift # Sources
+        - (Resources|Formula)/.+ # Other necessary resources
+        - \.(build|sourcery|git|templates)/.+ # Necessary files under hidden directories
+        - ProjLint\.xcodeproj/.+ # Xcode project
+        - '[^/]+' # Root files (needs quotation because the regex contains reserved yaml characters)
 ```
 
 </details>
